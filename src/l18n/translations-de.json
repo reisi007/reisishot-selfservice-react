@@ -1,3 +1,6 @@
 {
-
+  "admin": {
+    "login": "Admin Übersicht",
+    "weekFrom": "Woche ab"
+  }
 }

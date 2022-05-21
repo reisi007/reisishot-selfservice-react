@@ -1,20 +1,20 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {LoadingIndicator} from '../LoadingIndicator';
-import {ShootingDateEntry, useCalendarData} from './admin.api';
-import {Calendar} from './Calendar';
+import {useCalendarData} from './admin.api';
+import {Calendar} from '../component/calendar/Calendar';
+import {useTranslation} from 'react-i18next';
 
 export function Login() {
-  const {loading, error, data} = useCalendarData();
-  const rowCreator = useCallback((e: ShootingDateEntry, idx: number) => <li
-    key={idx}>{e.kw + ' ' + e.state + ' ' + (e.text ?? '')}</li>, []);
+  const {t} = useTranslation();
+  const [{data, loading, error}] = useCalendarData();
+
 
   return <div className="container">
-    <h1>Login</h1>
-    <pre>{JSON.stringify({loading, error, data})}</pre>
-    {loading && <LoadingIndicator height="20rem"/>}
-    {error && ':\'/'}
-    {
-      data && <Calendar data={data} rowCreator={rowCreator}/>
-    }
+    <h1 className="mb-2">{t('admin.login')}</h1>
+    <>
+      {loading && <LoadingIndicator height="20rem"/>}
+      {error && JSON.stringify(error)}
+      {data && <Calendar weeks={8} data={data}/>}
+    </>
   </div>;
 }

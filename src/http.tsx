@@ -1,12 +1,12 @@
-import {useFetch} from 'use-http';
-import {useEffect} from 'react';
+import {AxiosRequestHeaders} from 'axios';
+import {HOST} from './env';
+import useAxios from 'axios-hooks';
 
-type useFetchParams = Parameters<typeof useFetch>;
 
-export function useGet<T>(url: string, options: useFetchParams[1], moreDeps: Array<unknown>) {
-  const fetch = useFetch<T>('/api/shooting_dates_get.php', options, [url, ...moreDeps]);
-  useEffect(() => {
-    fetch.get();
-  }, [fetch]);
-  return fetch;
+export function useFetch<Response, Request = unknown, Error = unknown>(relativeUrl: string, headers?: AxiosRequestHeaders) {
+  return useAxios<Response, Request, Error>({
+    headers: headers,
+    baseURL: HOST,
+    url: relativeUrl,
+  });
 }

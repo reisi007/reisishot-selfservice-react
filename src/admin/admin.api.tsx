@@ -1,19 +1,20 @@
-import {useGet} from '../http';
+import {useMemo} from 'react';
+import {AxiosRequestHeaders} from 'axios';
+import {useFetch} from '../http';
 
 type LoginData = { user: string, auth: string }
 
 export function useCalendarData() {
-  return useGet<Array<ShootingDateEntry>>('/api/shooting_dates_get.php', {}, []);
+  return useFetch<Array<ShootingDateEntry>>('/api/shooting_dates_get.php');
 }
 
-function createHeader({user, auth}: LoginData, moreHeaders?: HeadersInit): HeadersInit {
+function createHeader({user, auth}: LoginData, moreHeaders?: AxiosRequestHeaders): AxiosRequestHeaders {
   return {Email: user, Accesskey: auth, ...moreHeaders};
 }
 
-export function useAdminCalendarData(loginData: LoginData) {
-  return useGet<Array<ShootingDateEntry>>(`/api/shooting_dates_private_get.php?`, {
-    headers: createHeader(loginData),
-  }, [loginData]);
+export function useAdminCalendarData(loginData: LoginData, moreHeaders?: AxiosRequestHeaders) {
+  const headers = useMemo(() => createHeader(loginData, moreHeaders), [loginData, moreHeaders]);
+  return useFetch<Array<ShootingDateEntry>>(`/api/shooting_dates_private_get.php?`, headers);
 }
 
 export type ShootingDateEntry = {
