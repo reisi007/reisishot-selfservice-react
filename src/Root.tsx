@@ -1,20 +1,25 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Button} from 'react-bootstrap';
+import {Button} from './component/Button';
+import {Link} from 'react-router-dom';
 
 export default function Root() {
   const {t} = useTranslation();
-  const items = [
-    {title: t('root.waitlist')},
-    {title: t('root.review')},
-    {title: t('root.admin')},
+  const items: Array<{ title: string, url: string }> = [
+    {title: t('root.waitlist'), url: '/waitlist'},
+    {title: t('root.review'), url: '/review'},
+    {title: t('root.admin'), url: '/dashboard/login'},
   ];
 
-  return <div className="text-center h-100 d-flex flex-column">
+  return <div className="flex flex-col h-full">
     <h1>{t('title')}</h1>
-    <div className="m-2 mx-auto d-flex flex-grow-1 flex-column justify-content-center w-100 w-sm-50">
+    <div className="flex flex-col grow justify-center m-2 mx-auto w-full sm:w-1/2">
       {
-        items.map(({title}) => <Button key={title} className="my-2" variant="outline-primary">{title}</Button>)
+        items.map(({url, title}) =>
+          <Link key={url} to={url}>
+            <Button text={title}
+                    className="p-4 my-4 w-full text-xl font-light text-black hover:text-white hover:bg-reisishot border-reisishot"/>
+          </Link>)
       }
     </div>
   </div>;
