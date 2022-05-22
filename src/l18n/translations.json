@@ -19,7 +19,7 @@
   "form": {
     "submit": "Submit",
     "errors": {
-      "required": "Required"
+      "required": "* Required"
     }
   }
 }

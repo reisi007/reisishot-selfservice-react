@@ -9,7 +9,7 @@
   },
   "form": {
     "errors": {
-      "required": "Erforderlich"
+      "required": "* Erforderlich"
     }
   }
 }
