@@ -54,8 +54,11 @@ function CalendarRow({data}: { data: CalendarWeekAvailability }) {
   return <>
     {rawText.split('&&').map((_text, i) => {
       const idx = _text.indexOf('|');
-      const text: string = idx > 0 ? _text.substring(0, idx) : _text;
-      const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`.trim();
+      let text = (idx > 0 ? _text.substring(0, idx) : _text).trim();
+      if(text.length > 0) {
+        text = `(${text})`;
+      }
+      const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`;
       return <li key={i}
                  className={getCellColor(state) + '  text-center flex items-center justify-center p-2'}><Emoji
         text={_text}/><span

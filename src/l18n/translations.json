@@ -7,6 +7,7 @@
   },
   "admin": {
     "login": "Admin Area overview",
+    "statistics": "Statistics overview",
     "user": "User",
     "password": "Password"
   },

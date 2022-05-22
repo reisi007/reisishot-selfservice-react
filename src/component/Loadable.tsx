@@ -1,17 +1,18 @@
 import React, {ReactElement} from 'react';
 import {UseAxiosResult} from 'axios-hooks';
+import {AxiosError} from 'axios';
 
 type Props<TResponse, TBody> = {
   result: UseAxiosResult<TResponse, TBody, unknown>,
   loadingElement: ReactElement,
-  errorElement?: (error: unknown) => ReactElement,
+  errorElement?: (error: AxiosError<unknown, unknown>) => ReactElement,
   displayData: (data: TResponse) => React.ReactElement
 }
 
 export function Loadable<TResponse>({
                                       result,
                                       loadingElement,
-                                      errorElement = (e) => <>{JSON.stringify(e)}</>,
+                                      errorElement = (e) => <>{`${e.code} ${e.message}`}</>,
                                       displayData,
 
                                     }: Props<TResponse, unknown>) {
@@ -20,6 +21,6 @@ export function Loadable<TResponse>({
   return <>
     {loading && loadingElement}
     {error && errorElement(error)}
-    {data && displayData(data)}
+    {!loading && data && displayData(data)}
   </>;
 }

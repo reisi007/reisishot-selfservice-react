@@ -6,17 +6,20 @@ import {useTranslation} from 'react-i18next';
 import {useAdminLogin} from './useAdminLogin';
 import {LoginForm} from './LoginForm';
 import {Loadable} from '../component/Loadable';
+import {useDebounce} from 'use-debounce';
 
 
 function CalendarWithSlider({data}: { data: Array<ShootingDateEntry> }) {
   const {t} = useTranslation();
-  const [weekSliderValue, setWeekSliderValue] = useState(8);
+  const [weekSliderValueInternal, setWeekSliderValue] = useState(8);
+  const [weekSliderValue] = useDebounce(weekSliderValueInternal, 200);
+
   return <Calendar weeks={weekSliderValue} data={data}>
     <div className="flex justify-center items-center text-center">
-      <input name="weekSlider" value={weekSliderValue}
+      <input name="weekSlider" value={weekSliderValueInternal}
              onChange={e => setWeekSliderValue(parseInt(e.target.value, 10))} max={20} min={4}
              className="mr-2 accent-reisishot" type="range"/>
-      <label htmlFor="weekSlider">{weekSliderValue + ' ' + t('calendar.weeks')}</label>
+      <label htmlFor="weekSlider">{weekSliderValueInternal + ' ' + t('calendar.weeks')}</label>
     </div>
   </Calendar>;
 }
