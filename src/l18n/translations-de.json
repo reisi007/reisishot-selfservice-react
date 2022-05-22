@@ -1,6 +1,13 @@
 {
   "admin": {
-    "login": "Admin Übersicht",
+    "login": "Admin Übersicht"
+  },
+  "calendar": {
     "weekFrom": "Woche ab"
+  },
+  "form": {
+    "errors": {
+      "required": "Erforderlich"
+    }
   }
 }

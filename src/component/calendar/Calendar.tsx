@@ -48,7 +48,7 @@ function CalendarRow({data}: { data: CalendarWeekAvailability }) {
   const {state, calendarWeek, text: _text = ''} = data;
   const idx = _text.indexOf('|');
   const text: string = idx > 0 ? _text.substring(0, idx) : _text;
-  const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('admin.weekFrom')} ${calendarWeek.format()} ${text}`.trim();
+  const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`.trim();
   return <li
     className={getCellColor(state) + ' text-center py-2'}>{final}</li>;
 }

@@ -7,6 +7,16 @@
   },
   "admin": {
     "login": "Admin Area overview",
+    "user": "User",
+    "password": "Password"
+  },
+  "calendar": {
     "weekFrom": "Week from"
+  },
+  "form": {
+    "submit": "Submit",
+    "errors": {
+      "required": "Required"
+    }
   }
 }

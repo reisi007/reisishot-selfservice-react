@@ -12,6 +12,7 @@ function useAdminRoutes() {
   const Login = React.lazy(
     () => import('./admin/Admin.module')
       .then(e => ({default: e.LoginPage})));
+
   return <>
     <Route path="*" element={<Login/>}></Route>
   </>;
@@ -19,7 +20,7 @@ function useAdminRoutes() {
 
 function App() {
   return (
-    <div className={`container w-full h-full py-4`}>
+    <div className={`container w-full h-full`}>
       <Router>
         <Suspense fallback={<div/>}>
           <Routes>

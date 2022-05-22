@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {AxiosRequestHeaders} from 'axios';
 import {useFetch} from '../http';
 
-type LoginData = { user: string, auth: string }
+export type LoginData = { user: string, auth: string }
 
 export function useCalendarData() {
   return useFetch<Array<ShootingDateEntry>>('/api/shooting_dates_get.php');
