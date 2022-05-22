@@ -5,15 +5,20 @@ import dayjs from 'dayjs';
 import {useTranslation} from 'react-i18next';
 
 type RowCreator = (e: CalendarWeekAvailability, idx: number) => React.ReactElement<HTMLProps<HTMLDataListElement>>;
-type Props = { data: Array<ShootingDateEntry>, weeks: number, rowCreator?: RowCreator }
+type Props = { data: Array<ShootingDateEntry>, weeks: number, rowCreator?: RowCreator, children?: React.ReactElement }
 
 const defaultRowCreator = (e: CalendarWeekAvailability, idx: number) => <CalendarRow key={idx} data={e}/>;
 
-export function Calendar({data, weeks, rowCreator = defaultRowCreator}: Props) {
+export function Calendar({data, weeks, children, rowCreator = defaultRowCreator}: Props) {
+  const {t} = useTranslation();
   const rows = useMemo(() => prepareDate(data, weeks)
     .map(rowCreator), [data, rowCreator, weeks],
   );
-  return <ul className="flex flex-col justify-center mx-auto w-full md:w-1/2">{rows}</ul>;
+  return <>
+    <h2 className="mb-2"> {t('calendar.title')}</h2>
+    {children}
+    <ul className="flex flex-col justify-center mx-auto w-full md:w-1/2">{rows}</ul>
+  </>;
 }
 
 
@@ -45,12 +50,19 @@ const prepareDate = (values: Array<ShootingDateEntry>, displayedWeeks: number): 
 
 function CalendarRow({data}: { data: CalendarWeekAvailability }) {
   const {t} = useTranslation();
-  const {state, calendarWeek, text: _text = ''} = data;
-  const idx = _text.indexOf('|');
-  const text: string = idx > 0 ? _text.substring(0, idx) : _text;
-  const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`.trim();
-  return <li
-    className={getCellColor(state) + ' text-center py-2'}>{final}</li>;
+  const {state, calendarWeek, text: rawText = ''} = data;
+  return <>
+    {rawText.split('&&').map((_text, i) => {
+      const idx = _text.indexOf('|');
+      const text: string = idx > 0 ? _text.substring(0, idx) : _text;
+      const final = `KW ${calendarWeek.kw().toString(10).padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`.trim();
+      return <li key={i}
+                 className={getCellColor(state) + '  text-center flex items-center justify-center p-2'}><Emoji
+        text={_text}/><span
+        className="grow">{final}</span>
+      </li>;
+    })}
+  </>;
 }
 
 const _RAW_EMOJI_DATA: { [key: string]: string | Array<string> } = {
@@ -85,7 +97,10 @@ export function Emoji({text: _text}: { text: string }) {
     }
 
   }
-  return <span className="inline-flex items-center p-1 text-left align-middle bg-white rounded-lg">{emojis}</span>;
+  return <>
+    {!!emojis && <span
+        className="inline-flex justify-self-start items-center p-1 text-left align-middle bg-white rounded-lg">{emojis}</span>}
+  </>;
 }
 
 

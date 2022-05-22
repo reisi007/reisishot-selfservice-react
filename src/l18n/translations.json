@@ -11,6 +11,8 @@
     "password": "Password"
   },
   "calendar": {
+    "title": "Available Shooting Dates",
+    "weeks": "Weeks",
     "weekFrom": "Week from"
   },
   "form": {

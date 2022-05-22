@@ -3,6 +3,8 @@
     "login": "Admin Übersicht"
   },
   "calendar": {
+    "title": "Verfügbaren Shootingtermine",
+    "weeks": "Wochen",
     "weekFrom": "Woche ab"
   },
   "form": {
