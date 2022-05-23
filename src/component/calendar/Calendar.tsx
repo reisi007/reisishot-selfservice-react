@@ -1,8 +1,8 @@
-import {ShootingDateEntry, ShootingSlotState} from '../../admin/admin.api';
 import React, {HTMLProps, useMemo} from 'react';
 import {CalendarWeekAvailability} from './CalendarWeekAvailability';
 import dayjs from 'dayjs';
 import {useTranslation} from 'react-i18next';
+import {ShootingDateEntry, ShootingSlotState} from '../../admin/login/login.api';
 
 type RowCreator = (e: CalendarWeekAvailability, idx: number) => React.ReactElement<HTMLProps<HTMLDataListElement>>;
 type Props = { data: Array<ShootingDateEntry>, weeks: number, rowCreator?: RowCreator, children?: React.ReactElement }

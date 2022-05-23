@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
-import {ShootingDateEntry, ShootingSlotState} from '../../admin/admin.api';
 import {CalendarWeek} from './CalendarWeek';
+import {ShootingDateEntry, ShootingSlotState} from '../../admin/login/login.api';
 
 export class CalendarWeekAvailability {
   private readonly _calendarWeek: CalendarWeek;

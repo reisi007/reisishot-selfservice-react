@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {LoadingIndicator} from '../LoadingIndicator';
-import {ShootingDateEntry, useCalendarData} from './admin.api';
-import {Calendar} from '../component/calendar/Calendar';
+import {LoadingIndicator} from '../../LoadingIndicator';
+import {ShootingDateEntry, useCalendarData} from './login.api';
+import {Calendar} from '../../component/calendar/Calendar';
 import {useTranslation} from 'react-i18next';
-import {useAdminLogin} from './useAdminLogin';
+import {useAdminLogin} from '../useAdminLogin';
 import {LoginForm} from './LoginForm';
-import {Loadable} from '../component/Loadable';
+import {Loadable} from '../../component/Loadable';
 import {useDebounce} from 'use-debounce';
 
 
@@ -31,7 +31,7 @@ export function Login() {
 
   return <div className="container">
     <h1 className="mb-2">{t('admin.login')}</h1>
-    {loginInfo && <LoginForm setData={setLoginInfo}/>}
+    {!loginInfo && <LoginForm setData={setLoginInfo}/>}
     <Loadable result={calendarData} loadingElement={<LoadingIndicator height="20rem"/>}
               displayData={data => <CalendarWithSlider data={data}/>}></Loadable>
   </div>;

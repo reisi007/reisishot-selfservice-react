@@ -1,5 +1,5 @@
-import {Login} from './Login';
-import {Statistics} from './Statistics';
+import {Login} from './login/Login';
+import {Statistics} from './statistics/Statistics';
 import {AdminMenu} from './AdminMenu';
 
 export const LoginPage = Login;

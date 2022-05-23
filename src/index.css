@@ -20,6 +20,10 @@
     a {
         @apply text-blue-600 underline;
     }
+
+    pre {
+        @apply whitespace-pre text-left font-mono bg-gray-100 w-full;
+    }
 }
 
 @layer components {
