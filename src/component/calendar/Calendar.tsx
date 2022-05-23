@@ -37,7 +37,7 @@ const prepareDate = (values: Array<ShootingDateEntry>, displayedWeeks: number): 
   }
 
   values.forEach(event => {
-    computedValues.forEach((consumer, idx) => {
+    computedValues.forEach((consumer) => {
       consumer.process(event);
     });
   });

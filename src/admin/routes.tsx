@@ -1,16 +1,14 @@
 import {useAdminLogin} from './useAdminLogin';
-import React, {lazy} from 'react';
+import React from 'react';
 import {Navigate, Outlet, Route} from 'react-router-dom';
+import {lazyInternal, ReactFunctionComponent} from '../lazy';
 
 export function useAdminRoutes() {
   const [loginData] = useAdminLogin();
 
-  const AdminMenu = lazy(() => {
-    return import('./Admin.module').then(m => ({default: (m => m.LazyAdminMenu)(m)}));
-  });
-  const Login = lazyPage(m => m.LoginPage);
-  const Stats = lazyPage(m => m.StatisticsPage);
-
+  const AdminMenu = lazy(m => m.LazyAdminMenu);
+  const Login = lazy(m => m.LoginPage);
+  const Stats = lazy(m => m.StatisticsPage);
 
   const isUserLoggedIn = loginData !== undefined;
   return <Route path="/dashboard" element={
@@ -31,8 +29,6 @@ export function useAdminRoutes() {
 }
 
 
-function lazyPage(selector: (m: typeof import('./Admin.module')) => () => JSX.Element) {
-  return lazy(() => import('./Admin.module').then(m => {
-    return ({default: selector(m)});
-  }));
+function lazy<T>(selector: (m: typeof import('./Admin.module')) => ReactFunctionComponent<T>) {
+  return lazyInternal(import('./Admin.module'), selector);
 }

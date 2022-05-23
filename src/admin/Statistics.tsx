@@ -8,6 +8,7 @@ export function Statistics() {
   return <>{loginInfo !== undefined && <DisplayDiagrams {...loginInfo}/>}</>;
 }
 
+// @ts-ignore TS6133 - TODO use this param
 function DisplayDiagrams(loginData: LoginData) {
   const {t} = useTranslation();
   return <>
