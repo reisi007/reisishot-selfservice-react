@@ -1,26 +1,20 @@
-import {Legend, ResponsiveContainer} from 'recharts';
+import {Legend} from 'recharts';
 import {Props} from 'recharts/types/component/DefaultLegendContent';
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {CustomLegend} from './CustomLegend';
-
-export function withResponsiveContainer(e: JSX.Element) {
-  return <ResponsiveContainer width={'100%'} minHeight={500} height={'33%'}>
-    {e}
-  </ResponsiveContainer>;
-}
 
 
 export type ChartVisibilities = { [p: string]: boolean };
 
-export function useLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: Dispatch<SetStateAction<ChartVisibilities>>) {
-  // eslint-disable-next-line react/jsx-no-undef
-  const content = useCallback((props: Props) => <CustomLegend {...props}
-                                                              visibilities={barVisibility}
-                                                              setVisibilities={setBarVisibility}/>, [barVisibility, setBarVisibility]);
+export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: Dispatch<SetStateAction<ChartVisibilities>>) {
+  const content = (props: Props) => <CustomLegend {...props}
+                                                  visibilities={barVisibility}
+                                                  setVisibilities={setBarVisibility}/>;
   return <Legend layout="horizontal" verticalAlign="top" align="center" content={content}/>;
 }
 
 export type YearTotals = { [year: string]: number };
+export type ChartProps = { width: number }
 
 export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercentage: number } } = {
   'Porträt Shooting': {color: '#0031d1', expectedPercentage: 30},
@@ -31,3 +25,23 @@ export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercenta
   'Hochzeit Shooting': {color: '#d3d3d3', expectedPercentage: 0},
   'Haustier Shooting': {color: '#ff6200', expectedPercentage: 10},
 };
+
+export function useWidth(divRef: React.MutableRefObject<HTMLDivElement | null>): number | undefined {
+  const [width, setWidth] = useState<number | undefined>(undefined);
+
+  const testWidth = useCallback(() => {
+    if(divRef.current) {
+      setWidth(divRef.current?.offsetWidth);
+    }
+  }, [divRef]);
+
+  useLayoutEffect(testWidth, [testWidth]);
+
+  useEffect(() => {
+    const listener = testWidth;
+    window.addEventListener('resize', listener);
+    return () => window.removeEventListener('resize', listener);
+  });
+
+  return width;
+}

@@ -24,7 +24,7 @@ function LoadDiagrams(loginData: LoginData) {
   const {t} = useTranslation();
   return <>
     <h1>{t('admin.statistics.title')}</h1>
-    <div>
+    <div className="w-full">
       <Loadable result={result} loadingElement={<LoadingIndicator height="20rem"/>}
                 displayData={data => <DisplayDiagram {...data}/>}/>
     </div>
