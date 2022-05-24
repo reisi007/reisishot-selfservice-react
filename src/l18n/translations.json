@@ -6,10 +6,19 @@
     "admin": "Go to the admin dashboard"
   },
   "admin": {
-    "login": "Admin Area overview",
-    "statistics": "Statistics overview",
-    "user": "User",
-    "password": "Password"
+    "login": {
+      "title": "Admin Area overview",
+      "user": "User",
+      "password": "Password"
+    },
+    "statistics": {
+      "title": "Statistics overview",
+      "charts": {
+        "absolutePerYear": {
+          "title": "Absolute per year"
+        }
+      }
+    }
   },
   "calendar": {
     "title": "Available Shooting Dates",

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {ShootingDateEntry, useCalendarData} from './login.api';
 import {Calendar} from '../../component/calendar/Calendar';
@@ -30,7 +30,7 @@ export function Login() {
   const calendarData = useCalendarData(loginInfo);
 
   return <div className="container">
-    <h1 className="mb-2">{t('admin.login')}</h1>
+    <h1 className="mb-2">{t('admin.login.title')}</h1>
     {!loginInfo && <LoginForm setData={setLoginInfo}/>}
     <Loadable result={calendarData} loadingElement={<LoadingIndicator height="20rem"/>}
               displayData={data => <CalendarWithSlider data={data}/>}></Loadable>

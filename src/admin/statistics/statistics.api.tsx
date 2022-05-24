@@ -3,6 +3,7 @@ import {useFetch} from '../../http';
 import {useMemo} from 'react';
 import {LoginData} from '../login/login.api';
 import {ResponseValues} from 'axios-hooks';
+import {YearTotals} from '../../charts/helper';
 
 
 export type ShootingStatisticsResponsePerYear = {
@@ -33,10 +34,11 @@ export function useChartDataPerYear(loginData: LoginData, {
 
 export type YearDataType = ReturnType<typeof convertYearData>
 
-const convertYearData = (data: ShootingStatisticsResponsePerYear) => {
+
+const convertYearData = (data: ShootingStatisticsResponsePerYear): { data: ShootingStatisticsResponsePerYear, totals: YearTotals } => {
   const totals = Object.fromEntries(
     Object.entries(data)
           .map(([key, value]) => [key, Object.values(value).reduce((a, b) => a + b, 0)]),
   );
-  return [data, totals];
+  return {data, totals};
 };

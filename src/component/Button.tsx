@@ -1,4 +1,4 @@
-import React, {ButtonHTMLAttributes} from 'react';
+import {ButtonHTMLAttributes} from 'react';
 
 type Props = { text: string } & ButtonHTMLAttributes<unknown>
 

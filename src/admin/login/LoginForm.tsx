@@ -35,8 +35,9 @@ export function LoginForm({data, setData, ...divProps}: Props) {
       formik =>
         <Form className="flex flex-col items-center p-4 mx-auto  w-full md:w-1/2">
           <div className="flex flex-wrap justify-center items-stretch space-x-2">
-            <FormInput name="user" required className="w-full md:w-1/2" label={t('admin.user')}/>
-            <FormInput name="pwd" required className="w-full md:w-1/2" type="password" label={t('admin.password')}/>
+            <FormInput name="user" required className="w-full md:w-1/2" label={t('admin.login.user')}/>
+            <FormInput name="pwd" required className="w-full md:w-1/2" type="password"
+                       label={t('admin.login.password')}/>
           </div>
           <SubmitButton isValid={formik.isValid} isDirty={formik.dirty}/>
         </Form>

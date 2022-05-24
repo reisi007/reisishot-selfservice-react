@@ -1,6 +1,5 @@
 import {useTranslation} from 'react-i18next';
 import {Button} from './Button';
-import React from 'react';
 
 type Props = { isValid: boolean, isDirty: boolean };
 

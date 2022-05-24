@@ -1,5 +1,3 @@
-import React from 'react';
-
 type Props = { isUserLoggedIn: boolean }
 
 // @ts-ignore TS6133 - TODO use this param
