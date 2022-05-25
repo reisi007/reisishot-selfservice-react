@@ -19,6 +19,9 @@
         },
         "relativePerYear": {
           "title": "Relative per year"
+        },
+        "absolutePerMonth": {
+          "title": "Absolute per month"
         }
       }
     }

@@ -9,7 +9,7 @@ type RenderTooltipType = (props: TooltipProps<number, string>) => JSX.Element;
 
 type Props = {
   chartTitle: string,
-  chartData: Array<ChartData>,
+  chartData: Array<YearChartData>,
   renderTooltip: RenderTooltipType,
   renderBar?: RenderBarType,
   chartProps: StatisticChartProps
@@ -58,7 +58,7 @@ const DEFAULT_RENDER_BAR: RenderBarType = (shootingType: string, isVisible: bool
               fill={color}/>;
 };
 
-export type ChartData = {
+export type YearChartData = {
   year: string,
   data: {
     [shootingType: string]: number

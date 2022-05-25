@@ -21,7 +21,7 @@ export function CustomLegend(props: Props & { visibilities: ChartVisibilities, s
         const order = sortHelper.indexOf(value) + 1;
 
         const style = computeStyle(color, isVisible);
-        return <li className="m-2 list-none" style={{color, order}}
+        return <li className="m-2 text-sm list-none" style={{color, order}}
                    key={value}>
           <button style={style} className="py-1 px-4 rounded-lg border"
                   onClick={() => setVisibilities(v => v[value] = !v[value])}>{value}</button>

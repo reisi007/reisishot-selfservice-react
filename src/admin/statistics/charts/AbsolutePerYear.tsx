@@ -3,12 +3,12 @@ import {useMemo} from 'react';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
 import {useTranslation} from 'react-i18next';
 import {StatisticChartProps} from '../Statistics';
-import {AdminStatisticsBarChart, ChartData} from './AdminStatisticsBarChart';
+import {AdminStatisticsBarChart, YearChartData} from './AdminStatisticsBarChart';
 
 export function AbsolutePerYear(yearData: YearDataType & StatisticChartProps) {
   const {data, totals, visibilities} = yearData;
   const {t} = useTranslation();
-  const chartData: Array<ChartData> = useMemo(() => Object.entries(data).map(([key, value]) => ({
+  const chartData: Array<YearChartData> = useMemo(() => Object.entries(data).map(([key, value]) => ({
     year: key,
     data: value,
   })), [data]);

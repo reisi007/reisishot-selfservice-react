@@ -1,6 +1,6 @@
 import {useAdminLogin} from '../useAdminLogin';
 import {useTranslation} from 'react-i18next';
-import {useChartDataPerYear, YearDataType} from './statistics.api';
+import {MonthDataType, useChartDataPerMonth, useChartDataPerYear, YearDataType} from './statistics.api';
 import {Loadable} from '../../components/Loadable';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {LoginData} from '../login/login.api';
@@ -9,6 +9,7 @@ import {useCallback, useState} from 'react';
 import {CHART_SETTINGS, ChartVisibilities} from '../../charts/helper';
 import {SetChartVisibilityType} from '../../charts/CustomLegend';
 import {RelativePerYear} from './charts/RelativePerYear';
+import {AbsolutePerMonth} from './charts/AbsolutePerMonth';
 
 export function Statistics() {
   const [loginInfo] = useAdminLogin();
@@ -17,8 +18,23 @@ export function Statistics() {
 
 export type StatisticChartProps = { visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType }
 
-function DisplayDiagram(yearData: YearDataType) {
-  const {data, totals} = yearData;
+function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
+  return <>
+    {[AbsolutePerYear, RelativePerYear].map((Chart, i) =>
+      <Chart   {...yearData} key={i}/>)
+    }
+  </>;
+}
+
+function DisplayDiagramsPerMonth(monthData: MonthDataType & StatisticChartProps) {
+  return <>
+    {[AbsolutePerMonth].map((Chart, i) =>
+      <Chart {...monthData} key={i}/>)
+    }
+  </>;
+}
+
+function LoadDiagrams(loginData: LoginData) {
   const [visibilities, setVisibilitiesInternal] = useState(Object.fromEntries(Object.keys(CHART_SETTINGS).map((k) => ([k, true]))));
   const setVisibilities = useCallback((callback: (data: ChartVisibilities) => void) => {
     setVisibilitiesInternal(v => {
@@ -27,27 +43,21 @@ function DisplayDiagram(yearData: YearDataType) {
       return nv;
     });
   }, [setVisibilitiesInternal]);
-  return <>
-    {[AbsolutePerYear, RelativePerYear].map((Chart, i) =>
-      <Chart
-        key={i}
-        data={data}
-        totals={totals}
-        visibilities={visibilities}
-        setVisibilities={setVisibilities}
-      />)
-    }
-  </>;
-}
 
-function LoadDiagrams(loginData: LoginData) {
-  const result = useChartDataPerYear(loginData, {showMinor: false, showGroups: false});
+  const yearResult = useChartDataPerYear(loginData, {showMinor: false, showGroups: false});
+  const monthResult = useChartDataPerMonth(loginData, {showMinor: false, showGroups: false});
   const {t} = useTranslation();
   return <>
     <h1>{t('admin.statistics.title')}</h1>
     <div className="w-full">
-      <Loadable result={result} loadingElement={<LoadingIndicator height="20rem"/>}
-                displayData={data => <DisplayDiagram {...data}/>}/>
+      <Loadable result={yearResult} loadingElement={<LoadingIndicator height="20rem"/>}
+                displayData={data =>
+                  <DisplayDiagramPerYear {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
+                }/>
+      <Loadable result={monthResult} loadingElement={<LoadingIndicator height="20rem"/>}
+                displayData={data =>
+                  <DisplayDiagramsPerMonth {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
+                }/>
     </div>
   </>;
 }

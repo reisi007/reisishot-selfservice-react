@@ -1,7 +1,7 @@
 import {TooltipProps} from 'recharts';
-import {ChartVisibilities, YearTotals} from './helper';
+import {ChartVisibilities, Totals} from './helper';
 
-export function withAbsoluteTooltip(totals: YearTotals, visibilities: ChartVisibilities) {
+export function withAbsoluteTooltip(totals: Totals, visibilities: ChartVisibilities) {
   return (props: TooltipProps<number, string>) => <GenericTooltip
     {...props}
     totals={totals}
@@ -10,7 +10,7 @@ export function withAbsoluteTooltip(totals: YearTotals, visibilities: ChartVisib
   />;
 }
 
-export function withRelativeTooltip(totals: YearTotals, visibilities: ChartVisibilities) {
+export function withRelativeTooltip(totals: Totals, visibilities: ChartVisibilities) {
   return (props: TooltipProps<number, string>) => <GenericTooltip
     {...props}
     totals={totals}
@@ -21,7 +21,7 @@ export function withRelativeTooltip(totals: YearTotals, visibilities: ChartVisib
 
 type RenderDescriptionType = (name: string, value: number, totalCnt: number) => JSX.Element;
 type GenericTooltipProps = TooltipProps<number, string>
-  & { totals: YearTotals, visibilities: ChartVisibilities, renderDescription: RenderDescriptionType };
+  & { totals: Totals, visibilities: ChartVisibilities, renderDescription: RenderDescriptionType };
 
 function GenericTooltip({active, label, payload, visibilities, totals, renderDescription}: GenericTooltipProps) {
   return <>
@@ -29,9 +29,9 @@ function GenericTooltip({active, label, payload, visibilities, totals, renderDes
         <p className="text-center">{label}</p>
         <ul>
           {payload !== undefined && payload
-            .filter(({name = ''}) => visibilities[name] ?? true)
+            .filter(({name = '', value}) => value && (visibilities[name] ?? true))
             .map(({name = '', value, color}) => <li key={name}
-                                                    style={{color}}>{renderDescription(name, value ?? 0, totals[label] ?? NaN)}</li>)}
+                                                    style={{color}}>{renderDescription(name, value ?? 0, totals[label])}</li>)}
         </ul>
     </div>
     }

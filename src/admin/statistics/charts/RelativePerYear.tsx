@@ -3,7 +3,7 @@ import {useMemo} from 'react';
 import {withRelativeTooltip} from '../../../charts/Tooltips';
 import {useTranslation} from 'react-i18next';
 import {StatisticChartProps} from '../Statistics';
-import {AdminStatisticsBarChart, ChartData} from './AdminStatisticsBarChart';
+import {AdminStatisticsBarChart, YearChartData} from './AdminStatisticsBarChart';
 import {AxisConfig} from '../../../charts/helper';
 
 const yAxisConfig: AxisConfig = {unit: '%', domain: [0, 100], ticks: [0, 20, 40, 60, 80, 100]};
@@ -11,7 +11,7 @@ const yAxisConfig: AxisConfig = {unit: '%', domain: [0, 100], ticks: [0, 20, 40,
 export function RelativePerYear(yearData: YearDataType & StatisticChartProps) {
   const {data, totals, visibilities} = yearData;
   const {t} = useTranslation();
-  const chartData: Array<ChartData> = useMemo(() => Object.entries(data).map(([key, value]) => {
+  const chartData: Array<YearChartData> = useMemo(() => Object.entries(data).map(([key, value]) => {
     const yearTotals = totals[key];
     return {
       year: key,

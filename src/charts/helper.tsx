@@ -13,7 +13,7 @@ export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibi
   return <Legend layout="horizontal" verticalAlign="top" align="center" content={content}/>;
 }
 
-export type YearTotals = { [year: string]: number };
+export type Totals = { [key: string]: number };
 export type AxisConfig = { unit?: string, domain?: [number, number], ticks?: number[] };
 
 export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercentage: number } } = {
