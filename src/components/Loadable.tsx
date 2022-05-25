@@ -1,12 +1,12 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 import {AxiosError} from 'axios';
 import {ResponseValues} from 'axios-hooks';
 
 type Props<TResponse> = {
   result: [ResponseValues<TResponse, unknown, unknown>, ...unknown[]],
-  loadingElement: ReactElement,
-  errorElement?: (error: AxiosError<unknown, unknown>) => ReactElement,
-  displayData: (data: TResponse) => React.ReactElement
+  loadingElement: JSX.Element,
+  errorElement?: (error: AxiosError<unknown, unknown>) => JSX.Element,
+  displayData: (data: TResponse) => JSX.Element
 }
 
 export function Loadable<TResponse>({

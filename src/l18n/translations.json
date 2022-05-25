@@ -16,6 +16,9 @@
       "charts": {
         "absolutePerYear": {
           "title": "Absolute per year"
+        },
+        "relativePerYear": {
+          "title": "Relative per year"
         }
       }
     }

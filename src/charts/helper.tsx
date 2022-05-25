@@ -1,12 +1,12 @@
 import {Legend} from 'recharts';
 import {Props} from 'recharts/types/component/DefaultLegendContent';
-import {Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {CustomLegend} from './CustomLegend';
+import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {CustomLegend, SetChartVisibilityType} from './CustomLegend';
 
 
 export type ChartVisibilities = { [p: string]: boolean };
 
-export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: Dispatch<SetStateAction<ChartVisibilities>>) {
+export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: SetChartVisibilityType) {
   const content = (props: Props) => <CustomLegend {...props}
                                                   visibilities={barVisibility}
                                                   setVisibilities={setBarVisibility}/>;
@@ -14,7 +14,7 @@ export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibi
 }
 
 export type YearTotals = { [year: string]: number };
-export type ChartProps = { width: number }
+export type AxisConfig = { unit?: string, domain?: [number, number], ticks?: number[] };
 
 export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercentage: number } } = {
   'Porträt Shooting': {color: '#0031d1', expectedPercentage: 30},
