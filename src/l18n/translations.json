@@ -22,6 +22,12 @@
         },
         "absolutePerMonth": {
           "title": "Absolute per month"
+        },
+        "total": {
+          "title": "Total number of shootings"
+        },
+        "realityCheck": {
+          "title": "Reality check"
         }
       }
     }

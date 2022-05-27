@@ -10,6 +10,8 @@ import {CHART_SETTINGS, ChartVisibilities} from '../../charts/helper';
 import {SetChartVisibilityType} from '../../charts/CustomLegend';
 import {RelativePerYear} from './charts/RelativePerYear';
 import {AbsolutePerMonth} from './charts/AbsolutePerMonth';
+import {TotalPie} from './charts/TotalPie';
+import {RealityCheck} from './charts/RealityCheck';
 
 export function Statistics() {
   const [loginInfo] = useAdminLogin();
@@ -20,8 +22,8 @@ export type StatisticChartProps = { visibilities: ChartVisibilities, setVisibili
 
 function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
   return <>
-    {[AbsolutePerYear, RelativePerYear].map((Chart, i) =>
-      <Chart   {...yearData} key={i}/>)
+    {[RealityCheck, AbsolutePerYear, RelativePerYear, TotalPie].map((Chart, i) =>
+      <Chart {...yearData} key={i}/>)
     }
   </>;
 }

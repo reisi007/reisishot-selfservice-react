@@ -1,6 +1,6 @@
-import {Field, FieldProps, FormikErrors} from 'formik';
-import classNames from 'classnames';
+import {Field, FieldProps} from 'formik';
 import {HTMLInputTypeAttribute} from 'react';
+import {FormErrorProps, StyledInputField} from './StyledFields';
 
 type FormFieldProps = { label: string, name: string, className: string, required?: boolean }
 type TextFieldProps = { type?: HTMLInputTypeAttribute } & FormFieldProps
@@ -13,13 +13,10 @@ export function FormInput({label, name, className, required, type = 'text'}: Tex
 function FormikFormInput({label, field, form, required = false, ...props}: TextFieldProps & FieldProps) {
   const name = field.name;
   const error = form.touched[name] && form.errors[name];
-  const conditionalClassNames = classNames({
-    'border-red-500': error,
-  });
+
   return <span className="inline-flex flex-col">
     <FormLabel name={name} label={label} required={required}/>
-    <input {...field} {...props} required={required}
-           className={`p-2 border border-gray-200 rounded-lg ${conditionalClassNames}`}/>
+    <StyledInputField {...field} {...props} error={error} required={required}/>
     {error && <FormError error={error}/>}
   </span>;
 }
@@ -30,8 +27,6 @@ function FormLabel({name, label, required}: FormLabelProps) {
   return <label className="text-gray-700" htmlFor={name}>{label}{required &&
                                                                  <span className="text-red-500">*</span>}</label>;
 }
-
-type FormErrorProps = { error: string | FormikErrors<unknown> | string[] | FormikErrors<unknown>[] };
 
 export function FormError({error: _error}: FormErrorProps) {
   let error: string = '';

@@ -14,6 +14,7 @@ export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibi
 }
 
 export type Totals = { [key: string]: number };
+// TODO programmatically compute domain & ticks
 export type AxisConfig = { unit?: string, domain?: [number, number], ticks?: number[] };
 
 export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercentage: number } } = {

@@ -7,7 +7,7 @@ type QueryParams = { [key: string]: string }
 type NavigationStep = { replaceHistory: boolean, replaceParams: boolean, newUrl: Url, parameters: { [key: string]: string | null } }
 
 
-export function useNavigation(): [QueryParams, (param: NavigationStep) => void] {
+export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) => void] {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();

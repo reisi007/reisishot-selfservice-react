@@ -15,18 +15,21 @@ export function CustomLegend(props: Props & { visibilities: ChartVisibilities, s
   const sortHelper = Object.keys(CHART_SETTINGS);
   return <>
     <ul className="flex flex-wrap justify-center items-stretch mb-4">
-      {payload !== undefined && payload.map((payload) => {
-        const {value, color = 'black'} = payload;
-        const isVisible = visibilities[value] ?? true;
-        const order = sortHelper.indexOf(value) + 1;
+      {payload !== undefined && payload
+        .filter((value, index, array) => index === array.findIndex(cur => cur.value === value.value))
+        .map((payload) => {
+          const {value, color = 'black'} = payload;
+          const isVisible = visibilities[value] ?? true;
+          const order = sortHelper.indexOf(value) + 1;
 
-        const style = computeStyle(color, isVisible);
-        return <li className="m-2 text-sm list-none" style={{color, order}}
-                   key={value}>
-          <button style={style} className="py-1 px-4 rounded-lg border"
-                  onClick={() => setVisibilities(v => v[value] = !v[value])}>{value}</button>
-        </li>;
-      })}
+          const style = computeStyle(color, isVisible);
+          return <li className="m-2 text-sm list-none" style={{color, order}}
+                     key={value}>
+            <button style={style} className="py-1 px-4 rounded-lg border"
+                    onClick={() => setVisibilities(v => v[value] = !v[value])}>{value}</button>
+          </li>;
+        })
+      }
     </ul>
   </>;
 }

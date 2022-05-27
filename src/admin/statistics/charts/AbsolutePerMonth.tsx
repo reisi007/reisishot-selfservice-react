@@ -7,24 +7,25 @@ import {CHART_SETTINGS, renderLegendOnTop} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
 import {ReactElement, useMemo} from 'react';
 
-const DEFAULT_RENDER_LINE = (i: number, shootingType: string, isVisible: boolean, color: string) => {
-  const dot = (props: any) => CustomizedDot({...props, isVisible});
+
+function DefaultLine(props: { idx: number, shootingType: string, isVisible: boolean, color: string }) {
+  const {idx, shootingType, isVisible, color} = props;
+  const renderDot = (props: any) => CustomizedDot({...props, isVisible});
   return <Line
-    key={i}
+    key={idx}
     strokeWidth="2px"
     dataKey={`data.${shootingType}`}
-    dot={dot}
-    activeDot={dot}
+    dot={renderDot}
+    activeDot={renderDot}
     name={shootingType}
     visibility={isVisible ? undefined : 'collapse'}
     type="monotoneX"
     stroke={color}
   />;
-};
+}
 
 const CustomizedDot = (props: DotProps & { isVisible: boolean, value: number }): ReactElement<SVGElement> => {
   const {cx = 0, cy = 0, stroke, fill, key, value, isVisible} = props;
-  console.log(props);
   return (
     <svg key={key} x={cx - 4} y={cy - 4} width={8} height={8} fill="black">
       <g transform="translate(4 4)">
@@ -46,22 +47,21 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
       return [s, value[s] ?? 0];
     })),
   })), [data]);
-  const renderLine = DEFAULT_RENDER_LINE;
+  const renderLine = DefaultLine;
   return <>
     <h3>{t('admin.statistics.charts.absolutePerMonth.title')}</h3>
     <ResponsiveContainer>
       {width =>
         <LineChart data={chartData} width={width} height={600}>
           <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-          {renderLegendOnTop(visibilities, setVisibilities)}
           <XAxis type={'category'} dataKey="month"/>
           <YAxis interval={0} type="number"/>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           {renderLegendOnTop(visibilities, setVisibilities)}
           {
-            Object.entries(CHART_SETTINGS).map(([shootingType, {color}], i) => {
+            Object.entries(CHART_SETTINGS).map(([shootingType, {color}], idx) => {
               const isVisible = visibilities[shootingType] ?? true;
-              return renderLine(i, shootingType, isVisible, color);
+              return renderLine({idx, shootingType, isVisible, color});
             })
           }
         </LineChart>

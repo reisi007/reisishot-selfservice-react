@@ -31,7 +31,7 @@ function GenericTooltip({active, label, payload, visibilities, totals, renderDes
           {payload !== undefined && payload
             .filter(({name = '', value}) => value && (visibilities[name] ?? true))
             .map(({name = '', value, color}) => <li key={name}
-                                                    style={{color}}>{renderDescription(name, value ?? 0, totals[label])}</li>)}
+                                                    style={{color}}>{renderDescription(name, value ?? 0, totals[label ?? name])}</li>)}
         </ul>
     </div>
     }
