@@ -1,6 +1,6 @@
 import {Legend} from 'recharts';
 import {Props} from 'recharts/types/component/DefaultLegendContent';
-import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {MutableRefObject, useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {SetChartVisibilityType, ShootingTypeLegend} from '../admin/statistics/charts/ShootingTypeLegend';
 
 
@@ -27,7 +27,7 @@ export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercenta
   'Haustier Shooting': {color: '#ff6200', expectedPercentage: 10},
 };
 
-export function useWidth(divRef: React.MutableRefObject<HTMLDivElement | null>): number | undefined {
+export function useWidth(divRef: MutableRefObject<HTMLDivElement | null>): number | undefined {
   const [width, setWidth] = useState<number | undefined>(undefined);
 
   const testWidth = useCallback(() => {

@@ -26,7 +26,7 @@ export type StatisticChartProps = { visibilities: ChartVisibilities, setVisibili
 function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
   return <>
     {[RealityCheck, AbsolutePerYear, RelativePerYear, TotalPie].map((Chart, i) =>
-      <Chart {...yearData} key={i}/>)
+      <div className="my-8" key={i}><Chart {...yearData}  /></div>)
     }
   </>;
 }
@@ -34,7 +34,7 @@ function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
 function DisplayDiagramsPerMonth(monthData: MonthDataType & StatisticChartProps) {
   return <>
     {[AbsolutePerMonth].map((Chart, i) =>
-      <Chart {...monthData} key={i}/>)
+      <div className="my-8" key={i}><Chart {...monthData} /></div>)
     }
   </>;
 }
