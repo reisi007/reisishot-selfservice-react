@@ -1,11 +1,15 @@
 import React, {useCallback} from 'react';
-import {Totals} from './helper';
+import {ChartVisibilities, Totals} from './helper';
 
 const RADIAN = Math.PI / 180;
 
-export function useRelativePieChartLabel(totals: Totals, position?: number) {
-  return useCallback((props: any) => <RelativePieChartLabel {...props} totals={totals}
-                                                            position={position}/>, [position, totals]);
+export function useRelativePieChartLabel(totals: Totals, visibilities: ChartVisibilities, position?: number) {
+  return useCallback((props: any) => <RelativePieChartLabel
+    {...props}
+    totals={totals}
+    position={position}
+    visibilities={visibilities}
+  />, [position, totals, visibilities]);
 }
 
 const RelativePieChartLabel = ({
@@ -19,6 +23,7 @@ const RelativePieChartLabel = ({
                                  name,
                                  label,
                                  position = 2 / 3,
+                                 visibilities,
                                }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * position;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -26,7 +31,7 @@ const RelativePieChartLabel = ({
 
   const number = value / totals[label ?? name] * 100;
   return <>
-    {(!!number) && <text
+    {(!!number) && (visibilities[label ?? name] ?? true) && <text
         x={x}
         y={y}
         fill="white"

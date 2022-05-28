@@ -1,5 +1,5 @@
 import {Field, FieldProps} from 'formik';
-import {HTMLInputTypeAttribute} from 'react';
+import {HTMLInputTypeAttribute, ReactElement} from 'react';
 import {FormErrorProps, StyledInputField} from './StyledFields';
 
 type FormFieldProps = { label: string, name: string, className: string, required?: boolean }
@@ -21,11 +21,12 @@ function FormikFormInput({label, field, form, required = false, ...props}: TextF
   </span>;
 }
 
-type FormLabelProps = { name: string, label: string, required: boolean }
+type FormLabelProps = { name: string, label: string, required: boolean, children?: ReactElement | undefined }
 
-function FormLabel({name, label, required}: FormLabelProps) {
-  return <label className="text-gray-700" htmlFor={name}>{label}{required &&
-                                                                 <span className="text-red-500">*</span>}</label>;
+export function FormLabel({name, label, required, children}: FormLabelProps) {
+  return <label className="text-gray-700" htmlFor={name}>
+    {children} {label} {required && <span className="text-red-500">*</span>}
+  </label>;
 }
 
 export function FormError({error: _error}: FormErrorProps) {

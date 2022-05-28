@@ -52,7 +52,7 @@ export function AdminStatisticsBarChart({
 }
 
 const DEFAULT_RENDER_BAR: RenderBarType = (shootingType: string, isVisible: boolean, color: string) => {
-  return <Bar key={shootingType} dataKey={`data.${shootingType}`} isAnimationActive={false}
+  return <Bar key={shootingType} dataKey={`data.${shootingType}`}
               visibility={isVisible ? undefined : 'collapse'} name={shootingType}
               stackId="a"
               fill={color}/>;

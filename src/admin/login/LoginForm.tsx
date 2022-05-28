@@ -13,7 +13,6 @@ export function LoginForm({data, setData, ...divProps}: Props) {
   const loginUser = useLoginUser();
   const onSubmit: (values: LoginFormData, formikHelpers: FormikHelpers<LoginFormData>) => void | Promise<any> = useCallback(async (values, {setSubmitting}) => {
     setSubmitting(false);
-    console.log(values);
     const result = await loginUser(values);
     const {user, hash} = result.data;
     setData({user, auth: hash});

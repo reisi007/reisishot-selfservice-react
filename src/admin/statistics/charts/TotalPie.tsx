@@ -7,17 +7,20 @@ import React, {useMemo} from 'react';
 import {useRelativePieChartLabel} from '../../../charts/PieChartLabel';
 import {CHART_SETTINGS, renderLegendOnTop} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
+import './Pie.module.css';
 
 export function TotalPie(yearData: YearDataType & StatisticChartProps) {
   const {data: rawData, visibilities, setVisibilities} = yearData;
 
   const data = useMemo(() => {
     const d: { [shootingType: string]: number } = {};
-    Object.values(rawData).forEach(e => {
-      Object.entries(e).forEach(([type, cnt]) => {
-        d[type] = (d[type] ?? 0) + cnt;
+
+    Object.values(rawData).forEach((o) => {
+      Object.keys(CHART_SETTINGS).forEach(k => {
+        d[k] = (d[k] ?? 0) + (o[k] ?? 0);
       });
     });
+
     return Object.entries(d)
                  .map(
                    ([key, value]) =>
@@ -31,34 +34,35 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
       data.map(e => [e.key, total]),
     );
   }, [data]);
-  const renderLabel = useRelativePieChartLabel(totals);
+  const renderLabel = useRelativePieChartLabel(totals, visibilities);
 
   const {t} = useTranslation();
   return <>
     <h3>{t('admin.statistics.charts.total.title')}</h3>
     <ResponsiveContainer>
       {width => {
-        const max = Math.max(600, width);
+        const min = Math.min(600, width);
 
-        return <PieChart width={max} height={max}>
+        return <PieChart width={min} height={min}>
           {renderLegendOnTop(visibilities, setVisibilities)}
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           <Pie
             data={data}
-            outerRadius={1 / 3 * max}
+            outerRadius={1 / 3 * min}
             labelLine={false}
             label={renderLabel}
             dataKey="value"
           >
 
             {
-              data.map(e => e.key)
-                  .map((shootingType) => {
-                    const isVisible = visibilities[shootingType] ?? true;
-                    return <Cell key={shootingType} name={shootingType}
-                                 visibility={isVisible ? undefined : 'collapse'}
-                                 fill={CHART_SETTINGS[shootingType].color}/>;
-                  })
+              Object.keys(CHART_SETTINGS)
+                    .map((shootingType) => {
+                      const isVisible = visibilities[shootingType] ?? true;
+                      return <Cell key={shootingType} name={shootingType}
+                                   visibility={isVisible ? undefined : 'collapse'}
+                                   fill={CHART_SETTINGS[shootingType].color}/>;
+
+                    })
             }
           </Pie>
         </PieChart>;

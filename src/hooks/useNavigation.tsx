@@ -18,15 +18,13 @@ export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) 
                                        replaceHistory = false,
                                        replaceParams = false,
                                      }: Partial<NavigationStep>) => {
+    console.log(parameters, newUrlParts, replaceHistory, replaceParams);
     const oldUrl = location.pathname;
     const newUrl = buildUrl(newUrlParts);
-    if(newUrl === null) {
-      return;
-    }
     const changeParamsOnly = oldUrl === newUrl;
     const newParams = computeParams(searchParams, parameters, replaceParams);
 
-    if(changeParamsOnly) {
+    if(changeParamsOnly || newUrl == null) {
       setSearchParams(newParams);
     }
     else {

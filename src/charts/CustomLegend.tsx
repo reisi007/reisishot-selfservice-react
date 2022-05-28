@@ -27,7 +27,9 @@ export function CustomLegend(props: Props & { visibilities: ChartVisibilities, s
                      key={value}>
             <button style={style} className="py-1 px-4 rounded-lg border"
                     onClick={() => setVisibilities(v => v[value] = !v[value])}>{value}</button>
+
           </li>;
+
         })
       }
     </ul>
