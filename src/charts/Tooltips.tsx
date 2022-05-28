@@ -28,7 +28,7 @@ function GenericTooltip({active, label, payload, visibilities, totals, renderDes
     {active && <div className="py-2 px-4 bg-white rounded-lg shadow-xl">
         <p className="text-center">{label}</p>
         <ul>
-          {payload !== undefined && payload
+          {payload !== undefined && payload !== null && payload
             .filter(({name = '', value}) => value && (visibilities[name] ?? true))
             .map(({name = '', value, color}) => <li key={name}
                                                     style={{color}}>{renderDescription(name, value ?? 0, totals[label ?? name])}</li>)}
