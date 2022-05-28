@@ -31,6 +31,7 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
         return <PieChartChart
           width={width}
           data={data}
+          year={maxYear}
           visibilities={visibilities}
           setVisibilities={setVisibilities}
           totals={totals}
@@ -41,25 +42,30 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
   </>;
 }
 
-type PieChartProps = { width: number, data: { value: number; key: string }[], visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType, totals: Totals }
+type PieChartProps = { year: string, width: number, data: Array<{ value: number; key: string }>, visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType, totals: Totals }
 
-function PieChartChart({width, data, visibilities, totals}: PieChartProps) {
+function PieChartChart({width, data, visibilities, totals, year}: PieChartProps) {
   const min = width;
   const renderOuterPieChart = useRenderExpectationPieChart(width, visibilities);
-  const renderInnerPieChart = useRenderMaxYearPieChart(data, totals, width, visibilities);
+  const renderInnerPieChart = useRenderMaxYearPieChart(width, visibilities, data, totals);
   return <PieChart
     width={min}
     height={min}
   >
     {renderOuterPieChart}
     {renderInnerPieChart}
+    <text x={min / 2} y={min / 2} className="text-3xl" stroke="black" textAnchor="middle" dominantBaseline="middle">
+      {year}
+    </text>
   </PieChart>;
 }
 
-function useRenderMaxYearPieChart(data: Array<{ key: string, value: number }>, totals: Totals, size: number, visibilities: ChartVisibilities) {
+function useRenderMaxYearPieChart(size: number, visibilities: ChartVisibilities, data: Array<{ key: string; value: number }>, totals: Totals) {
   const renderLabel = useRelativePieChartLabel(totals, visibilities, 0.5);
+  const filteredData = useMemo(() =>
+    data.filter(({key: shootingType}) => visibilities[shootingType] ?? true), [data, visibilities]);
   return <Pie
-    data={data}
+    data={filteredData}
     innerRadius={1 / 10 * size}
     outerRadius={3 / 10 * size}
     labelLine={false}
@@ -67,13 +73,10 @@ function useRenderMaxYearPieChart(data: Array<{ key: string, value: number }>, t
     dataKey="value"
   >
     {
-      data.map(e => e.key)
-          .map(shootingType => {
-            const isVisible = visibilities[shootingType] ?? true;
-            return <Cell key={shootingType} name={shootingType}
-                         visibility={isVisible ? undefined : 'collapse'}
-                         fill={CHART_SETTINGS[shootingType].color}/>;
-          })
+      filteredData.map(e => e.key)
+                  .map(shootingType => {
+                    return <Cell key={shootingType} name={shootingType} fill={CHART_SETTINGS[shootingType].color}/>;
+                  })
     }
   </Pie>;
 }
@@ -81,7 +84,8 @@ function useRenderMaxYearPieChart(data: Array<{ key: string, value: number }>, t
 function useRenderExpectationPieChart(size: number, visibilities: ChartVisibilities) {
   const data = useMemo(() =>
     Object.entries(CHART_SETTINGS)
-          .map(([key, {expectedPercentage: value}]) => ({key, value})), []);
+          .filter(([shootingType]) => visibilities[shootingType] ?? true)
+          .map(([key, {expectedPercentage: value}]) => ({key, value})), [visibilities]);
 
   const totals: Totals = useMemo(() =>
       Object.fromEntries(Object.keys(CHART_SETTINGS).map(k => [k, 100]))
@@ -99,9 +103,7 @@ function useRenderExpectationPieChart(size: number, visibilities: ChartVisibilit
     {
       data.map(e => e.key)
           .map(shootingType => {
-            const isVisible = visibilities[shootingType] ?? true;
             return <Cell key={shootingType} name={shootingType}
-                         visibility={isVisible ? undefined : 'collapse'}
                          fill={CHART_SETTINGS[shootingType].color}/>;
           })
     }

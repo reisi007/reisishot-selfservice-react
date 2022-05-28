@@ -9,9 +9,11 @@ import {ReactElement, useMemo} from 'react';
 import {ShootingTypeLegend} from './ShootingTypeLegend';
 
 
-function DefaultLine(props: { idx: number, shootingType: string, isVisible: boolean, color: string }) {
-  const {idx, shootingType, isVisible, color} = props;
-  const renderDot = (props: any) => CustomizedDot({...props, isVisible});
+type DefaultLineProps = { idx: number, shootingType: string, color: string };
+
+function DefaultLine(props: DefaultLineProps) {
+  const {idx, shootingType, color} = props;
+  const renderDot = (props: any) => CustomizedDot({...props});
   return <Line
     key={idx}
     strokeWidth="2px"
@@ -19,18 +21,17 @@ function DefaultLine(props: { idx: number, shootingType: string, isVisible: bool
     dot={renderDot}
     activeDot={renderDot}
     name={shootingType}
-    visibility={isVisible ? undefined : 'collapse'}
     type="monotoneX"
     stroke={color}
   />;
 }
 
-const CustomizedDot = (props: DotProps & { isVisible: boolean, value: number }): ReactElement<SVGElement> => {
-  const {cx = 0, cy = 0, stroke, fill, key, value, isVisible} = props;
+const CustomizedDot = (props: DotProps & { value: number }): ReactElement<SVGElement> => {
+  const {cx = 0, cy = 0, stroke, fill, key, value} = props;
   return (
     <svg key={key} x={cx - 4} y={cy - 4} width={8} height={8} fill="black">
       <g transform="translate(4 4)">
-        {value > 0 && isVisible && <>
+        {value > 0 && <>
             <circle r="4" fill={stroke}/>
             <circle r="2" fill={fill}/>
         </>}
@@ -60,10 +61,9 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
           <YAxis interval={0} type="number"/>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           {
-            Object.entries(CHART_SETTINGS).map(([shootingType, {color}], idx) => {
-              const isVisible = visibilities[shootingType] ?? true;
-              return renderLine({idx, shootingType, isVisible, color});
-            })
+            Object.entries(CHART_SETTINGS)
+                  .filter(([shootingType]) => visibilities[shootingType] ?? true)
+                  .map(([shootingType, {color}], idx) => renderLine({idx, shootingType, color}))
           }
         </LineChart>
       }

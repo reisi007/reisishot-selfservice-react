@@ -3,7 +3,7 @@ import {StatisticChartProps} from '../Statistics';
 import {ResponsiveContainer} from '../../../components/ResponsiveContainer';
 import {AxisConfig, CHART_SETTINGS, renderLegendOnTop} from '../../../charts/helper';
 
-type RenderBarType = (shootingType: string, isVisible: boolean, color: string) => JSX.Element;
+type RenderBarType = (shootingType: string, color: string) => JSX.Element;
 type RenderTooltipType = (props: TooltipProps<number, string>) => JSX.Element;
 
 
@@ -37,10 +37,9 @@ export function AdminStatisticsBarChart({
           <Tooltip content={renderTooltip}/>
           {
             Object.entries(CHART_SETTINGS)
-                  .sort(([a], [b]) => Number(visibilities[b]) - Number(visibilities[a]))
+                  .filter(([e]) => visibilities[e] ?? true)
                   .map(([shootingType, {color}]) => {
-                      const visibility = visibilities[shootingType] ?? true;
-                      return renderBar(shootingType, visibility, color);
+                      return renderBar(shootingType, color);
                     },
                   )
           }
@@ -51,11 +50,13 @@ export function AdminStatisticsBarChart({
   </>;
 }
 
-const DEFAULT_RENDER_BAR: RenderBarType = (shootingType: string, isVisible: boolean, color: string) => {
-  return <Bar key={shootingType} dataKey={`data.${shootingType}`}
-              visibility={isVisible ? undefined : 'collapse'} name={shootingType}
+const DEFAULT_RENDER_BAR: RenderBarType = (shootingType: string, color: string) => {
+  return <Bar key={shootingType}
+              dataKey={`data.${shootingType}`}
+              name={shootingType}
               stackId="a"
-              fill={color}/>;
+              fill={color}
+  />;
 };
 
 export type YearChartData = {

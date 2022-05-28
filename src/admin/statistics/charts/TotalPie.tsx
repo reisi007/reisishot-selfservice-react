@@ -15,11 +15,12 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
 
   const data = useMemo(() => {
     const d: { [shootingType: string]: number } = {};
-
     Object.values(rawData).forEach((o) => {
-      Object.keys(CHART_SETTINGS).forEach(k => {
-        d[k] = (d[k] ?? 0) + (o[k] ?? 0);
-      });
+      Object.keys(CHART_SETTINGS)
+            .filter((shootingType) => visibilities[shootingType] ?? true)
+            .forEach(k => {
+              d[k] = (d[k] ?? 0) + (o[k] ?? 0);
+            });
     });
 
     return Object.entries(d)
@@ -27,10 +28,12 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
                    ([key, value]) =>
                      ({key, value}),
                  );
-  }, [rawData]);
+  }, [rawData, visibilities]);
 
   const totals = useMemo(() => {
-    const total = data.map(e => e.value).reduce((a, b) => a + b, 0);
+    const total = data
+      .map(e => e.value)
+      .reduce((a, b) => a + b, 0);
     return Object.fromEntries(
       data.map(e => [e.key, total]),
     );
@@ -43,7 +46,6 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
     <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
       {width => {
-
         return <PieChart width={width} height={width}>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           <Pie
@@ -56,13 +58,9 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
 
             {
               Object.keys(CHART_SETTINGS)
-                    .map((shootingType) => {
-                      const isVisible = visibilities[shootingType] ?? true;
-                      return <Cell key={shootingType} name={shootingType}
-                                   visibility={isVisible ? undefined : 'collapse'}
-                                   fill={CHART_SETTINGS[shootingType].color}/>;
-
-                    })
+                    .filter(shootingType => visibilities[shootingType] ?? true)
+                    .map((shootingType) => <Cell key={shootingType} name={shootingType}
+                                                 fill={CHART_SETTINGS[shootingType].color}/>)
             }
           </Pie>
         </PieChart>;
