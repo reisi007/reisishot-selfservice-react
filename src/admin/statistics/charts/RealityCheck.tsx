@@ -4,9 +4,9 @@ import {useTranslation} from 'react-i18next';
 import React, {useMemo} from 'react';
 import {ResponsiveContainer} from '../../../components/ResponsiveContainer';
 import {Cell, Pie, PieChart} from 'recharts';
-import {CHART_SETTINGS, ChartVisibilities, renderLegendOnTop, Totals} from '../../../charts/helper';
+import {CHART_SETTINGS, ChartVisibilities, Totals} from '../../../charts/helper';
 import {useRelativePieChartLabel} from '../../../charts/PieChartLabel';
-import {SetChartVisibilityType} from '../../../charts/CustomLegend';
+import {SetChartVisibilityType, ShootingTypeLegend} from './ShootingTypeLegend';
 import './Pie.module.css';
 
 export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
@@ -25,6 +25,7 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
   const {t} = useTranslation();
   return <>
     <h3>{t('admin.statistics.charts.realityCheck.title')}</h3>
+    <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
       {width => {
         return <PieChartChart
@@ -42,15 +43,14 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
 
 type PieChartProps = { width: number, data: { value: number; key: string }[], visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType, totals: Totals }
 
-function PieChartChart({width, data, visibilities, setVisibilities, totals}: PieChartProps) {
-  const max = Math.min(600, width);
+function PieChartChart({width, data, visibilities, totals}: PieChartProps) {
+  const min = width;
   const renderOuterPieChart = useRenderExpectationPieChart(width, visibilities);
   const renderInnerPieChart = useRenderMaxYearPieChart(data, totals, width, visibilities);
   return <PieChart
-    width={max}
-    height={max}
+    width={min}
+    height={min}
   >
-    {renderLegendOnTop(visibilities, setVisibilities)}
     {renderOuterPieChart}
     {renderInnerPieChart}
   </PieChart>;
@@ -60,8 +60,8 @@ function useRenderMaxYearPieChart(data: Array<{ key: string, value: number }>, t
   const renderLabel = useRelativePieChartLabel(totals, visibilities, 0.5);
   return <Pie
     data={data}
-    innerRadius={4 / 100 * size}
-    outerRadius={12 / 100 * size}
+    innerRadius={1 / 10 * size}
+    outerRadius={3 / 10 * size}
     labelLine={false}
     label={renderLabel}
     dataKey="value"
@@ -90,8 +90,8 @@ function useRenderExpectationPieChart(size: number, visibilities: ChartVisibilit
   const renderLabel = useRelativePieChartLabel(totals, visibilities, 0.5);
   return <Pie
     data={data}
-    innerRadius={14 / 100 * size}
-    outerRadius={20 / 100 * size}
+    innerRadius={4 / 10 * size}
+    outerRadius={1 / 2 * size}
     labelLine={false}
     label={renderLabel}
     dataKey="value"

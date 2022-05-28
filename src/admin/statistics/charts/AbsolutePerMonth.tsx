@@ -3,9 +3,10 @@ import {StatisticChartProps} from '../Statistics';
 import {useTranslation} from 'react-i18next';
 import {ResponsiveContainer} from '../../../components/ResponsiveContainer';
 import {CartesianGrid, DotProps, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
-import {CHART_SETTINGS, renderLegendOnTop} from '../../../charts/helper';
+import {CHART_SETTINGS} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
 import {ReactElement, useMemo} from 'react';
+import {ShootingTypeLegend} from './ShootingTypeLegend';
 
 
 function DefaultLine(props: { idx: number, shootingType: string, isVisible: boolean, color: string }) {
@@ -50,6 +51,7 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
   const renderLine = DefaultLine;
   return <>
     <h3>{t('admin.statistics.charts.absolutePerMonth.title')}</h3>
+    <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
       {width =>
         <LineChart data={chartData} width={width} height={600}>
@@ -57,7 +59,6 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
           <XAxis type={'category'} dataKey="month"/>
           <YAxis interval={0} type="number"/>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
-          {renderLegendOnTop(visibilities, setVisibilities)}
           {
             Object.entries(CHART_SETTINGS).map(([shootingType, {color}], idx) => {
               const isVisible = visibilities[shootingType] ?? true;

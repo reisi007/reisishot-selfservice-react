@@ -1,15 +1,15 @@
 import {Legend} from 'recharts';
 import {Props} from 'recharts/types/component/DefaultLegendContent';
 import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {CustomLegend, SetChartVisibilityType} from './CustomLegend';
+import {SetChartVisibilityType, ShootingTypeLegend} from '../admin/statistics/charts/ShootingTypeLegend';
 
 
 export type ChartVisibilities = { [p: string]: boolean };
 
 export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: SetChartVisibilityType) {
-  const content = (props: Props) => <CustomLegend {...props}
-                                                  visibilities={barVisibility}
-                                                  setVisibilities={setBarVisibility}/>;
+  const content = (props: Props) => <ShootingTypeLegend {...props}
+                                                        visibilities={barVisibility}
+                                                        setVisibilities={setBarVisibility}/>;
   return <Legend layout="horizontal" verticalAlign="top" align="center" content={content}/>;
 }
 

@@ -7,7 +7,7 @@ import {LoginData} from '../login/login.api';
 import {AbsolutePerYear} from './charts/AbsolutePerYear';
 import {useCallback, useMemo, useState} from 'react';
 import {CHART_SETTINGS, ChartVisibilities} from '../../charts/helper';
-import {SetChartVisibilityType} from '../../charts/CustomLegend';
+import {SetChartVisibilityType} from './charts/ShootingTypeLegend';
 import {RelativePerYear} from './charts/RelativePerYear';
 import {AbsolutePerMonth} from './charts/AbsolutePerMonth';
 import {TotalPie} from './charts/TotalPie';

@@ -5,9 +5,10 @@ import {useTranslation} from 'react-i18next';
 import {Cell, Pie, PieChart, Tooltip} from 'recharts';
 import React, {useMemo} from 'react';
 import {useRelativePieChartLabel} from '../../../charts/PieChartLabel';
-import {CHART_SETTINGS, renderLegendOnTop} from '../../../charts/helper';
+import {CHART_SETTINGS} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
 import './Pie.module.css';
+import {ShootingTypeLegend} from './ShootingTypeLegend';
 
 export function TotalPie(yearData: YearDataType & StatisticChartProps) {
   const {data: rawData, visibilities, setVisibilities} = yearData;
@@ -39,16 +40,15 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
   const {t} = useTranslation();
   return <>
     <h3>{t('admin.statistics.charts.total.title')}</h3>
+    <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
       {width => {
-        const min = Math.min(600, width);
 
-        return <PieChart width={min} height={min}>
-          {renderLegendOnTop(visibilities, setVisibilities)}
+        return <PieChart width={width} height={width}>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           <Pie
             data={data}
-            outerRadius={1 / 3 * min}
+            outerRadius={1 / 2 * width}
             labelLine={false}
             label={renderLabel}
             dataKey="value"
