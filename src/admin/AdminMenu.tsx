@@ -10,6 +10,7 @@ export function AdminMenu({isUserLoggedIn}: Props) {
     const allRoutes = [
       {'title': t('admin.login.title'), url: ''},
       {'title': t('admin.statistics.title'), url: 'statistics'},
+      {'title': t('admin.contract.title'), url: 'contracts'},
     ];
     return isUserLoggedIn ? allRoutes : [allRoutes[0]];
   }, [isUserLoggedIn, t]);

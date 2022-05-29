@@ -5,20 +5,26 @@ import {useTranslation} from 'react-i18next';
 import {ShootingDateEntry, ShootingSlotState} from '../../admin/login/login.api';
 
 type RowCreator = (e: CalendarWeekAvailability, idx: number) => React.ReactElement<HTMLProps<HTMLDataListElement>>;
-type Props = { data: Array<ShootingDateEntry>, weeks: number, rowCreator?: RowCreator, children?: React.ReactElement }
+type Props = {
+  data: Array<ShootingDateEntry>,
+  weeks: number,
+  rowCreator?: RowCreator,
+  children?: React.ReactElement,
+  className?: string
+}
 
 const defaultRowCreator = (e: CalendarWeekAvailability, idx: number) => <CalendarRow key={idx} data={e}/>;
 
-export function Calendar({data, weeks, children, rowCreator = defaultRowCreator}: Props) {
+export function Calendar({data, weeks, children, rowCreator = defaultRowCreator, className = ''}: Props) {
   const {t} = useTranslation();
   const rows = useMemo(() => prepareDate(data, weeks)
     .map(rowCreator), [data, rowCreator, weeks],
   );
-  return <>
+  return <div className={className}>
     <h2 className="mb-2"> {t('calendar.title')}</h2>
     {children}
     <ul className="flex flex-col justify-center mx-auto w-full md:w-1/2">{rows}</ul>
-  </>;
+  </div>;
 }
 
 
