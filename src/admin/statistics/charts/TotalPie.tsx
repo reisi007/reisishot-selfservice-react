@@ -45,7 +45,8 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
     <h3>{t('admin.statistics.charts.total.title')}</h3>
     <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
-      {width => {
+      {rawWidth => {
+        const width = 0.9 * Math.min(rawWidth, window.innerHeight, window.innerWidth);
         return <PieChart width={width} height={width}>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           <Pie
@@ -55,12 +56,12 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
             label={renderLabel}
             dataKey="value"
           >
-
             {
               Object.keys(CHART_SETTINGS)
                     .filter(shootingType => visibilities[shootingType] ?? true)
-                    .map((shootingType) => <Cell key={shootingType} name={shootingType}
-                                                 fill={CHART_SETTINGS[shootingType].color}/>)
+                    .map(shootingType =>
+                      <Cell key={shootingType} name={shootingType} fill={CHART_SETTINGS[shootingType].color}/>,
+                    )
             }
           </Pie>
         </PieChart>;

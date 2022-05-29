@@ -28,8 +28,9 @@ export function AdminStatisticsBarChart({
   return <>
     <h3>{chartTitle}</h3>
     <ResponsiveContainer>
-      {width =>
-        <BarChart width={width} height={600} data={chartData}>
+      {width => {
+        const height = Math.min(600, window.innerHeight);
+        return <BarChart width={width} height={height} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" vertical={false}/>
           {renderLegendOnTop(visibilities, setVisibilities)}
           <XAxis dataKey="year"/>
@@ -44,8 +45,8 @@ export function AdminStatisticsBarChart({
                   )
           }
 
-        </BarChart>
-      }
+        </BarChart>;
+      }}
     </ResponsiveContainer>
   </>;
 }

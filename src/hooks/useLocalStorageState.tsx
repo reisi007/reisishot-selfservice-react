@@ -1,23 +1,30 @@
-import {useCallback, useMemo} from 'react';
+import {useState} from 'react';
 
+// Baseed on https://www.30secondsofcode.org/react/s/use-local-storage
+export function useLocalStorage<T>(keyName: string, defaultValue: T | undefined = undefined) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const value = window.localStorage.getItem(keyName);
 
-export function useLocalStorage<T>(name: string): [T | undefined, (i: T | undefined) => void] {
-  const fromStorage = localStorage.getItem(name);
-  const state = useMemo(() => {
-    if(!fromStorage) {
-      return undefined;
+      if(value) {
+        return JSON.parse(value);
+      }
+      else {
+        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
+        return defaultValue;
+      }
+    } catch(err) {
+      return defaultValue;
     }
-    return JSON.parse(fromStorage) as T;
-  }, [fromStorage]);
+  });
 
-  const setState = useCallback((i: T | undefined) => {
-    if(i === undefined) {
-      localStorage.removeItem(name);
+  const setValue = (newValue: T | undefined) => {
+    try {
+      window.localStorage.setItem(keyName, JSON.stringify(newValue));
+    } catch(err) {
     }
-    else {
-      localStorage.setItem(name, JSON.stringify(i));
-    }
-  }, [name]);
+    setStoredValue(newValue);
+  };
 
-  return [state, setState];
+  return [storedValue, setValue];
 }
