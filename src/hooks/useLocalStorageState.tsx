@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 // Baseed on https://www.30secondsofcode.org/react/s/use-local-storage
 export function useLocalStorage<T>(keyName: string, defaultValue: T | undefined = undefined) {
@@ -18,13 +18,13 @@ export function useLocalStorage<T>(keyName: string, defaultValue: T | undefined 
     }
   });
 
-  const setValue = (newValue: T | undefined) => {
+  const setValue = useCallback((newValue: T | undefined) => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue));
     } catch(err) {
     }
     setStoredValue(newValue);
-  };
+  }, [keyName]);
 
   return [storedValue, setValue];
 }
