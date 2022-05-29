@@ -36,7 +36,9 @@
       }
     },
     "contract": {
-      "title": "Create Contract"
+      "title": "Create Contract",
+      "filterPerson": "Filter person",
+      "storedPersons": "Stored persons"
     }
   },
   "calendar": {
@@ -49,5 +51,8 @@
     "errors": {
       "required": "* Required"
     }
+  },
+  "utils": {
+    "years": "Jahre"
   }
 }

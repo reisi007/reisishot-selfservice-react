@@ -1,12 +1,12 @@
 import {Field, FieldProps} from 'formik';
-import {HTMLInputTypeAttribute, ReactElement} from 'react';
+import {HTMLInputTypeAttribute, HTMLProps, ReactElement} from 'react';
 import {FormErrorProps, StyledInputField} from './StyledFields';
 
-type FormFieldProps = { label: string, name: string, className: string, required?: boolean }
-type TextFieldProps = { type?: HTMLInputTypeAttribute } & FormFieldProps
+type FormFieldProps = { label: string, name: string, className?: string, required?: boolean }
+type TextFieldProps = { type?: HTMLInputTypeAttribute } & FormFieldProps & Partial<HTMLProps<HTMLInputElement>>
 
-export function FormInput({label, name, className, required, type = 'text'}: TextFieldProps) {
-  return <Field name={name} type={type} label={label} required={required} className={className}
+export function FormInput({label, name, className = '', required, type = 'text', ...props}: TextFieldProps) {
+  return <Field {...props} name={name} type={type} label={label} required={required} className={className}
                 component={FormikFormInput}/>;
 }
 
