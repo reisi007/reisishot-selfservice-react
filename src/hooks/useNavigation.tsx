@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {useCallback} from 'react';
 
 type UrlPart = string | number | null | undefined;
@@ -8,7 +8,6 @@ type NavigationStep = { replaceHistory: boolean, replaceParams: boolean, newUrl:
 
 
 export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) => void] {
-  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -18,20 +17,17 @@ export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) 
                                        replaceHistory = false,
                                        replaceParams = false,
                                      }: Partial<NavigationStep>) => {
-    console.log(parameters, newUrlParts, replaceHistory, replaceParams);
-    const oldUrl = location.pathname;
     const newUrl = buildUrl(newUrlParts);
-    const changeParamsOnly = oldUrl === newUrl;
     const newParams = computeParams(searchParams, parameters, replaceParams);
 
-    if(changeParamsOnly || newUrl == null) {
+    if(newUrl == null) {
       setSearchParams(newParams);
     }
     else {
       navigate(newUrl, {replace: replaceHistory});
     }
 
-  }, [location, navigate, searchParams, setSearchParams]);
+  }, [navigate, searchParams, setSearchParams]);
 
   return [convertUrlSearchParams2Object(searchParams), setNavigation];
 }
