@@ -1,4 +1,3 @@
-import {useAdminLogin} from '../useAdminLogin';
 import {useTranslation} from 'react-i18next';
 import {MonthDataType, useChartDataPerMonth, useChartDataPerYear, YearDataType} from './statistics.api';
 import {Loadable} from '../../components/Loadable';
@@ -15,6 +14,7 @@ import {RealityCheck} from './charts/RealityCheck';
 import {StyledInputField} from '../../form/StyledFields';
 import {FormLabel} from '../../form/FormikFields';
 import {useNavigation} from '../../hooks/useNavigation';
+import {useAdminLogin} from '../AdminLoginContextProvider';
 
 export function Statistics() {
   const [loginInfo] = useAdminLogin();
