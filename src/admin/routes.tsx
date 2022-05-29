@@ -8,6 +8,7 @@ export function useAdminRoutes() {
   const AdminMenu = lazy(m => m.LazyAdminMenu);
   const Login = lazy(m => m.LoginPage);
   const Stats = lazy(m => m.StatisticsPage);
+  const Contracts = lazy(m => m.ContractsPage);
 
   const isUserLoggedIn = loginData !== undefined;
   return <Route path="/dashboard" element={
@@ -20,6 +21,7 @@ export function useAdminRoutes() {
     {isUserLoggedIn &&
      <>
          <Route path="statistics" element={<Stats/>}/>
+         <Route path="contracts" element={<Contracts/>}/>
      </>
     }
     <Route index element={<Login/>}/>

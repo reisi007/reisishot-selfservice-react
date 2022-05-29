@@ -7,12 +7,12 @@
   },
   "admin": {
     "login": {
-      "title": "Admin Area overview",
+      "title": "Admin Area",
       "user": "User",
       "password": "Password"
     },
     "statistics": {
-      "title": "Statistics overview",
+      "title": "Statistics",
       "settings": {
         "groups": "Show group shootings",
         "18+": "Show 18+ shootings only"
@@ -34,6 +34,9 @@
           "title": "Reality check"
         }
       }
+    },
+    "contract": {
+      "title": "Create Contract"
     }
   },
   "calendar": {

@@ -5,21 +5,20 @@ import {ResponsiveContainer} from '../../../components/ResponsiveContainer';
 import {CartesianGrid, DotProps, Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
 import {CHART_SETTINGS} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
-import {ReactElement, useMemo} from 'react';
+import {Fragment, ReactElement, useMemo} from 'react';
 import {ShootingTypeLegend} from './ShootingTypeLegend';
 
 
-type DefaultLineProps = { idx: number, shootingType: string, color: string };
+type DefaultLineProps = { shootingType: string, color: string };
 
-function DefaultLine(props: DefaultLineProps) {
-  const {idx, shootingType, color} = props;
-  const renderDot = (props: any) => CustomizedDot({...props});
+function renderDefaultLine(props: DefaultLineProps) {
+  const {shootingType, color} = props;
   return <Line
-    key={idx}
+    key={shootingType}
     strokeWidth="2px"
     dataKey={`data.${shootingType}`}
-    dot={renderDot}
-    activeDot={renderDot}
+    dot={CustomizedDot}
+    activeDot={CustomizedDot}
     name={shootingType}
     type="monotoneX"
     stroke={color}
@@ -28,16 +27,16 @@ function DefaultLine(props: DefaultLineProps) {
 
 const CustomizedDot = (props: DotProps & { value: number }): ReactElement<SVGElement> => {
   const {cx = 0, cy = 0, stroke, fill, key, value} = props;
-  return (
-    <svg key={key} x={cx - 4} y={cy - 4} width={8} height={8} fill="black">
-      <g transform="translate(4 4)">
-        {value > 0 && <>
-            <circle r="4" fill={stroke}/>
-            <circle r="2" fill={fill}/>
-        </>}
-      </g>
-    </svg>
-  );
+  return <Fragment key={key}>
+    {value > 0 && !Number.isNaN(cx) && !Number.isNaN(cy) &&
+     <svg x={cx - 4} y={cy - 4} width={8} height={8} fill="black">
+         <g transform="translate(4 4)">
+             <circle r="4" fill={stroke}/>
+             <circle r="2" fill={fill}/>
+         </g>
+     </svg>
+    }
+  </Fragment>;
 };
 
 export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps) {
@@ -49,7 +48,7 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
       return [s, value[s] ?? 0];
     })),
   })), [data]);
-  const renderLine = DefaultLine;
+  const renderLine = renderDefaultLine;
   return <>
     <h3>{t('admin.statistics.charts.absolutePerMonth.title')}</h3>
     <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
@@ -63,7 +62,7 @@ export function AbsolutePerMonth(monthData: MonthDataType & StatisticChartProps)
           {
             Object.entries(CHART_SETTINGS)
                   .filter(([shootingType]) => visibilities[shootingType] ?? true)
-                  .map(([shootingType, {color}], idx) => renderLine({idx, shootingType, color}))
+                  .map(([shootingType, {color}]) => renderLine({shootingType, color}))
           }
         </LineChart>
       }
