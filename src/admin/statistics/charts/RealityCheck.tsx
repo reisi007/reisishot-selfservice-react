@@ -44,17 +44,17 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
 
 type PieChartProps = { year: string, width: number, data: Array<{ value: number; key: string }>, visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType, totals: Totals }
 
-function PieChartChart({width, data, visibilities, totals, year}: PieChartProps) {
-  const min = width;
+function PieChartChart({width: rawWidth, data, visibilities, totals, year}: PieChartProps) {
+  const width = 0.9 * Math.min(rawWidth, window.innerHeight);
   const renderOuterPieChart = useRenderExpectationPieChart(width, visibilities);
   const renderInnerPieChart = useRenderMaxYearPieChart(width, visibilities, data, totals);
   return <PieChart
-    width={min}
-    height={min}
+    width={width}
+    height={width}
   >
     {renderOuterPieChart}
     {renderInnerPieChart}
-    <text x={min / 2} y={min / 2} className="text-3xl" stroke="black" textAnchor="middle" dominantBaseline="middle">
+    <text x={width / 2} y={width / 2} className="text-3xl" textAnchor="middle" dominantBaseline="middle">
       {year}
     </text>
   </PieChart>;

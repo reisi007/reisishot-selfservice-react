@@ -3,11 +3,10 @@ import {LoadingIndicator} from '../../LoadingIndicator';
 import {ShootingDateEntry, useCalendarData} from './login.api';
 import {Calendar} from '../../components/calendar/Calendar';
 import {useTranslation} from 'react-i18next';
-import {useAdminLogin} from '../useAdminLogin';
 import {LoginForm} from './LoginForm';
 import {Loadable} from '../../components/Loadable';
 import {useDebounce} from 'use-debounce';
-
+import {useAdminLogin} from '../AdminLoginContextProvider';
 
 function CalendarWithSlider({data}: { data: Array<ShootingDateEntry> }) {
   const {t} = useTranslation();

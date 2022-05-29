@@ -1,6 +1,6 @@
-import {useAdminLogin} from './useAdminLogin';
 import {Navigate, Outlet, Route} from 'react-router-dom';
 import {lazyInternal, ReactFunctionComponent} from '../lazy';
+import {useAdminLogin} from './AdminLoginContextProvider';
 
 export function useAdminRoutes() {
   const [loginData] = useAdminLogin();
@@ -10,14 +10,13 @@ export function useAdminRoutes() {
   const Stats = lazy(m => m.StatisticsPage);
   const Contracts = lazy(m => m.ContractsPage);
 
-  const isUserLoggedIn = loginData !== undefined;
+  const isUserLoggedIn = !!loginData;
   return <Route path="/dashboard" element={
     <>
-      <AdminMenu isUserLoggedIn={isUserLoggedIn}/>
+      <AdminMenu/>
       <Outlet/>
     </>
   }>
-
     {isUserLoggedIn &&
      <>
          <Route path="statistics" element={<Stats/>}/>
