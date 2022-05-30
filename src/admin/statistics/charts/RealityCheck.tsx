@@ -7,7 +7,8 @@ import {Cell, Pie, PieChart} from 'recharts';
 import {CHART_SETTINGS, ChartVisibilities, Totals} from '../../../charts/helper';
 import {useRelativePieChartLabel} from '../../../charts/PieChartLabel';
 import {SetChartVisibilityType, ShootingTypeLegend} from './ShootingTypeLegend';
-import './Pie.module.css';
+import './Recharts.module.css';
+import {useFontSize} from '../../../charts/textWidth';
 
 export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
   const {data: rawData, visibilities, setVisibilities} = yearData;
@@ -48,13 +49,16 @@ function PieChartChart({width: rawWidth, data, visibilities, totals, year}: PieC
   const width = 0.9 * Math.min(rawWidth, window.innerHeight);
   const renderOuterPieChart = useRenderExpectationPieChart(width, visibilities);
   const renderInnerPieChart = useRenderMaxYearPieChart(width, visibilities, data, totals);
+  const fontSize = useFontSize(year, width / 10);
   return <PieChart
     width={width}
     height={width}
   >
     {renderOuterPieChart}
     {renderInnerPieChart}
-    <text x={width / 2} y={width / 2} className="text-3xl" textAnchor="middle" dominantBaseline="middle">
+    <text x={width / 2} y={width / 2} style={{fontSize: `${fontSize}px`}}
+          textAnchor="middle"
+          dominantBaseline="middle">
       {year}
     </text>
   </PieChart>;

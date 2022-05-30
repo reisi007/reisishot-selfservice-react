@@ -16,11 +16,12 @@ export function AdminMenu() {
     return isUserLoggedIn ? allRoutes : [allRoutes[0]];
   }, [isUserLoggedIn, t]);
 
-  return <ul className="flex justify-evenly p-2 mb-2 list-none text-white bg-reisishot rounded-xl">
+  return <ul className="flex flex-wrap justify-evenly p-2 mb-2 list-none text-white bg-reisishot rounded-xl">
     {
       allRoutes.map(({title, url}) => {
-        return <li key={url}><NavLink className="px-2 text-white no-underline rounded-lg border-2"
-                                      to={`/dashboard/${url}`}>{title}</NavLink>
+        return <li key={url} className="basis-0 grow p-2 m-2 text-center rounded-lg border-2">
+          <NavLink className="inline-block w-full text-white no-underline whitespace-nowrap"
+                   to={`/dashboard/${url}`}>{title}</NavLink>
         </li>;
       })
     }

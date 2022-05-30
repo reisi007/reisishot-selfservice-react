@@ -3,7 +3,6 @@ import {Props} from 'recharts/types/component/DefaultLegendContent';
 import React, {MutableRefObject, useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {SetChartVisibilityType, ShootingTypeLegend} from '../admin/statistics/charts/ShootingTypeLegend';
 
-
 export type ChartVisibilities = { [p: string]: boolean };
 
 export function renderLegendOnTop(barVisibility: ChartVisibilities, setBarVisibility: SetChartVisibilityType) {
