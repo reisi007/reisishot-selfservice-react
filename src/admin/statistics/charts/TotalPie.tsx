@@ -39,14 +39,13 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
     );
   }, [data]);
   const renderLabel = useRelativePieChartLabel(totals, visibilities);
-
   const {t} = useTranslation();
   return <>
     <h3>{t('admin.statistics.charts.total.title')}</h3>
     <ShootingTypeLegend visibilities={visibilities} setVisibilities={setVisibilities}/>
     <ResponsiveContainer>
       {rawWidth => {
-        const width = 0.9 * Math.min(rawWidth, window.innerHeight, window.innerWidth);
+        const width = 0.95 * Math.min(rawWidth, window.innerHeight, window.innerWidth);
         return <PieChart width={width} height={width}>
           <Tooltip content={withAbsoluteTooltip(totals, visibilities)}/>
           <Pie
@@ -54,6 +53,7 @@ export function TotalPie(yearData: YearDataType & StatisticChartProps) {
             outerRadius={1 / 2 * width}
             labelLine={false}
             label={renderLabel}
+            isAnimationActive={false} // Needed because of https://github.com/recharts/recharts/issues/829#issuecomment-1117950598
             dataKey="value"
           >
             {
