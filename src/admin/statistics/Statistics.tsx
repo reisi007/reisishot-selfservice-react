@@ -51,7 +51,7 @@ function DisplayDiagramsPerMonth(monthData: MonthDataType & StatisticChartProps)
 }
 
 function useStatisticPanelData() {
-  const [{showMinor: showMinorString = 'true', showGroups: showGroupsString = 'true'}] = useNavigation();
+  const [{showMinors: showMinorString = 'true', showGroups: showGroupsString = 'true'}] = useNavigation();
   const only18 = !(showMinorString === 'true');
   const showGroups = showGroupsString === 'true';
   return {only18, showGroups};
@@ -66,7 +66,7 @@ function StatisticDataPanel() {
     <FormLabel name="18+" label={t('admin.statistics.settings.18+')} required={false}>
       <>
         <StyledInputField checked={only18}
-                          onChange={(e) => navigation({parameters: {showMinor: (!e.currentTarget.checked).toString()}})}
+                          onChange={(e) => navigation({parameters: {showMinors: (!e.currentTarget.checked).toString()}})}
                           name="18+" error="" type="checkbox"/>&nbsp;
       </>
     </FormLabel>
@@ -91,7 +91,7 @@ function LoadDiagrams(loginData: LoginData) {
     });
   }, [setVisibilitiesInternal]);
   const {only18, showGroups} = useStatisticPanelData();
-  const params = useMemo(() => ({showMinor: !only18, showGroups}), [only18, showGroups]);
+  const params = useMemo(() => ({showMinors: !only18, showGroups}), [only18, showGroups]);
   const yearResult = useChartDataPerYear(loginData, params);
   const monthResult = useChartDataPerMonth(loginData, params);
   const {t} = useTranslation();
