@@ -46,10 +46,10 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
 type PieChartProps = { year: string, width: number, data: Array<{ value: number; key: string }>, visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType, totals: Totals }
 
 function PieChartChart({width: rawWidth, data, visibilities, totals, year}: PieChartProps) {
-  const width = 0.9 * Math.min(rawWidth, window.innerHeight);
+  const width = 0.95 * Math.min(rawWidth, window.innerHeight);
   const renderOuterPieChart = useRenderExpectationPieChart(width, visibilities);
   const renderInnerPieChart = useRenderMaxYearPieChart(width, visibilities, data, totals);
-  const fontSize = useFontSize(year, width / 10);
+  const fontSize = useFontSize(year, {maxWidth: width / 10});
   return <PieChart
     width={width}
     height={width}
@@ -74,6 +74,7 @@ function useRenderMaxYearPieChart(size: number, visibilities: ChartVisibilities,
     outerRadius={3 / 10 * size}
     labelLine={false}
     label={renderLabel}
+    isAnimationActive={false} // Needed because of https://github.com/recharts/recharts/issues/829#issuecomment-1117950598
     dataKey="value"
   >
     {
@@ -102,6 +103,7 @@ function useRenderExpectationPieChart(size: number, visibilities: ChartVisibilit
     outerRadius={1 / 2 * size}
     labelLine={false}
     label={renderLabel}
+    isAnimationActive={false} // Needed because of https://github.com/recharts/recharts/issues/829#issuecomment-1117950598
     dataKey="value"
   >
     {

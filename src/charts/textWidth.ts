@@ -4,11 +4,15 @@ let canvas: HTMLCanvasElement | undefined = undefined;
 const ALL_FONT_SIZES = Array.from({length: 100}, (_, i) => 6 + i);
 
 
-export function useFontSize(text: string, maxWidth: number) {
+export function useFontSize(text: string, {maxHeight, maxWidth}: { maxWidth?: number, maxHeight?: number }) {
   return useMemo(() => {
-    const idx = binarySearch(ALL_FONT_SIZES, (i) => getTextWidth(text, getFontSizeOf({size: `${i}px`})) > maxWidth);
+    const idx = binarySearch(ALL_FONT_SIZES, (i) => {
+      const textMetrics = getTextMetrics(text, getFontSizeOf({size: `${i}px`}));
+      const height = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+      return (!maxWidth || textMetrics.width > maxWidth) && (!maxHeight || height > maxHeight);
+    });
     return ALL_FONT_SIZES[idx];
-  }, [maxWidth, text]);
+  }, [maxHeight, maxWidth, text]);
 }
 
 /**
@@ -19,7 +23,7 @@ export function useFontSize(text: string, maxWidth: number) {
  *
  * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
  */
-function getTextWidth(text: string, font: string): number {
+function getTextMetrics(text: string, font: string): TextMetrics {
   // re-use canvas object for better performance
   if(canvas === undefined) {
     canvas = document.createElement('canvas');
@@ -29,8 +33,7 @@ function getTextWidth(text: string, font: string): number {
     throw Error('No 2D context found');
   }
   context.font = font;
-  const metrics = context.measureText(text);
-  return metrics.width;
+  return context.measureText(text);
 }
 
 function getCssStyle(element: HTMLElement, prop: string) {
