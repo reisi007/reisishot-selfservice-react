@@ -53,6 +53,7 @@
     }
   },
   "utils": {
-    "years": "Jahre"
+    "years": "Years",
+    "saveImg": "Save as Image"
   }
 }

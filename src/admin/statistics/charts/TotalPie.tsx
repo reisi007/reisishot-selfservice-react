@@ -7,8 +7,8 @@ import React, {useMemo} from 'react';
 import {useRelativePieChartLabel} from '../../../charts/PieChartLabel';
 import {CHART_SETTINGS} from '../../../charts/helper';
 import {withAbsoluteTooltip} from '../../../charts/Tooltips';
-import './Pie.module.css';
 import {ShootingTypeLegend} from './ShootingTypeLegend';
+import './Recharts.module.css';
 
 export function TotalPie(yearData: YearDataType & StatisticChartProps) {
   const {data: rawData, visibilities, setVisibilities} = yearData;
