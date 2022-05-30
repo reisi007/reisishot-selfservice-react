@@ -12,17 +12,17 @@ export type ShootingStatisticsResponse = {
   }
 }
 
-export type StatisticsFetchSettings = { showMinor: boolean; showGroups: boolean };
+export type StatisticsFetchSettings = { showMinors: boolean; showGroups: boolean };
 export type YearDataType = ReturnType<typeof convertYearData>
 export type MonthDataType = ReturnType<typeof convertMonthData>
 
-export function useChartDataPerYear(loginData: LoginData, {
-  showGroups,
-  showMinor,
-}: { showMinor: boolean, showGroups: boolean }): [ResponseValues<YearDataType, unknown, unknown>] {
+export function useChartDataPerYear(
+  loginData: LoginData,
+  {showGroups, showMinors}: StatisticsFetchSettings,
+): [ResponseValues<YearDataType, unknown, unknown>] {
   const [{data: rawData, loading, error}] = useFetch<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_get.php',
-    urlParams: {showGroups: String(showGroups), showMinor: String(showMinor)},
+    urlParams: {showGroups: String(showGroups), showMinors: String(showMinors)},
     headers: createHeader(loginData),
   });
 
@@ -64,12 +64,12 @@ const convertMonthData = (rawData: ShootingStatisticsResponse): { data: Shooting
 };
 
 export function useChartDataPerMonth(loginData: LoginData, {
-  showMinor,
+  showMinors,
   showGroups,
 }: StatisticsFetchSettings): [ResponseValues<MonthDataType, unknown, unknown>] {
   const [{data: rawData, loading, error}] = useFetch<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_month_get.php',
-    urlParams: {showGroups: String(showGroups), showMinor: String(showMinor)},
+    urlParams: {showGroups: String(showGroups), showMinor: String(showMinors)},
     headers: createHeader(loginData),
   });
 
