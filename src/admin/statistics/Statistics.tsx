@@ -15,6 +15,7 @@ import {StyledInputField} from '../../form/StyledFields';
 import {FormLabel} from '../../form/FormikFields';
 import {useNavigation} from '../../hooks/useNavigation';
 import {useAdminLogin} from '../AdminLoginContextProvider';
+import {Savable} from '../../charts/Savable';
 
 export function Statistics() {
   const [loginInfo] = useAdminLogin();
@@ -26,7 +27,12 @@ export type StatisticChartProps = { visibilities: ChartVisibilities, setVisibili
 function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
   return <>
     {[RealityCheck, AbsolutePerYear, RelativePerYear, TotalPie].map((Chart, i) =>
-      <div className="my-8" key={i}><Chart {...yearData}  /></div>)
+      <div className="my-8" key={i}>
+        <Savable>
+          <><Chart {...yearData}  /></>
+        </Savable>
+      </div>,
+    )
     }
   </>;
 }
@@ -34,7 +40,12 @@ function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
 function DisplayDiagramsPerMonth(monthData: MonthDataType & StatisticChartProps) {
   return <>
     {[AbsolutePerMonth].map((Chart, i) =>
-      <div className="my-8" key={i}><Chart {...monthData} /></div>)
+      <div className="my-8" key={i}>
+        <Savable>
+          <><Chart {...monthData} /></>
+        </Savable>
+      </div>,
+    )
     }
   </>;
 }
