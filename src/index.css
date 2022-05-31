@@ -32,6 +32,25 @@
     ol {
         @apply list-decimal list-inside
     }
+
+    button {
+        @apply transition-colors duration-150 focus:ring disabled:opacity-75 disabled:bg-gray-600 disabled:text-gray-200;
+        cursor: pointer
+    }
+
+    /* Select field placeholder styling */
+    select:required:invalid {
+        @apply text-gray-500;
+    }
+
+    option[disabled] {
+        @apply text-gray-500
+    }
+
+    option {
+        @apply text-black
+    }
+
 }
 
 @layer components {
@@ -41,5 +60,10 @@
 
     .container {
         @apply mx-auto  w-full sm:w-[540px] md:w-[720px] lg:w-[960px] xl:w-[1140px] xxl:w-[1320px]
+    }
+
+    input[type='date']:before {
+        color: #aaa;
+        content: attr(data-date-placeholder) ':\00a0';
     }
 }

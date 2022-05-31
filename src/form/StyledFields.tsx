@@ -1,10 +1,11 @@
 import {HTMLProps} from 'react';
 import classNames from 'classnames';
-import {FormikErrors} from 'formik';
 
-export type FormErrorProps = { error: string | FormikErrors<unknown> | string[] | FormikErrors<unknown>[] | undefined };
+export type FormErrorProps = { error: string | string[] | false };
 
-export function StyledInputField(props: Omit<HTMLProps<HTMLInputElement>, 'className'> & FormErrorProps) {
+type StyledInputFieldProps = Omit<HTMLProps<HTMLInputElement>, 'className'> & FormErrorProps;
+
+export function StyledInputField(props: StyledInputFieldProps) {
   const {error, name} = props;
   const conditionalClassNames = classNames({
     'border-red-500': !!error,
@@ -13,3 +14,20 @@ export function StyledInputField(props: Omit<HTMLProps<HTMLInputElement>, 'class
   return <input {...props} id={name}
                 className={`p-2 border accent-reisishot border-gray-200 rounded-lg ${conditionalClassNames}`}/>;
 }
+
+type StyledSelectFieldProps = Omit<HTMLProps<HTMLSelectElement>, 'className'> & FormErrorProps & SelectOptionProps;
+
+export function StyledSelectField(rawProps: StyledSelectFieldProps) {
+  const {error, name, options, disabledOption, ...props} = rawProps;
+  const conditionalClassNames = classNames({
+    'border-red-500': !!error,
+  });
+
+  return <select {...props} id={name}
+                 className={`p-2 border accent-reisishot border-gray-200 rounded-lg ${conditionalClassNames}`}>
+    {!!disabledOption && <option value="" disabled>{disabledOption}</option>}
+    {options.map(({key, displayValue}) => <option value={key} key={key}>{displayValue}</option>)}
+  </select>;
+}
+
+export type SelectOptionProps = { options: Array<{ key: string, displayValue: string }>, disabledOption?: string }

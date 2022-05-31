@@ -5,6 +5,7 @@ import {LoginData} from '../login/login.api';
 import {ResponseValues} from 'axios-hooks';
 import {Totals} from '../../charts/helper';
 import dayjs from 'dayjs';
+import {sumValues} from './statistics.utils';
 
 export type ShootingStatisticsResponse = {
   [key: string]: {
@@ -39,7 +40,7 @@ export function useChartDataPerYear(
 const convertYearData = (data: ShootingStatisticsResponse): { data: ShootingStatisticsResponse, totals: Totals } => {
   const totals = Object.fromEntries(
     Object.entries(data)
-          .map(([key, value]) => [key, sum(value)]),
+          .map(([key, value]) => [key, sumValues(value)]),
   );
   return {data, totals};
 };
@@ -56,7 +57,7 @@ const convertMonthData = (rawData: ShootingStatisticsResponse): { data: Shooting
   const totals = Object.fromEntries(
     Object.entries(data)
           .map(([key, value]) => {
-            return [key, sum(value)];
+            return [key, sumValues(value)];
           }),
   );
 
@@ -81,8 +82,4 @@ export function useChartDataPerMonth(loginData: LoginData, {
   }, [rawData]);
 
   return [{data: convertedData, loading, error}];
-}
-
-function sum(value: { [p: string]: number }) {
-  return Object.values(value).reduce((a, b) => a + b, 0);
 }

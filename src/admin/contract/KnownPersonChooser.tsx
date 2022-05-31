@@ -19,7 +19,7 @@ export function KnownPersonChooser({onPersonSelected}: Props) {
   }}>
     {formik => {
       const search = formik.values.search;
-      return <>
+      return <div className="px-2 mx-2 rounded-xl border">
         <div className="block mx-auto w-11/12 sm:w-1/2">
           <span className="flex justify-center">
             <FormInput name="search" label={t('admin.contract.filterPerson')}/>
@@ -34,7 +34,7 @@ export function KnownPersonChooser({onPersonSelected}: Props) {
         {loginData !== undefined &&
          <KnownPersonDisplayChooser search={search} onPersonSelected={onPersonSelected} loginData={loginData}/>
         }
-      </>;
+      </div>;
     }
     }
   </Formik>;

@@ -11,6 +11,7 @@ declare module 'react-i18next' {
   }
 }
 
+// const ensureAllKeysAreInGerman: typeof en_US = de_AT // Uncomment to check that the German translation has all keys of the english one
 
 i18n
   // detect user language
@@ -26,7 +27,7 @@ i18n
       de: {translation: de_AT},
     },
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
