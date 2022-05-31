@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
 import {Form, Formik} from 'formik';
-import * as Yup from 'yup';
+import {object as validateObject} from 'yup';
 import {useTranslation} from 'react-i18next';
 import {FormikHelpers} from 'formik/dist/types';
 import {FormInput} from '../../form/FormikFields';
 import {SubmitButton} from '../../components/SubmitButton';
 import {LoginData, LoginFormData, useLoginUser} from './login.api';
+import {requiredString} from '../../yupHelper';
 
 type Props = { data?: LoginData, setData: (i: LoginData | undefined) => void } & React.HTMLProps<HTMLDivElement>
 
@@ -23,11 +24,9 @@ export function LoginForm({data, setData, ...divProps}: Props) {
 
     <Formik<LoginFormData>
       initialValues={{user: '', pwd: ''}}
-      validationSchema={Yup.object({
-        user: Yup.string()
-                 .required(t('form.errors.required')),
-        pwd: Yup.string()
-                .required(t('form.errors.required')),
+      validationSchema={validateObject({
+        user: requiredString(),
+        pwd: requiredString(),
       })}
       onSubmit={onSubmit}
     >{
