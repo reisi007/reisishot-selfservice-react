@@ -14,12 +14,14 @@ export function RealityCheck(yearData: YearDataType & StatisticChartProps) {
   const {data: rawData, visibilities, setVisibilities} = yearData;
   const maxYear = useMemo(() => Math.max(...Object.keys(rawData).map(e => parseInt(e, 10))).toString(10), [rawData]);
   const data = useMemo(() => {
-    return Object.keys(CHART_SETTINGS).map((shootingType) => {
-      return {key: shootingType, value: rawData[maxYear][shootingType] ?? 0};
-    });
-  }, [rawData, maxYear]);
+    return Object.keys(CHART_SETTINGS)
+                 .filter((shootingType) => visibilities[shootingType] ?? true)
+                 .map((shootingType) => {
+                   return {key: shootingType, value: rawData[maxYear][shootingType] ?? 0};
+                 });
+  }, [visibilities, rawData, maxYear]);
   const totals = useMemo(() => {
-    const sum = data.map(e => e.value)
+    const sum = data.map(({value}) => value)
                     .reduce((a, b) => a + b, 0);
     return Object.fromEntries(data.map(({key}) => ([key, sum])));
   }, [data]);
@@ -78,10 +80,9 @@ function useRenderMaxYearPieChart(size: number, visibilities: ChartVisibilities,
     dataKey="value"
   >
     {
-      filteredData.map(e => e.key)
-                  .map(shootingType => {
-                    return <Cell key={shootingType} name={shootingType} fill={CHART_SETTINGS[shootingType].color}/>;
-                  })
+      filteredData.map(({key: shootingType}) => {
+        return <Cell key={shootingType} name={shootingType} fill={CHART_SETTINGS[shootingType].color}/>;
+      })
     }
   </Pie>;
 }
@@ -92,9 +93,13 @@ function useRenderExpectationPieChart(size: number, visibilities: ChartVisibilit
           .filter(([shootingType]) => visibilities[shootingType] ?? true)
           .map(([key, {expectedPercentage: value}]) => ({key, value})), [visibilities]);
 
-  const totals: Totals = useMemo(() =>
-      Object.fromEntries(Object.keys(CHART_SETTINGS).map(k => [k, 100]))
-    , []);
+  const totals: Totals = useMemo(() => {
+      const total = data.map(e => e.value).reduce((a, b) => a + b, 0);
+      return Object.fromEntries(
+        data.map(({key}) => [key, total]),
+      );
+    }
+    , [data]);
 
   const renderLabel = useRelativePieChartLabel(totals, visibilities, 0.5);
   return <Pie

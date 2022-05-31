@@ -38,7 +38,9 @@
     "contract": {
       "title": "Create Contract",
       "filterPerson": "Filter person",
-      "storedPersons": "Stored persons"
+      "storedPersons": "Stored persons",
+      "selectContract": "Select Contract",
+      "dueDate": "Due date"
     }
   },
   "calendar": {
@@ -49,11 +51,28 @@
   "form": {
     "submit": "Submit",
     "errors": {
-      "required": "* Required"
+      "required": "* Required",
+      "date": {
+        "requireFutureDate": "Date must be in the future",
+        "requirePastDate": "Date must be further in the past"
+      },
+      "email": "Email is invalid"
     }
   },
   "utils": {
     "years": "Years",
     "saveImg": "Save as Image"
+  },
+  "person": {
+    "firstname": "First name",
+    "lastname": "Last name",
+    "email": "Email",
+    "birthday": {
+      "title": "Birthday",
+      "placeholder": {
+        "supported": "Your birthday",
+        "unsupported": "${person.birthday.supported} (YYYY-MM-DD)"
+      }
+    }
   }
 }

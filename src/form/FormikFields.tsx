@@ -1,23 +1,50 @@
-import {Field, FieldProps} from 'formik';
+import {Field, FieldProps, getIn} from 'formik';
 import {HTMLInputTypeAttribute, HTMLProps, ReactElement} from 'react';
-import {FormErrorProps, StyledInputField} from './StyledFields';
+import {FormErrorProps, SelectOptionProps, StyledInputField, StyledSelectField} from './StyledFields';
+import {FormikProps} from 'formik/dist/types';
 
 type FormFieldProps = { label: string, name: string, className?: string, required?: boolean }
 type TextFieldProps = { type?: HTMLInputTypeAttribute } & FormFieldProps & Partial<HTMLProps<HTMLInputElement>>
+type SelectFieldProps =
+  & SelectOptionProps
+  & FormFieldProps
+  & Partial<HTMLProps<HTMLSelectElement>>
 
-export function FormInput({label, name, className = '', required, type = 'text', ...props}: TextFieldProps) {
-  return <Field {...props} name={name} type={type} label={label} required={required} className={className}
+export function FormInput({label, name, required, type = 'text', ...props}: TextFieldProps) {
+  return <Field {...props} name={name} type={type} label={label} required={required}
                 component={FormikFormInput}/>;
 }
 
-function FormikFormInput({label, field, form, required = false, ...props}: TextFieldProps & FieldProps) {
-  const name = field.name;
-  const error = form.touched[name] && form.errors[name];
+function getError(form: FormikProps<unknown>, name: string): false | string | Array<string> {
+  return getIn(form.touched, name) && getIn(form.errors, name);
+}
 
-  return <span className="inline-flex flex-col">
+function FormikFormInput({label, field, form, required = false, ...restProps}: TextFieldProps & FieldProps) {
+  const name = field.name;
+  const error = getError(form, name);
+  const {className = '', ...props} = restProps;
+
+  return <span className={'inline-flex flex-col ' + className}>
     <FormLabel name={name} label={label} required={required}/>
     <StyledInputField {...field} {...props} error={error} required={required}/>
-    {error && <FormError error={error}/>}
+     <FormError error={error}/>
+  </span>;
+}
+
+export function FormSelect({label, name, required, type = 'text', ...props}: SelectFieldProps) {
+  return <Field {...props} name={name} type={type} label={label} required={required}
+                component={FormikSelectInput}/>;
+}
+
+function FormikSelectInput({label, field, form, required = false, ...restProps}: SelectFieldProps & FieldProps) {
+  const name = field.name;
+  const error = getError(form, name);
+  const {className = '', ...props} = restProps;
+
+  return <span className={'inline-flex flex-col ' + className}>
+    <FormLabel name={name} label={label} required={required}/>
+    <StyledSelectField {...field} {...props} error={error} required={required}/>
+    <FormError error={error}/>
   </span>;
 }
 
@@ -29,10 +56,9 @@ export function FormLabel({name, label, required, children}: FormLabelProps) {
   </label>;
 }
 
-export function FormError({error: _error}: FormErrorProps) {
-  let error: string = '';
-  if(typeof _error === 'string') {
-    error = _error;
-  }
-  return <>{error && <span className="ml-2 text-red-500 opacity-80">{error}</span>}</>;
+export function FormError({error}: FormErrorProps) {
+  return <>{error && <span
+      className="ml-2 text-red-500 opacity-80">{typeof error === 'string' ? error : error.join(', ')}</span>}</>;
 }
+
+
