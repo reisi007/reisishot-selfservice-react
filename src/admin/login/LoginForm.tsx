@@ -37,7 +37,7 @@ export function LoginForm({data, setData, ...divProps}: Props) {
             <FormInput name="pwd" required className="w-full md:w-1/2" type="password"
                        label={t('admin.login.password')}/>
           </div>
-          <SubmitButton isValid={formik.isValid} isDirty={formik.dirty}/>
+          <SubmitButton formik={formik}/>
         </Form>
     }
 

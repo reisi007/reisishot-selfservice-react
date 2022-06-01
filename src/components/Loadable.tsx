@@ -10,10 +10,18 @@ type Props<TResponse> = {
   className?: string
 }
 
+export function DefaultErrorElement({error, className = ''}: {
+  error: AxiosError<unknown, unknown>
+  className?: string
+}) {
+  return <span
+    className={`text-red-500 opacity-80 ${className}`}>{`${error.code} ${error.message}`}</span>;
+}
+
 export function Loadable<TResponse>({
                                       result,
                                       loadingElement,
-                                      errorElement = (e) => <>{`${e.code} ${e.message}`}</>,
+                                      errorElement = (e) => <DefaultErrorElement error={e}/>,
                                       displayData,
                                       className = '',
                                     }: Props<TResponse>) {

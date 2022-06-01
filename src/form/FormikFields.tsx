@@ -24,7 +24,7 @@ function FormikFormInput({label, field, form, required = false, ...restProps}: T
   const error = getError(form, name);
   const {className = '', ...props} = restProps;
 
-  return <span className={'inline-flex flex-col ' + className}>
+  return <span className={'flex flex-col ' + className}>
     <FormLabel name={name} label={label} required={required}/>
     <StyledInputField {...field} {...props} error={error} required={required}/>
      <FormError error={error}/>
@@ -41,7 +41,7 @@ function FormikSelectInput({label, field, form, required = false, ...restProps}:
   const error = getError(form, name);
   const {className = '', ...props} = restProps;
 
-  return <span className={'inline-flex flex-col ' + className}>
+  return <span className={'flex flex-col ' + className}>
     <FormLabel name={name} label={label} required={required}/>
     <StyledSelectField {...field} {...props} error={error} required={required}/>
     <FormError error={error}/>
