@@ -26,8 +26,8 @@ export function StyledSelectField(rawProps: StyledSelectFieldProps) {
   return <select {...props} id={name}
                  className={`p-2 border accent-reisishot border-gray-200 rounded-lg ${conditionalClassNames}`}>
     {!!disabledOption && <option value="" disabled>{disabledOption}</option>}
-    {options.map(({key, displayValue}) => <option value={key} key={key}>{displayValue}</option>)}
+    {options.map(({key, displayName}) => <option value={key} key={key}>{displayName}</option>)}
   </select>;
 }
 
-export type SelectOptionProps = { options: Array<{ key: string, displayValue: string }>, disabledOption?: string }
+export type SelectOptionProps = { options: Array<{ key: string, displayName: string }>, disabledOption?: string }

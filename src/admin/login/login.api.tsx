@@ -30,6 +30,9 @@ export function useCalendarData(loginData?: LoginData) {
 export function useLoginUser() {
   const put = useFetch<LoginResponse>({url: '/api/admin_login_post.php', options: {manual: true}})[1];
   return useCallback(({user, pwd}: LoginFormData) => {
-    return put({headers: createHeader({user, auth: pwd})});
+    return put({
+      headers: createHeader({user, auth: pwd}),
+      method: 'put',
+    });
   }, [put]);
 }

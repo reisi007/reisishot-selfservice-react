@@ -30,8 +30,10 @@ export default function Root() {
       {
         items.map(({url, title}) =>
           <Link key={url} to={url}>
-            <Button text={title}
-                    className="p-4 my-4 w-full text-xl font-light text-black hover:text-white hover:bg-reisishot border-reisishot"/>
+            <Button
+              className="p-4 my-4 w-full text-xl font-light text-black hover:text-white hover:bg-reisishot border-reisishot">
+              <>{title}</>
+            </Button>
           </Link>)
       }
     </div>

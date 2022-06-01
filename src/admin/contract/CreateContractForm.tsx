@@ -9,14 +9,30 @@ import {SubmitButton} from '../../components/SubmitButton';
 import {requiredString, validateDateString} from '../../yupHelper';
 import {array as validateArray, object as validateObject} from 'yup';
 import dayjs from 'dayjs';
+import {useContractFilenames, useCreateContract} from './contract.api';
+import {Loadable} from '../../components/Loadable';
+import {LoadingIndicator} from '../../LoadingIndicator';
+import {useAdminLogin} from '../AdminLoginContextProvider';
 
 export function CreateContractForm() {
   const {t} = useTranslation();
+  const [submitState, submitContract] = useCreateContract();
+  const [loginData] = useAdminLogin();
 
-  const onSubmit: (values: CreateContract, formikHelpers: FormikHelpers<CreateContract>) => void | Promise<any> = useCallback(async (values, {setSubmitting}) => {
-    console.log(values);
+  const onSubmit: (values: CreateContract, formikHelpers: FormikHelpers<CreateContract>) => void | Promise<any> = useCallback(async (values, {
+    setSubmitting,
+    resetForm,
+  }) => {
     setSubmitting(false);
-  }, []);
+    if(!loginData) {
+      return;
+    }
+
+    submitContract(values, loginData).then(resetForm);
+
+  }, [loginData, submitContract]);
+
+  const contractData = useContractFilenames();
 
   return <div className="py-2 mx-auto w-full rounded-lg border border-gray-200 md:w-1/2">
     <h3 className="mb-2">{t('admin.contract.storedPersons')}</h3>
@@ -25,6 +41,7 @@ export function CreateContractForm() {
       dueDate: '',
       persons: [createPerson()],
       text: '',
+      baseUrl: window.location.host,
     }}
                             validationSchema={validateObject({
                               contractType: requiredString(),
@@ -52,14 +69,12 @@ export function CreateContractForm() {
               <KnownPersonChooser onPersonSelected={p => arrayHelper.insert(0, p)}/>
               <div className="flex justify-around m-4 mx-auto w-full md:w-1/3">
                 <button onClick={() => {
-                  console.count('Add person');
                   arrayHelper.push(createPerson());
                 }}
                         className="p-4 w-14 text-center bg-reisishot rounded-xl">+
                 </button>
                 <button onClick={() => {
                   if(formik.values.persons.length > 1) {
-                    console.count('Remove person');
                     arrayHelper.pop();
                   }
                 }}
@@ -73,20 +88,18 @@ export function CreateContractForm() {
             }
           </FieldArray>
           <div>
-            <FormSelect options={[
-              {key: 'Test 1', displayValue: 'Display data 1'},
-              {key: 'Test 2', displayValue: 'Display data 2'},
-            ]}
-
-                        className="w-full" label={t('admin.contract.selectContract')} required
-                        name="contractType" disabledOption={t('admin.contract.selectContract')}/>
+            <Loadable result={contractData} loadingElement={<LoadingIndicator height="2rem"/>} displayData={
+              data => <FormSelect options={data}
+                                  className="w-full" label={t('admin.contract.selectContract')} required
+                                  name="contractType" disabledOption={t('admin.contract.selectContract')}/>
+            }/>
           </div>
           <div>
             <FormInput className="w-full" label={t('admin.contract.dueDate')}
                        required name="dueDate" type="datetime-local"/>
           </div>
           <div className="mx-4">
-            <SubmitButton isValid={formik.isValid} isDirty={formik.dirty}/>
+            <SubmitButton requestInfo={submitState} formik={formik}/>
           </div>
         </div>
       }
@@ -126,4 +139,5 @@ export type CreateContract = {
   contractType: string;
   text: string;
   dueDate: string;
+  baseUrl: string;
 }
