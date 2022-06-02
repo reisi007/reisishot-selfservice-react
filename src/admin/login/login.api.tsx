@@ -1,9 +1,8 @@
 import {useCallback, useMemo} from 'react';
 import {useFetch} from '../../http';
 import {createHeader} from '../admin.api';
+import {LoginData} from './LoginData';
 
-
-export type LoginData = { user: string, auth: string }
 export type LoginFormData = { user: string, pwd: string }
 export type LoginResponse = { user: string, hash: string }
 
