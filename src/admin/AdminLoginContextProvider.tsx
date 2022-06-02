@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useMemo} from 'react';
-import {LoginData} from './login/login.api';
 import {useLocalStorage} from '../hooks/useLocalStorageState';
+import {LoginData} from './login/LoginData';
 
 type AdminLoginContextType = ReturnType<typeof usePersistedAdminLogin>;
 const AdminLoginContext = createContext<AdminLoginContextType>(

@@ -1,10 +1,15 @@
-export type PdoEmulatedPrepared<T extends object> = {
-  [Key in keyof T]: T[Key] extends Object ? PdoEmulatedPrepared<T[Key]>
-                                          : (
-                      T[Key] extends boolean ? MapKeepOptional<T[Key], '0' | '1'>
-                                             : (
-                        T[Key] extends number ? MapKeepOptional<T[Key], `${number}`> : MapKeepOptional<T[Key], string>
-                        )
-                      )
-}
-type MapKeepOptional<Source, Target> = Source extends undefined ? Target | undefined : Target;
+export type PdoEmulatedPrepared<T> =
+  T extends (infer E)[] ? Array<PdoEmulatedPrepared<E>> : (
+    T extends object ? {
+      [Key in keyof T]: PdoEmulatedPrepared<T[Key]>
+    } : MapPrimitive<T>
+    )
+
+type MapPrimitive<T> =
+  T extends boolean ? MapKeepOptional<T, '0' | '1'> :
+  (
+    T extends number ? `${number}` : MapKeepOptional<T, string>
+    )
+
+type MapKeepOptional<Source, Target> = Source extends undefined ? Target | undefined : (
+  Source extends null ? Target | null : Target);

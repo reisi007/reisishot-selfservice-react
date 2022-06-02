@@ -1,11 +1,11 @@
 import {createHeader} from '../admin.api';
 import {useFetch} from '../../http';
 import {useMemo} from 'react';
-import {LoginData} from '../login/login.api';
 import {ResponseValues} from 'axios-hooks';
 import {Totals} from '../../charts/helper';
 import dayjs from 'dayjs';
 import {sumValues} from './statistics.utils';
+import {LoginData} from '../login/LoginData';
 
 export type ShootingStatisticsResponse = {
   [key: string]: {

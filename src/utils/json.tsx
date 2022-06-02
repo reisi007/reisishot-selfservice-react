@@ -1,3 +1,3 @@
 export function formatJson(data: unknown) {
-  return JSON.stringify(data, undefined, 4);
+  return JSON.stringify(data, undefined, 2);
 }

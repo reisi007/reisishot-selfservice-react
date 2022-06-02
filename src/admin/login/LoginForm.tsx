@@ -5,8 +5,9 @@ import {useTranslation} from 'react-i18next';
 import {FormikHelpers} from 'formik/dist/types';
 import {FormInput} from '../../form/FormikFields';
 import {SubmitButton} from '../../components/SubmitButton';
-import {LoginData, LoginFormData, useLoginUser} from './login.api';
+import {LoginFormData, useLoginUser} from './login.api';
 import {requiredString} from '../../yupHelper';
+import {LoginData} from './LoginData';
 
 type Props = { data?: LoginData, setData: (i: LoginData | undefined) => void } & React.HTMLProps<HTMLDivElement>
 
