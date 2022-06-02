@@ -12,12 +12,11 @@ import dayjs from 'dayjs';
 import {useContractFilenames, useCreateContract} from './contract.api';
 import {Loadable} from '../../components/Loadable';
 import {LoadingIndicator} from '../../LoadingIndicator';
-import {useAdminLogin} from '../AdminLoginContextProvider';
+import {LoginDataProps} from '../login/LoginData';
 
-export function CreateContractForm() {
+export function CreateContractForm({loginData}: LoginDataProps) {
   const {t} = useTranslation();
   const [submitState, submitContract] = useCreateContract();
-  const [loginData] = useAdminLogin();
 
   const onSubmit: (values: CreateContract, formikHelpers: FormikHelpers<CreateContract>) => void | Promise<any> = useCallback(async (values, {
     setSubmitting,

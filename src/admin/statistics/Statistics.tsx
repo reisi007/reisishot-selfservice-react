@@ -2,7 +2,6 @@ import {useTranslation} from 'react-i18next';
 import {MonthDataType, useChartDataPerMonth, useChartDataPerYear, YearDataType} from './statistics.api';
 import {Loadable} from '../../components/Loadable';
 import {LoadingIndicator} from '../../LoadingIndicator';
-import {LoginData} from '../login/login.api';
 import {AbsolutePerYear} from './charts/AbsolutePerYear';
 import {useCallback, useMemo, useState} from 'react';
 import {CHART_SETTINGS, ChartVisibilities} from '../../charts/helper';
@@ -14,12 +13,37 @@ import {RealityCheck} from './charts/RealityCheck';
 import {StyledInputField} from '../../form/StyledFields';
 import {FormLabel} from '../../form/FormikFields';
 import {useNavigation} from '../../hooks/useNavigation';
-import {useAdminLogin} from '../AdminLoginContextProvider';
 import {Savable} from '../../charts/Savable';
+import {LoginDataProps} from '../login/LoginData';
 
-export function Statistics() {
-  const [loginInfo] = useAdminLogin();
-  return <>{loginInfo !== undefined && <LoadDiagrams {...loginInfo}/>}</>;
+export function Statistics({loginData}: LoginDataProps) {
+  const [visibilities, setVisibilitiesInternal] = useState(Object.fromEntries(Object.keys(CHART_SETTINGS).map((k) => ([k, true]))));
+  const setVisibilities = useCallback((callback: (data: ChartVisibilities) => void) => {
+    setVisibilitiesInternal(v => {
+      const nv = {...v};
+      callback(nv);
+      return nv;
+    });
+  }, [setVisibilitiesInternal]);
+  const {only18, showGroups} = useStatisticPanelData();
+  const params = useMemo(() => ({showMinors: !only18, showGroups}), [only18, showGroups]);
+  const yearResult = useChartDataPerYear(loginData, params);
+  const monthResult = useChartDataPerMonth(loginData, params);
+  const {t} = useTranslation();
+  return <>
+    <h1>{t('admin.statistics.title')}</h1>
+    <StatisticDataPanel/>
+    <div className="w-full">
+      <Loadable result={yearResult} loadingElement={<LoadingIndicator height="20rem"/>}
+                displayData={data =>
+                  <DisplayDiagramPerYear {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
+                }/>
+      <Loadable result={monthResult} loadingElement={<LoadingIndicator height="20rem"/>}
+                displayData={data =>
+                  <DisplayDiagramsPerMonth {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
+                }/>
+    </div>
+  </>;
 }
 
 export type StatisticChartProps = { visibilities: ChartVisibilities, setVisibilities: SetChartVisibilityType }
@@ -79,34 +103,4 @@ function StatisticDataPanel() {
       </>
     </FormLabel>
   </div>;
-}
-
-function LoadDiagrams(loginData: LoginData) {
-  const [visibilities, setVisibilitiesInternal] = useState(Object.fromEntries(Object.keys(CHART_SETTINGS).map((k) => ([k, true]))));
-  const setVisibilities = useCallback((callback: (data: ChartVisibilities) => void) => {
-    setVisibilitiesInternal(v => {
-      const nv = {...v};
-      callback(nv);
-      return nv;
-    });
-  }, [setVisibilitiesInternal]);
-  const {only18, showGroups} = useStatisticPanelData();
-  const params = useMemo(() => ({showMinors: !only18, showGroups}), [only18, showGroups]);
-  const yearResult = useChartDataPerYear(loginData, params);
-  const monthResult = useChartDataPerMonth(loginData, params);
-  const {t} = useTranslation();
-  return <>
-    <h1>{t('admin.statistics.title')}</h1>
-    <StatisticDataPanel/>
-    <div className="w-full">
-      <Loadable result={yearResult} loadingElement={<LoadingIndicator height="20rem"/>}
-                displayData={data =>
-                  <DisplayDiagramPerYear {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
-                }/>
-      <Loadable result={monthResult} loadingElement={<LoadingIndicator height="20rem"/>}
-                displayData={data =>
-                  <DisplayDiagramsPerMonth {...data} visibilities={visibilities} setVisibilities={setVisibilities}/>
-                }/>
-    </div>
-  </>;
 }

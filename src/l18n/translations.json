@@ -41,6 +41,12 @@
       "storedPersons": "Stored persons",
       "selectContract": "Select Contract",
       "dueDate": "Due date"
+    },
+    "waitlist": {
+      "titles": {
+        "main": "Waitlist",
+        "registrations": "Shooting registrations"
+      }
     }
   },
   "calendar": {

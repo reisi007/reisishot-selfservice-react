@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {SearchablePerson, useKnownPersons} from './contract.api';
 import {useAdminLogin} from '../AdminLoginContextProvider';
-import {LoginData} from '../login/login.api';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {Loadable} from '../../components/Loadable';
 import {FormattedDate} from '../../utils/Age';
 import {useTranslation} from 'react-i18next';
 import {Formik} from 'formik';
 import {FormInput} from '../../form/FormikFields';
+import {LoginDataProps} from '../login/LoginData';
 
 type Props = { onPersonSelected: (p: SearchablePerson) => void }
 type SearchProps = Props & { search: string }
@@ -40,7 +40,7 @@ export function KnownPersonChooser({onPersonSelected}: Props) {
   </Formik>;
 }
 
-function KnownPersonDisplayChooser({onPersonSelected, loginData, search}: SearchProps & { loginData: LoginData }) {
+function KnownPersonDisplayChooser({onPersonSelected, loginData, search}: SearchProps & LoginDataProps) {
   const result = useKnownPersons(loginData);
   return <Loadable result={result} loadingElement={<LoadingIndicator height="20rem"/>} displayData={
     data => <div className="grid grid-cols-2 gap-4 m-4">{

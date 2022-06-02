@@ -7,13 +7,14 @@ export function AdminMenu() {
   const [loginData] = useAdminLogin();
   const {t} = useTranslation();
   const isUserLoggedIn = !!loginData;
-  const allRoutes = useMemo(() => {
-    const allRoutes = [
+  const allRoutes: Array<AdminMenuEntry> = useMemo(() => {
+    const rawRoutes = [
       {'title': t('admin.login.title'), url: ''},
+      {'title': t('admin.waitlist.titles.main'), url: 'waitlist'},
       {'title': t('admin.statistics.title'), url: 'statistics'},
       {'title': t('admin.contract.title'), url: 'contracts'},
     ];
-    return isUserLoggedIn ? allRoutes : [allRoutes[0]];
+    return isUserLoggedIn ? rawRoutes : [rawRoutes[0]];
   }, [isUserLoggedIn, t]);
 
   return <ul className="flex flex-wrap justify-evenly p-2 mb-2 list-none text-white bg-reisishot rounded-xl">
@@ -28,4 +29,4 @@ export function AdminMenu() {
   </ul>;
 }
 
-
+type AdminMenuEntry = { title: string, url: string }

@@ -1,11 +1,11 @@
 import {useFetch} from '../../http';
-import {LoginData} from '../login/login.api';
 import {Person} from '../../types/Person';
 import {createHeader} from '../admin.api';
 import {useCallback, useMemo} from 'react';
 import {formatDate} from '../../utils/Age';
 import {ResponseValues} from 'axios-hooks';
 import {CreateContract} from './CreateContractForm';
+import {LoginData} from '../login/LoginData';
 
 export type SearchablePerson = Person & { search: string };
 

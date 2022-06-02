@@ -1,5 +1,5 @@
 import {AxiosRequestHeaders} from 'axios';
-import {LoginData} from './login/login.api';
+import {LoginData} from './login/LoginData';
 
 
 export function createHeader(loginData?: LoginData, moreHeaders?: AxiosRequestHeaders): AxiosRequestHeaders {
