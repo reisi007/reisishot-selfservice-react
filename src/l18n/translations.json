@@ -52,6 +52,10 @@
           "total": "Total leaderboard"
         }
       },
+      "statistics": {
+        "start": "Enter shooting statistics",
+        "title": "Submit shooting"
+      },
       "markAs": {
         "read": "Mark as read",
         "unread": "Mark as unread"

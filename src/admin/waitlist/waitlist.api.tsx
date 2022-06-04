@@ -102,6 +102,17 @@ function calculateLeaderboardPosition(rawData: PdoEmulatedPrepared<Array<Leaderb
   return leaderboard;
 }
 
+export function usePostNewShootingStatistic() {
+  const [request, rawPut] = useFetch<unknown, { itemId: number, isMinor: boolean, isGroup: boolean }>({
+    url: 'api/waitlist-admin-shooting_statistics_post.php',
+    options: {manual: true},
+  });
+
+  const put = usePut(rawPut);
+
+  return [request, put] as const;
+}
+
 export type WaitlistAdminData<LeaderPos extends number | undefined = number> = {
   registrations: Array<WaitlistItemWithRegistrations>,
   leaderboard: Array<LeaderboardEntry<LeaderPos>>
