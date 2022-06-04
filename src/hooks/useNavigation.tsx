@@ -4,7 +4,7 @@ import {useCallback} from 'react';
 type UrlPart = string | number | null | undefined;
 type Url = UrlPart | Array<UrlPart> | null | undefined;
 type QueryParams = { [key: string]: string }
-type NavigationStep = { replaceHistory: boolean, replaceParams: boolean, newUrl: Url, parameters: { [key: string]: string | null } }
+type NavigationStep = { replaceHistory: boolean, replaceParams: boolean, newUrl: Url, parameters: { [key: string]: string | null }, state?: unknown }
 
 
 export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) => void] {
@@ -16,6 +16,7 @@ export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) 
                                        newUrl: newUrlParts = null,
                                        replaceHistory = false,
                                        replaceParams = false,
+                                       state,
                                      }: Partial<NavigationStep>) => {
     const newUrl = buildUrl(newUrlParts);
     const newParams = computeParams(searchParams, parameters, replaceParams);
@@ -24,7 +25,7 @@ export function useNavigation(): [QueryParams, (param: Partial<NavigationStep>) 
       setSearchParams(newParams);
     }
     else {
-      navigate(newUrl, {replace: replaceHistory});
+      navigate(newUrl, {replace: replaceHistory, state: state});
     }
 
   }, [navigate, searchParams, setSearchParams]);

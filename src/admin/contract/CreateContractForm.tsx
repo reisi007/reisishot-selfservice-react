@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {FormInput, FormSelect} from '../../form/FormikFields';
 import {Person} from '../../types/Person';
 import {FieldArray, Formik} from 'formik';
-import {FormikHelpers} from 'formik/dist/types';
+import {FormikHelpers, FormikProps} from 'formik/dist/types';
 import {SubmitButton} from '../../components/SubmitButton';
 import {requiredString, validateDateString} from '../../yupHelper';
 import {array as validateArray, object as validateObject} from 'yup';
@@ -13,6 +13,9 @@ import {useContractFilenames, useCreateContract} from './contract.api';
 import {Loadable} from '../../components/Loadable';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {LoginDataProps} from '../login/LoginData';
+import {StyledButton} from '../../components/StyledButton';
+import {ResponseValues} from 'axios-hooks';
+import {useLocation} from 'react-router-dom';
 
 export function CreateContractForm({loginData}: LoginDataProps) {
   const {t} = useTranslation();
@@ -31,14 +34,15 @@ export function CreateContractForm({loginData}: LoginDataProps) {
 
   }, [loginData, submitContract]);
 
-  const contractData = useContractFilenames();
+  const locationPerson = useLocation().state as (Person | undefined);
+
 
   return <div className="py-2 mx-auto w-full rounded-lg border border-gray-200 md:w-1/2">
     <h3 className="mb-2">{t('admin.contract.storedPersons')}</h3>
     <Formik<CreateContract> onSubmit={onSubmit} initialValues={{
       contractType: '',
       dueDate: '',
-      persons: [createPerson()],
+      persons: [locationPerson ?? createPerson()],
       text: '',
       baseUrl: window.location.host,
     }}
@@ -60,52 +64,59 @@ export function CreateContractForm({loginData}: LoginDataProps) {
                             })
                             }
     >
-      {formik =>
-        <div className="px-4">
-          <FieldArray name="persons">
-            {arrayHelper => <>
-              {formik.values.persons.map((_, idx) => <PersonForm key={idx} formFieldPrefix="persons" idx={idx}/>)}
-              <KnownPersonChooser onPersonSelected={p => arrayHelper.insert(0, p)}/>
-              <div className="flex justify-around m-4 mx-auto w-full md:w-1/3">
-                <button onClick={() => {
-                  arrayHelper.push(createPerson());
-                }}
-                        className="p-4 w-14 text-center bg-reisishot rounded-xl">+
-                </button>
-                <button onClick={() => {
-                  if(formik.values.persons.length > 1) {
-                    arrayHelper.pop();
-                  }
-                }}
-                        disabled={formik.values.persons.length <= 1}
-                        className="p-4 w-14 text-center bg-red-500 rounded-xl">-
-                </button>
-              </div>
-
-
-            </>
-            }
-          </FieldArray>
-          <div>
-            <Loadable result={contractData} loadingElement={<LoadingIndicator height="2rem"/>} displayData={
-              data => <FormSelect options={data}
-                                  className="w-full" label={t('admin.contract.selectContract')} required
-                                  name="contractType" disabledOption={t('admin.contract.selectContract')}/>
-            }/>
-          </div>
-          <div>
-            <FormInput className="w-full" label={t('admin.contract.dueDate')}
-                       required name="dueDate" type="datetime-local"/>
-          </div>
-          <div className="mx-4">
-            <SubmitButton requestInfo={submitState} formik={formik}/>
-          </div>
-        </div>
-      }
+      {props => <CreateContractFormContent {...props} submitState={submitState}/>}
     </Formik>
   </div>;
 }
 
+type CreateContractFormikProps =
+  FormikProps<CreateContract>
+  & { submitState: ResponseValues<unknown, unknown, unknown> };
+
+
+function CreateContractFormContent(formik: CreateContractFormikProps) {
+  const {submitState} = formik;
+  const {t} = useTranslation();
+  const contractData = useContractFilenames();
+  return <div className="px-4">
+    <FieldArray name="persons">
+      {arrayHelper => <>
+        {formik.values.persons.map((_, idx) => <PersonForm key={idx} formFieldPrefix="persons" idx={idx}/>)}
+        <KnownPersonChooser onPersonSelected={p => arrayHelper.insert(0, p)}/>
+        <div className="flex justify-around m-4 mx-auto w-full md:w-1/3">
+          <StyledButton onClick={() => {
+            arrayHelper.push(createPerson());
+          }}
+                        className="p-4 w-14 text-center bg-reisishot rounded-xl"><>{'+'}</>
+          </StyledButton>
+          <StyledButton
+            onClick={() => {
+              if(formik.values.persons.length > 1) {
+                arrayHelper.pop();
+              }
+            }}
+            disabled={formik.values.persons.length <= 1}
+            className="p-4 w-14 text-center bg-red-500 rounded-xl"><>{'-'}</>
+          </StyledButton>
+        </div>
+      </>}
+    </FieldArray>
+    <div>
+      <Loadable result={contractData} loadingElement={<LoadingIndicator height="2rem"/>} displayData={
+        data => <FormSelect options={data}
+                            className="w-full" label={t('admin.contract.selectContract')} required
+                            name="contractType" disabledOption={t('admin.contract.selectContract')}/>
+      }/>
+    </div>
+    <div>
+      <FormInput className="w-full" label={t('admin.contract.dueDate')}
+                 required name="dueDate" type="datetime-local"/>
+    </div>
+    <div className="mx-4">
+      <SubmitButton requestInfo={submitState} formik={formik}/>
+    </div>
+  </div>;
+}
 
 function PersonForm({formFieldPrefix, idx}: { formFieldPrefix: string, idx: number }) {
   const {t} = useTranslation();
