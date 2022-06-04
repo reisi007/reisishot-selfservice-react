@@ -1,8 +1,9 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import en_US from './l18n/translations.json';
-import de_AT from './l18n/translations-de.json';
+import en_US from './i18n/translations.json';
+import de_AT from './i18n/translations-de.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import {MODE_DEBUG} from './env';
 
 declare module 'react-i18next' {
   // and extend them!
@@ -27,7 +28,7 @@ i18n
       de: {translation: de_AT},
     },
     fallbackLng: 'en',
-    debug: false,
+    debug: MODE_DEBUG,
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
