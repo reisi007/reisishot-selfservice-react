@@ -22,7 +22,7 @@ export function SubmitButton<FormType>({formik, requestInfo, allowInitialSubmit 
   const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
   return <>
     <StyledButton className="mx-auto w-full text-white bg-reisishot"
-                  type="submit" onClick={() => submitForm()}
+                  type="submit" onClick={submitForm}
                   disabled={isDisabled}>
       <>
         {t('form.submit')}

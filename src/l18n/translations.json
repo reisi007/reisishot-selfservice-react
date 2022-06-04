@@ -80,6 +80,9 @@
         "requireFutureDate": "Date must be in the future",
         "requirePastDate": "Date must be further in the past"
       },
+      "number": {
+        "notInRange": "Not in allowed range {{min}} - {{max}}"
+      },
       "email": "Email is invalid"
     }
   },
