@@ -1,5 +1,5 @@
 import {useTranslation} from 'react-i18next';
-import {Button} from './Button';
+import {StyledButton} from './StyledButton';
 import {ResponseValues} from 'axios-hooks';
 import {LoadingIndicator} from '../LoadingIndicator';
 import {DefaultErrorElement, Loadable} from './Loadable';
@@ -20,9 +20,9 @@ export function SubmitButton<FormType>({formik, requestInfo}: Props<FormType>) {
   }, [requestInfo]);
   const isDisabled = !isValid || !isDirty || loading;
   return <>
-    <Button className="mx-auto w-full text-white bg-reisishot"
-            type="submit" onClick={() => submitForm()}
-            disabled={isDisabled}>
+    <StyledButton className="mx-auto w-full text-white bg-reisishot"
+                  type="submit" onClick={() => submitForm()}
+                  disabled={isDisabled}>
       <>
         {t('form.submit')}
         {result !== undefined &&
@@ -31,6 +31,6 @@ export function SubmitButton<FormType>({formik, requestInfo}: Props<FormType>) {
                    errorElement={e => <DefaultErrorElement className="bg-white rounded" error={e}/>}
                    result={result}/>}
       </>
-    </Button>
+    </StyledButton>
   </>;
 }

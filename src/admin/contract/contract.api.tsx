@@ -1,7 +1,7 @@
 import {useFetch} from '../../http';
 import {Person} from '../../types/Person';
-import {createHeader} from '../admin.api';
-import {useCallback, useMemo} from 'react';
+import {createHeader, usePut} from '../admin.api';
+import {useMemo} from 'react';
 import {formatDate} from '../../utils/Age';
 import {ResponseValues} from 'axios-hooks';
 import {CreateContract} from './CreateContractForm';
@@ -54,12 +54,6 @@ export function useCreateContract() {
     url: '/api/contract_put.php',
     options: {manual: true},
   });
-  const put = useCallback((body: CreateContract, {user, auth}: LoginData) => {
-    return rawPut({
-      headers: createHeader({user, auth}),
-      method: 'put',
-      data: body,
-    });
-  }, [rawPut]);
+  const put = usePut(rawPut);
   return [{error, loading, data: undefined}, put] as const;
 }

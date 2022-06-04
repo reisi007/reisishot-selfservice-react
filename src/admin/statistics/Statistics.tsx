@@ -84,7 +84,7 @@ function useStatisticPanelData() {
 function StatisticDataPanel() {
   const {t} = useTranslation();
   const {only18, showGroups} = useStatisticPanelData();
-  const navigation = useNavigation()[1];
+  const [, navigation] = useNavigation();
 
   return <div className="flex justify-around items-baseline m-4 mx-auto w-full md:w-1/2">
     <FormLabel name="18+" label={t('admin.statistics.settings.18+')} required={false}>
