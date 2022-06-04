@@ -10,6 +10,7 @@ import {useEffect, useMemo} from 'react';
 import {useDebounce} from 'use-debounce';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {Loadable} from '../../components/Loadable';
+import {number as validateNumber, object as validateObject} from 'yup';
 
 export function Leaderboard({data, loginData}: { data: Array<LeaderboardEntry>, loginData: LoginData }) {
   const {t} = useTranslation();
@@ -31,13 +32,22 @@ function Total({data}: { data: Array<LeaderboardEntry> }) {
 
 
 function PerYear({loginData}: { loginData: LoginData }) {
-  const curYear = useMemo(() => {
+  const {t} = useTranslation();
+  const minYear = 2018;
+  const maxYear = useMemo(() => {
     return dayjs().year();
   }, []);
+  const notInRange = t('form.errors.number.notInRange', {min: minYear, max: maxYear});
+
   return <>
-    <Formik<{ year: number }> initialValues={{year: curYear}} onSubmit={() => {
-    }}>
-      {formik => <PerYearForm minYear={2018} maxYear={curYear} loginData={loginData} formik={formik}/>}
+    <Formik<{ year: number }>
+      initialValues={{year: maxYear}}
+      validationSchema={validateObject({
+        year: validateNumber().min(minYear, notInRange).max(maxYear, notInRange),
+      })}
+      onSubmit={() => {
+      }}>
+      {formik => <PerYearForm minYear={minYear} maxYear={maxYear} loginData={loginData} formik={formik}/>}
     </Formik>
   </>;
 }
