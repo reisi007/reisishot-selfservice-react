@@ -1,5 +1,6 @@
 import {CSSProperties} from 'react';
 import {CHART_SETTINGS, ChartVisibilities} from '../../../charts/helper';
+import {StyledButton} from '../../../components/StyledButton';
 
 function computeStyle(color: string, isVisible: any) {
   const untoggledStyle: CSSProperties = {borderColor: color};
@@ -20,8 +21,9 @@ export function ShootingTypeLegend(props: { visibilities: ChartVisibilities, set
                const style = computeStyle(color, isVisible);
                return <li className="m-2 text-sm list-none" style={{color}}
                           key={value}>
-                 <button style={style} className="py-1 px-4 rounded-lg border"
-                         onClick={() => setVisibilities(v => v[value] = !v[value])}>{value}</button>
+                 <StyledButton style={style} className="py-1 px-4 rounded-lg border"
+                               onClick={() => setVisibilities(v => v[value] = !v[value])}><>{value}</>
+                 </StyledButton>
 
                </li>;
 

@@ -1,29 +1,25 @@
 import {LoginDataProps} from '../login/LoginData';
 import {useTranslation} from 'react-i18next';
-import {useWaitlistAdminData, WaitlistItemWithRegistrations} from './waitlist.admin';
+import {useWaitlistAdminData} from './waitlist.api';
 import {Loadable} from '../../components/Loadable';
 import {LoadingIndicator} from '../../LoadingIndicator';
-import {formatJson} from '../../utils/json';
+import {ShootingOverview} from './ShootingOverview';
+import {PendingContractsOverview} from './PendingContractsOverview';
+import {Leaderboard} from './Leaderboard';
 
 export function Waitlist({loginData}: LoginDataProps) {
   const {t} = useTranslation();
   const data = useWaitlistAdminData(loginData);
   return <>
-    <h1>{t('admin.waitlist.titles.main')}</h1>
+    <h1 className="py-2 text-4xl">{t('admin.waitlist.titles.main')}</h1>
     <Loadable result={data} loadingElement={<LoadingIndicator height="10rem"/>} displayData={
-      (d) => <> <DisplayShootingOverview data={d.registrations}/></>
+      (d) => <>
+        <PendingContractsOverview data={d.pendingContracts} loginData={loginData}/>
+        <ShootingOverview data={d.registrations} loginData={loginData}/>
+        <Leaderboard data={d.leaderboard} loginData={loginData}/>
+      </>
     }/>
-
   </>;
 }
 
-function DisplayShootingOverview({data}: { data: Array<WaitlistItemWithRegistrations> }) {
 
-  const {t} = useTranslation();
-  return <>
-    <h2>{t('admin.waitlist.titles.registrations')}</h2>
-    <div className="flex flex-wrap">
-      <pre>{formatJson(data)}</pre>
-    </div>
-  </>;
-}

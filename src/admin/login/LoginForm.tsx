@@ -12,7 +12,7 @@ import {LoginData} from './LoginData';
 type Props = { data?: LoginData, setData: (i: LoginData | undefined) => void } & React.HTMLProps<HTMLDivElement>
 
 export function LoginForm({data, setData, ...divProps}: Props) {
-  const loginUser = useLoginUser();
+  const [request, loginUser] = useLoginUser();
   const onSubmit: (values: LoginFormData, formikHelpers: FormikHelpers<LoginFormData>) => void | Promise<any> = useCallback(async (values, {setSubmitting}) => {
     setSubmitting(false);
     const result = await loginUser(values);
@@ -38,7 +38,7 @@ export function LoginForm({data, setData, ...divProps}: Props) {
             <FormInput name="pwd" required className="w-full md:w-1/2" type="password"
                        label={t('admin.login.password')}/>
           </div>
-          <SubmitButton formik={formik}/>
+          <SubmitButton requestInfo={request} formik={formik}/>
         </Form>
     }
 

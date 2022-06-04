@@ -108,7 +108,7 @@ export function Emoji({text: _text}: { text: string }) {
   }
   return <>
     {!!emojis && <span
-        className="inline-flex justify-self-start items-center p-1 text-left align-middle bg-white rounded-lg">{emojis}</span>}
+        className="inline-flex justify-self-start items-center p-1 bg-white rounded-lg">{emojis}</span>}
   </>;
 }
 

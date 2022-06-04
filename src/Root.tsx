@@ -1,12 +1,12 @@
 import {useTranslation} from 'react-i18next';
-import {Button} from './components/Button';
+import {StyledButton} from './components/StyledButton';
 import {Link} from 'react-router-dom';
 import {useNavigation} from './hooks/useNavigation';
 import {useEffect} from 'react';
 import {useAdminLogin} from './admin/AdminLoginContextProvider';
 
 function useSpecialRedirects() {
-  const navigate = useNavigation()[1];
+  const [, navigate] = useNavigation();
   const [isAdminLoggedIn] = useAdminLogin();
   useEffect(() => {
     if(isAdminLoggedIn) {
@@ -30,10 +30,10 @@ export default function Root() {
       {
         items.map(({url, title}) =>
           <Link key={url} to={url}>
-            <Button
+            <StyledButton
               className="p-4 my-4 w-full text-xl font-light text-black hover:text-white hover:bg-reisishot border-reisishot">
               <>{title}</>
-            </Button>
+            </StyledButton>
           </Link>)
       }
     </div>

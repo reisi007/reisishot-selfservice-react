@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {Formik} from 'formik';
 import {FormInput} from '../../form/FormikFields';
 import {LoginDataProps} from '../login/LoginData';
+import {StyledButton} from '../../components/StyledButton';
 
 type Props = { onPersonSelected: (p: SearchablePerson) => void }
 type SearchProps = Props & { search: string }
@@ -53,9 +54,11 @@ function KnownPersonDisplayChooser({onPersonSelected, loginData, search}: Search
 
 function ClickablePerson({person, onPersonSelected}: Props & { person: SearchablePerson }) {
   const onClick = useCallback(() => onPersonSelected(person), [onPersonSelected, person]);
-  return <button onClick={onClick} className="p-2 break-words rounded-xl border">
-    {person.firstName} {person.lastName} <br/>
-    <span className="text-sm">{person.email}</span><br/>
-    <FormattedDate dateString={person.birthday}/>
-  </button>;
+  return <StyledButton onClick={onClick} className="p-2 break-words rounded-xl border">
+    <>
+      {person.firstName} {person.lastName} <br/>
+      <span className="text-sm">{person.email}</span><br/>
+      <FormattedDate dateString={person.birthday}/>
+    </>
+  </StyledButton>;
 }
