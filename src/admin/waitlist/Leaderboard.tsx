@@ -37,12 +37,19 @@ function PerYear({loginData}: { loginData: LoginData }) {
   return <>
     <Formik<{ year: number }> initialValues={{year: curYear}} onSubmit={() => {
     }}>
-      {formik => <PerYearForm loginData={loginData} formik={formik}/>}
+      {formik => <PerYearForm minYear={2018} maxYear={curYear} loginData={loginData} formik={formik}/>}
     </Formik>
   </>;
 }
 
-function PerYearForm({formik, loginData}: { formik: FormikProps<{ year: number }>, loginData: LoginData }) {
+type PerYearProps = { formik: FormikProps<{ year: number }>, loginData: LoginData, maxYear: number, minYear: number };
+
+function PerYearForm({
+                       formik,
+                       loginData,
+                       maxYear,
+                       minYear,
+                     }: PerYearProps) {
   const {values} = formik;
   const {year: yearInternal} = values;
   const [request, fetchData] = useFindLeaderboardByYear();
@@ -54,8 +61,9 @@ function PerYearForm({formik, loginData}: { formik: FormikProps<{ year: number }
 
   return <>
     <h3 className="py-2 text-2xl">{t('admin.waitlist.titles.leaderboard.year', values)}</h3>
-    <FormInput label={t('admin.waitlist.selectYear')} name="year"/>
+    <FormInput className="mx-auto w-full sm:w-2/3 md:w-1/2 lg:w-1/3" label={t('admin.waitlist.selectYear')}
+               type="number" name="year" max={maxYear} min={minYear}/>
     <Loadable result={[request]} loadingElement={<LoadingIndicator height="10rem"/>}
-              displayData={(data) => <List items={data}/>}/>
+              displayData={(data) => <List className="mt-4 mb-2" items={data}/>}/>
   </>;
 }

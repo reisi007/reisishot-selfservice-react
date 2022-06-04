@@ -8,17 +8,18 @@ import {FormikProps} from 'formik/dist/types';
 
 type Props<FormType> = {
   formik: FormikProps<FormType>
-  requestInfo?: ResponseValues<unknown, unknown, unknown>
+  requestInfo?: ResponseValues<unknown, unknown, unknown>,
+  allowInitialSubmit?: boolean
 };
 
-export function SubmitButton<FormType>({formik, requestInfo}: Props<FormType>) {
-  const {isValid, dirty: isDirty, submitForm} = formik;
+export function SubmitButton<FormType>({formik, requestInfo, allowInitialSubmit = false}: Props<FormType>) {
+  const {isValid, dirty: isDirty, submitForm, isSubmitting} = formik;
   const loading = requestInfo?.loading ?? false;
   const {t} = useTranslation();
   const result: [ResponseValues<unknown, unknown, unknown>] | undefined = useMemo(() => {
     return requestInfo === undefined ? undefined : [requestInfo];
   }, [requestInfo]);
-  const isDisabled = !isValid || !isDirty || loading;
+  const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
   return <>
     <StyledButton className="mx-auto w-full text-white bg-reisishot"
                   type="submit" onClick={() => submitForm()}

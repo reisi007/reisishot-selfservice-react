@@ -8,11 +8,19 @@ type TextFieldProps = { type?: HTMLInputTypeAttribute } & FormFieldProps & Parti
 type SelectFieldProps =
   & SelectOptionProps
   & FormFieldProps
-  & Partial<HTMLProps<HTMLSelectElement>>
+  & Partial<HTMLProps<HTMLSelectElement>>;
+
+type CheckfieldProps = Omit<TextFieldProps, 'type'>;
 
 export function FormInput({label, name, required, type = 'text', ...props}: TextFieldProps) {
   return <Field {...props} name={name} type={type} label={label} required={required}
                 component={FormikFormInput}/>;
+}
+
+
+export function FormCheckbox({label, name, required, ...props}: CheckfieldProps) {
+  return <Field {...props} name={name} label={label} required={required}
+                component={FormikCheckbox}/>;
 }
 
 function getError(form: FormikProps<unknown>, name: string): false | string | Array<string> {
@@ -24,9 +32,21 @@ function FormikFormInput({label, field, form, required = false, ...restProps}: T
   const error = getError(form, name);
   const {className = '', ...props} = restProps;
 
-  return <span className={'flex flex-col ' + className}>
+  return <span className={`flex flex-col ${className}`}>
     <FormLabel name={name} label={label} required={required}/>
     <StyledInputField {...field} {...props} error={error} required={required}/>
+     <FormError error={error}/>
+  </span>;
+}
+
+function FormikCheckbox({label, field, form, required = false, ...restProps}: CheckfieldProps & FieldProps) {
+  const name = field.name;
+  const error = getError(form, name);
+  const {className = '', ...props} = restProps;
+
+  return <span className={'inline-block ' + className}>
+    <StyledInputField {...field} {...props} error={error} type="checkbox" required={required}/>
+     <FormLabel name={name} label={label} required={required}/>
      <FormError error={error}/>
   </span>;
 }
@@ -41,7 +61,7 @@ function FormikSelectInput({label, field, form, required = false, ...restProps}:
   const error = getError(form, name);
   const {className = '', ...props} = restProps;
 
-  return <span className={'flex flex-col ' + className}>
+  return <span className={`flex flex-col ${className}`}>
     <FormLabel name={name} label={label} required={required}/>
     <StyledSelectField {...field} {...props} error={error} required={required}/>
     <FormError error={error}/>
