@@ -25,13 +25,14 @@ export function CreateContractForm({loginData}: LoginDataProps) {
     setSubmitting,
     resetForm,
   }) => {
-    setSubmitting(false);
     if(!loginData) {
+      setSubmitting(false);
       return;
     }
 
-    submitContract(values, loginData).then(resetForm);
-
+    submitContract(values, loginData)
+      .then(resetForm)
+      .then(() => setSubmitting(false));
   }, [loginData, submitContract]);
 
   const locationPerson = useLocation().state as (Person | undefined);

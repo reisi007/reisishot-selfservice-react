@@ -10,6 +10,7 @@ import {useEffect, useMemo} from 'react';
 import {useDebounce} from 'use-debounce';
 import {LoadingIndicator} from '../../LoadingIndicator';
 import {Loadable} from '../../components/Loadable';
+import {number as validateNumber, object as validateObject} from 'yup';
 
 export function Leaderboard({data, loginData}: { data: Array<LeaderboardEntry>, loginData: LoginData }) {
   const {t} = useTranslation();
@@ -31,18 +32,34 @@ function Total({data}: { data: Array<LeaderboardEntry> }) {
 
 
 function PerYear({loginData}: { loginData: LoginData }) {
-  const curYear = useMemo(() => {
+  const {t} = useTranslation();
+  const minYear = 2018;
+  const maxYear = useMemo(() => {
     return dayjs().year();
   }, []);
+  const notInRange = t('form.errors.number.notInRange', {min: minYear, max: maxYear});
+
   return <>
-    <Formik<{ year: number }> initialValues={{year: curYear}} onSubmit={() => {
-    }}>
-      {formik => <PerYearForm loginData={loginData} formik={formik}/>}
+    <Formik<{ year: number }>
+      initialValues={{year: maxYear}}
+      validationSchema={validateObject({
+        year: validateNumber().min(minYear, notInRange).max(maxYear, notInRange),
+      })}
+      onSubmit={() => {
+      }}>
+      {formik => <PerYearForm minYear={minYear} maxYear={maxYear} loginData={loginData} formik={formik}/>}
     </Formik>
   </>;
 }
 
-function PerYearForm({formik, loginData}: { formik: FormikProps<{ year: number }>, loginData: LoginData }) {
+type PerYearProps = { formik: FormikProps<{ year: number }>, loginData: LoginData, maxYear: number, minYear: number };
+
+function PerYearForm({
+                       formik,
+                       loginData,
+                       maxYear,
+                       minYear,
+                     }: PerYearProps) {
   const {values} = formik;
   const {year: yearInternal} = values;
   const [request, fetchData] = useFindLeaderboardByYear();
@@ -54,8 +71,9 @@ function PerYearForm({formik, loginData}: { formik: FormikProps<{ year: number }
 
   return <>
     <h3 className="py-2 text-2xl">{t('admin.waitlist.titles.leaderboard.year', values)}</h3>
-    <FormInput label={t('admin.waitlist.selectYear')} name="year"/>
+    <FormInput className="mx-auto w-full sm:w-2/3 md:w-1/2 lg:w-1/3" label={t('admin.waitlist.selectYear')}
+               type="number" name="year" max={maxYear} min={minYear}/>
     <Loadable result={[request]} loadingElement={<LoadingIndicator height="10rem"/>}
-              displayData={(data) => <List items={data}/>}/>
+              displayData={(data) => <List className="mt-4 mb-2" items={data}/>}/>
   </>;
 }

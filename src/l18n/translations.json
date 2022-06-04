@@ -52,6 +52,10 @@
           "total": "Total leaderboard"
         }
       },
+      "statistics": {
+        "start": "Enter shooting statistics",
+        "title": "Submit shooting"
+      },
       "markAs": {
         "read": "Mark as read",
         "unread": "Mark as unread"
@@ -75,6 +79,9 @@
       "date": {
         "requireFutureDate": "Date must be in the future",
         "requirePastDate": "Date must be further in the past"
+      },
+      "number": {
+        "notInRange": "Not in allowed range {{min}} - {{max}}"
       },
       "email": "Email is invalid"
     }
