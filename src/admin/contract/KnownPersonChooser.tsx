@@ -20,6 +20,7 @@ export function KnownPersonChooser({ onPersonSelected }: Props) {
     <Formik
       initialValues={{ search: '' }}
       onSubmit={() => {
+        throw new Error('This form should never be submitted');
       }}
     >
       {(formik) => {

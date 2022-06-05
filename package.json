@@ -81,7 +81,7 @@
         }
       ],
       "no-console": [
-        "error",
+        "warn",
         {
           "allow": [
             "couunt",
