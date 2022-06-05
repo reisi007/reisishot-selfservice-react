@@ -1,13 +1,15 @@
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 
-let canvas: HTMLCanvasElement | undefined = undefined;
-const ALL_FONT_SIZES = Array.from({length: 100}, (_, i) => 6 + i);
+let canvas: HTMLCanvasElement | undefined;
+const ALL_FONT_SIZES = Array.from({ length: 100 }, (_, i) => 6 + i);
 
-
-export function useFontSize(text: string, {maxHeight, maxWidth}: { maxWidth?: number, maxHeight?: number }) {
+export function useFontSize(text: string, {
+  maxHeight,
+  maxWidth,
+}: { maxWidth?: number, maxHeight?: number }) {
   return useMemo(() => {
     const idx = binarySearch(ALL_FONT_SIZES, (i) => {
-      const textMetrics = getTextMetrics(text, getFontSizeOf({size: `${i}px`}));
+      const textMetrics = getTextMetrics(text, getFontSizeOf({ size: `${i}px` }));
       const height = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
       return (!maxWidth || textMetrics.width > maxWidth) && (!maxHeight || height > maxHeight);
     });
@@ -25,11 +27,11 @@ export function useFontSize(text: string, {maxHeight, maxWidth}: { maxWidth?: nu
  */
 function getTextMetrics(text: string, font: string): TextMetrics {
   // re-use canvas object for better performance
-  if(canvas === undefined) {
+  if (canvas === undefined) {
     canvas = document.createElement('canvas');
   }
   const context = canvas.getContext('2d');
-  if(context === null) {
+  if (context === null) {
     throw Error('No 2D context found');
   }
   context.font = font;
@@ -37,7 +39,8 @@ function getTextMetrics(text: string, font: string): TextMetrics {
 }
 
 function getCssStyle(element: HTMLElement, prop: string) {
-  return window.getComputedStyle(element, null).getPropertyValue(prop);
+  return window.getComputedStyle(element, null)
+    .getPropertyValue(prop);
 }
 
 function getFontSizeOf(overrides?: { el?: HTMLElement, weight?: string, size?: string, family?: string }) {
@@ -49,19 +52,19 @@ function getFontSizeOf(overrides?: { el?: HTMLElement, weight?: string, size?: s
   return `${fontWeight} ${fontSize} ${fontFamily}`;
 }
 
-
 /**
  * Return 0 <= i <= array.length such that !pred(array[i - 1]) && pred(array[i]).
  * https://stackoverflow.com/a/41956372
  */
 function binarySearch<T>(array: Array<T>, pred: (elem: T) => boolean): number {
-  let lo = -1, hi = array.length;
-  while(1 + lo < hi) {
-    const mi = lo + ((hi - lo) >> 1);
-    if(pred(array[mi])) {
+  let lo = -1;
+  let
+    hi = array.length;
+  while (1 + lo < hi) {
+    const mi = lo + ((hi - lo) / 2);
+    if (pred(array[mi])) {
       hi = mi;
-    }
-    else {
+    } else {
       lo = mi;
     }
   }

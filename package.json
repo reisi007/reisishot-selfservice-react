@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.1",
     "@types/dom-to-image": "^2.6.4",
     "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.9",
@@ -12,6 +16,8 @@
     "classnames": "^2.3.1",
     "dayjs": "^1.11.2",
     "dom-to-image": "^2.6.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "i18next": "^21.8.3",
@@ -39,8 +45,59 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "plugin:tailwindcss/recommended"
-    ]
+      "plugin:tailwindcss/recommended",
+      "airbnb",
+      "airbnb-typescript"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "react/react-in-jsx-scope": "off",
+      "import/prefer-default-export": "off",
+      "react/require-default-props": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/no-unused-prop-types": "off",
+      "@typescript-eslint/no-use-before-define": "off",
+      "react/function-component-definition": "off",
+      "react/destructuring-assignment": "off",
+      "no-param-reassign": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/spac": "off",
+      "@typescript-eslint/object-curly-spacing": "warn",
+      "no-trailing-spaces": "warn",
+      "key-spacing": "warn",
+      "react/jsx-indent": "warn",
+      "react/jsx-tag-spacing": "warn",
+      "@typescript-eslint/space-infix-ops": "warn",
+      "@typescript-eslint/quotes": "warn",
+      "react/jsx-closing-tag-location": "warn",
+      "max-len": [
+        "error",
+        {
+          "code": 200,
+          "tabWidth": 1
+        }
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "couunt",
+            "warn",
+            "error"
+          ]
+        }
+      ],
+      "react/jsx-no-useless-fragment": [
+        "error",
+        {
+          "allowExpressions": true
+        }
+      ],
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/click-events-have-key-events": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -55,10 +112,6 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.1",
     "@types/node": "^16.11.36",
     "autoprefixer": "^10.4.7",
     "cross-env": "^7.0.3",
