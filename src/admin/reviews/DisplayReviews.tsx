@@ -9,6 +9,7 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { useFontSize } from '../../charts/textWidth';
+import { FiveStarRating } from '../../form/FiveStarRating';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -132,7 +133,7 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
           {t('admin.reviews.daysAgo', { days: daysAgo })}
         </span>
       </div>
-      {!!rating && <div className="text-2xl text-center">{rating}</div>}
+      {!!rating && <FiveStarRating className="mt-2 -mb-2 text-center" starClassName="rs-lg" percentage={rating} />}
       {!!privateReview && (
         <>
           <h3 className="my-2 font-medium">{t('reviews.titles.private')}</h3>
