@@ -9,7 +9,7 @@ export function PendingContractsOverview({ data }: Props) {
   const { t } = useTranslation();
   return (
     <>
-      {data.length === 0 && (
+      {data.length > 0 && (
         <>
           <h2>{t('admin.waitlist.pendingSignatures.title')}</h2>
           <ul>
