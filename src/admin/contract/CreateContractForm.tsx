@@ -93,8 +93,14 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
       <FieldArray name="persons">
         {(arrayHelper) => (
           <>
-            {values.persons.map((_, idx) => (
+            {values.persons.map(({
+              email,
+              firstName,
+              lastName,
+              birthday,
+            }, idx) => (
               <PersonForm
+                key={email + firstName + lastName + birthday}
                 formFieldPrefix="persons"
                 idx={idx}
               />
