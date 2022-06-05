@@ -17,12 +17,11 @@ export function FiveStarRating({
   }, [percentage]);
 
   const onClick = useCallback((full: number, half: boolean): void => {
-    if (setPercentage === undefined) {
-      return;
-    }
     const nextValue = 20 * full + (half ? 10 : 0);
-    setPercentage(nextValue);
+    if (setPercentage) {
+      setPercentage(nextValue);
+    }
   }, [setPercentage]);
 
-  return <StarRating className={className} starClassName={starClassName} halfStar={isHalfStar} fullStars={fullStars} totalStars={5} setStars={onClick} />;
+  return <StarRating className={className} starClassName={starClassName} halfStar={isHalfStar} fullStars={fullStars} totalStars={5} setStars={setPercentage === undefined ? undefined : onClick} />;
 }
