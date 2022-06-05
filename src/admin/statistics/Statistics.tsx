@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo, useState } from 'react';
 import {
-  MonthDataType, ShootingStatisticsResponse, useChartDataPerMonth, useChartDataPerYear, YearDataType,
+  MonthDataType, useChartDataPerMonth, useChartDataPerYear, YearDataType,
 } from './statistics.api';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { AbsolutePerYear } from './charts/AbsolutePerYear';
-import { CHART_SETTINGS, ChartVisibilities, Totals } from '../../charts/helper';
+import { CHART_SETTINGS, ChartVisibilities } from '../../charts/helper';
 import { RelativePerYear } from './charts/RelativePerYear';
 import { AbsolutePerMonth } from './charts/AbsolutePerMonth';
 import { TotalPie } from './charts/TotalPie';
@@ -39,20 +39,6 @@ export function Statistics({ loginData }: LoginDataProps) {
   const yearResult = useChartDataPerYear(loginData, params);
   const monthResult = useChartDataPerMonth(loginData, params);
   const { t } = useTranslation();
-  const displayDiagramPerYear = useCallback((data: { data: ShootingStatisticsResponse, totals: Totals }) => (
-    <DisplayDiagramPerYear
-      {...data}
-      visibilities={visibilities}
-      setVisibilities={setVisibilities}
-    />
-  ), [setVisibilities, visibilities]);
-  const displayDiagramPerMonth = useCallback((data: { data: ShootingStatisticsResponse, totals: Totals }) => (
-    <DisplayDiagramsPerMonth
-      {...data}
-      visibilities={visibilities}
-      setVisibilities={setVisibilities}
-    />
-  ), [setVisibilities, visibilities]);
   return (
     <>
       <h1>{t('admin.statistics.title')}</h1>
@@ -61,13 +47,27 @@ export function Statistics({ loginData }: LoginDataProps) {
         <Loadable
           result={yearResult}
           loadingElement={<LoadingIndicator height="20rem" />}
-          displayData={displayDiagramPerYear}
-        />
+        >
+          {(data) => (
+            <DisplayDiagramPerYear
+              {...data}
+              visibilities={visibilities}
+              setVisibilities={setVisibilities}
+            />
+          )}
+        </Loadable>
         <Loadable
           result={monthResult}
           loadingElement={<LoadingIndicator height="20rem" />}
-          displayData={displayDiagramPerMonth}
-        />
+        >
+          {(data) => (
+            <DisplayDiagramsPerMonth
+              {...data}
+              visibilities={visibilities}
+              setVisibilities={setVisibilities}
+            />
+          )}
+        </Loadable>
       </div>
     </>
   );

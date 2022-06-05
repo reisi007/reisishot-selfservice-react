@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 import { LoadingIndicator } from '../../LoadingIndicator';
@@ -39,7 +39,6 @@ export function Login() {
   const [loginInfo, setLoginInfo] = useAdminLogin();
   const calendarData = useCalendarData(loginInfo);
 
-  const displayData = useCallback((data: ShootingDateEntry[]) => <CalendarWithSlider data={data} />, []);
   return (
     <div className="container">
       <h1 className="mb-2">{t('admin.login.title')}</h1>
@@ -47,8 +46,9 @@ export function Login() {
       <Loadable
         result={calendarData}
         loadingElement={<LoadingIndicator height="20rem" />}
-        displayData={displayData}
-      />
+      >
+        {(data) => <CalendarWithSlider data={data} />}
+      </Loadable>
     </div>
   );
 }
