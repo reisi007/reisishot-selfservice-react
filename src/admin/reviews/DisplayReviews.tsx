@@ -82,6 +82,7 @@ function PieChartChart({
         outerRadius={0.5 * size}
         innerRadius={0.3 * size}
         dataKey="value"
+        isAnimationActive={false}
         data={[{
           value: avg,
         }, {
