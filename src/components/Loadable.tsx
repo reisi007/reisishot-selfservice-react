@@ -6,11 +6,14 @@ type Props<TResponse, TRequest, TError> = {
   result: [ResponseValues<TResponse, TRequest, TError>, ...unknown[]],
   loadingElement: ReactNode,
   errorElement?: (error: AxiosError<TError, TRequest>) => ReactNode,
-  displayData: (data: TResponse) => ReactNode,
+  children?: (data: TResponse) => ReactNode,
   className?: string
 };
 
-export function DefaultErrorElement({ error, className = '' }: {
+export function DefaultErrorElement({
+  error,
+  className = '',
+}: {
   error: AxiosError<unknown, unknown>
   className?: string
 }) {
@@ -27,16 +30,20 @@ export function Loadable<TResponse, TRequest, TError>({
   result,
   loadingElement,
   errorElement = (e) => <DefaultErrorElement error={e} />,
-  displayData,
+  children,
   className = '',
 }: Props<TResponse, TRequest, TError>) {
-  const [{ data, loading, error }] = result;
+  const [{
+    data,
+    loading,
+    error,
+  }] = result;
 
   return (
     <div className={`flex flex-col ${className}`}>
       {loading && loadingElement}
       {error && errorElement(error)}
-      {!loading && data && displayData(data)}
+      {!loading && data && children !== undefined && children(data)}
     </div>
   );
 }

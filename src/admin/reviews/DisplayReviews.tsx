@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
 import { LoadedReview, useGetAllReviews } from './reviews.api';
@@ -9,15 +9,15 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
   const data = useGetAllReviews(loginData);
-  const displayData = useCallback((curData: LoadedReview[]) => <DisplayReviewData data={curData} />, []);
   return (
     <>
       <h1 className="mb-2">{t('admin.reviews.titles.all')}</h1>
       <Loadable
         result={data}
         loadingElement={<LoadingIndicator height="10rem" />}
-        displayData={displayData}
-      />
+      >
+        {(curData) => <DisplayReviewData data={curData} />}
+      </Loadable>
     </>
   );
 }
