@@ -148,7 +148,7 @@ function FormikSelectInput({
   );
 }
 
-type FormLabelProps = { name: string, label: string, required: boolean, children?: ReactElement | undefined };
+type FormLabelProps = { name: string, label: string, required: boolean, children?: ReactElement };
 
 export function FormLabel({
   name,
