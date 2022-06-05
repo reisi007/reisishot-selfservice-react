@@ -4,7 +4,6 @@ import isoWeekPlugin from 'dayjs/plugin/isoWeek';
 dayjs.extend(isoWeekPlugin);
 
 export class CalendarWeek {
-
   private internalWeek: dayjs.Dayjs;
 
   constructor(

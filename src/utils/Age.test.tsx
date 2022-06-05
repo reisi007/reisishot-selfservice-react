@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
-import {calculateAge, TEMPLATE_STRING_AS_DATE} from './Age';
+import { calculateAge, TEMPLATE_STRING_AS_DATE } from './Age';
 
 describe('Datetime Utils', () => {
-
-
   describe('CalculatedBirthday', () => {
     it('age is never rounded up', () => {
       const birthday = dayjs().startOf('day');

@@ -1,17 +1,20 @@
-import {AdminWaitlistRecord, useDeleteWaitlistItem, useSetDateAssigned} from './waitlist.api';
 import classNames from 'classnames';
-import {calculateAge} from '../../utils/Age';
-import {useTranslation} from 'react-i18next';
-import {ActionButton, RequestActionButton} from './ActionButton';
-import {AssessPerson} from './AssessPerson';
-import {LoginData} from '../login/LoginData';
-import {useNavigation} from '../../hooks/useNavigation';
-import {useCallback, useState} from 'react';
+import { useTranslation } from 'react-i18next';
+import { useCallback, useState } from 'react';
+import { AdminWaitlistRecord, useDeleteWaitlistItem, useSetDateAssigned } from './waitlist.api';
+import { calculateAge } from '../../utils/Age';
+import { ActionButton, RequestActionButton } from './ActionButton';
+import { AssessPerson } from './AssessPerson';
+import { LoginData } from '../login/LoginData';
+import { useNavigation } from '../../hooks/useNavigation';
 
 type Props = { registration: AdminWaitlistRecord, loginData: LoginData };
 
-export function Registration({registration, loginData}: Props) {
-  const {t} = useTranslation();
+export function Registration({
+  registration,
+  loginData,
+}: Props) {
+  const { t } = useTranslation();
   const classes = classNames(
     {
       'border-reisishot border-2': !registration.date_assigned,
@@ -27,68 +30,119 @@ export function Registration({registration, loginData}: Props) {
     },
   );
 
-  return <div
-    className={`flex text-center space-y-1 overflow-hidden relative flex-col grow items-stretch py-4 px-2 my-4 w-full rounded-2xl border sm:mx-4 sm:w-1/2 lg:w-1/3 ${classes}`}>
-    <FloatingDot registration={registration}/>
-
-    <div className="pb-1 text-xl font-semibold">
-      {registration.firstName + ' ' + registration.lastName + ' ' + calculateAge({dateString: registration.birthday})}
-    </div>
-    <div>
-      <MarkAsReadButton registration={registration} loginData={loginData}/>
-    </div>
-    <div className={'mx-auto py-2 px-4 mx-auto text-lg font-semibold text-center rounded-lg ' + pointClasses}
+  return (
+    <div
+      className={`flex text-center space-y-1 overflow-hidden relative flex-col grow items-stretch py-4 px-2 my-4 w-full rounded-2xl border sm:mx-4 sm:w-1/2 lg:w-1/3 ${classes}`}
     >
-      <span className="underline">{registration.points}</span>&nbsp;
-      <span className="text-base">{t('waitlist.points')}</span>
+      <FloatingDot registration={registration} />
+
+      <div className="pb-1 text-xl font-semibold">
+        {`${registration.firstName} ${registration.lastName} ${calculateAge({ dateString: registration.birthday })}`}
+      </div>
+      <div>
+        <MarkAsReadButton registration={registration} loginData={loginData} />
+      </div>
+      <div className={`mx-auto py-2 px-4 mx-auto text-lg font-semibold text-center rounded-lg ${pointClasses}`}>
+        <span className="underline">{registration.points}</span>
+        &nbsp;
+        <span className="text-base">{t('waitlist.points')}</span>
+      </div>
+      <p className="grow">
+        {t('waitlist.availability')}
+        :
+        {' '}
+        {registration.availability}
+      </p>
+      {registration.text !== null && registration.text.length > 0
+       && (
+         <p>
+           {t('waitlist.moreInfo')}
+           :
+           {' '}
+           {registration.text}
+         </p>
+       )}
+      <RegistrationAction registration={registration} loginData={loginData} />
     </div>
-    <p className="grow">{t('waitlist.availability')}: {registration.availability}</p>
-    <>
-      {registration.text !== null && registration.text.length > 0 &&
-       <p>{t('waitlist.moreInfo')}: {registration.text}</p>}
-    </>
-    <RegistrationAction registration={registration} loginData={loginData}/>
-  </div>;
+  );
 }
 
-function RegistrationAction({registration, loginData}: Props) {
-  const {t} = useTranslation();
+function RegistrationAction({
+  registration,
+  loginData,
+}: Props) {
+  const { t } = useTranslation();
   const [, navigate] = useNavigation();
-  const {person_id, item_id} = registration;
+  const {
+    person_id: person,
+    item_id: item,
+  } = registration;
   const [deleteState, deletePerson] = useDeleteWaitlistItem();
-  return <div className="grid gap-2 mx-auto mt-2 sm:grid-cols-2 lg:w-3/4 xl:grid-cols-4 xl:w-full 2xl:w-3/4">
-    <ActionButton onClick={() => navigate({newUrl: '../contracts', state: registration})}
-                  className="text-white bg-reisishot">{t('admin.contract.title')}</ActionButton>
-    <RequestActionButton request={deleteState}
-                         onClick={() => deletePerson({person: person_id, item: item_id}, loginData)}
-                         className="text-white bg-reisishot">{t('actions.delete')}</RequestActionButton>
-    <AssessPerson loginData={loginData} registration={registration}/>
-  </div>;
+  return (
+    <div className="grid gap-2 mx-auto mt-2 sm:grid-cols-2 lg:w-3/4 xl:grid-cols-4 xl:w-full 2xl:w-3/4">
+      <ActionButton
+        onClick={() => navigate({
+          newUrl: '../contracts',
+          state: registration,
+        })}
+        className="text-white bg-reisishot"
+      >
+        {t('admin.contract.title')}
+      </ActionButton>
+      <RequestActionButton
+        request={deleteState}
+        onClick={() => deletePerson({
+          person,
+          item,
+        }, loginData)}
+        className="text-white bg-reisishot"
+      >
+        {t('actions.delete')}
+      </RequestActionButton>
+      <AssessPerson loginData={loginData} registration={registration} />
+    </div>
+  );
 }
 
-function FloatingDot({registration}: { registration: AdminWaitlistRecord }) {
+function FloatingDot({ registration }: { registration: AdminWaitlistRecord }) {
   const classes = classNames(
     {
       'sm:bg-reisishot': !registration.date_assigned,
       'sm:bg-red-500': registration.ignored,
     },
   );
-  return <span className={`absolute right-4 w-3 h-3 rounded-full ${classes}`}></span>;
+  return <span className={`absolute right-4 w-3 h-3 rounded-full ${classes}`} />;
 }
 
-function MarkAsReadButton({registration, loginData}: { registration: AdminWaitlistRecord, loginData: LoginData }) {
-  const {person_id, item_id, date_assigned} = registration;
-  const [isDateAssigned, setStateAssigned] = useState(date_assigned);
-  const {t} = useTranslation();
+function MarkAsReadButton({
+  registration,
+  loginData,
+}: { registration: AdminWaitlistRecord, loginData: LoginData }) {
+  const {
+    person_id: personId,
+    item_id: itemId,
+    date_assigned: dateAssigned,
+  } = registration;
+  const [isDateAssigned, setStateAssigned] = useState(dateAssigned);
+  const { t } = useTranslation();
   const [request, post] = useSetDateAssigned();
 
   const dateAssignedButtonText = t(isDateAssigned ? 'admin.waitlist.markAs.unread' : 'admin.waitlist.markAs.read');
   const onClick = useCallback(() => {
-    post({itemId: item_id, personId: person_id, value: !isDateAssigned}, loginData)
-      .then(() => setStateAssigned(b => !b));
-  }, [isDateAssigned, item_id, loginData, person_id, post]);
-  return <RequestActionButton request={request} onClick={onClick}
-                              className="py-1 px-4 mx-auto mb-2 font-normal rounded-lg border">
-    {dateAssignedButtonText}
-  </RequestActionButton>;
+    post({
+      itemId,
+      personId,
+      value: !isDateAssigned,
+    }, loginData)
+      .then(() => setStateAssigned((b) => !b));
+  }, [isDateAssigned, itemId, loginData, personId, post]);
+  return (
+    <RequestActionButton
+      request={request}
+      onClick={onClick}
+      className="py-1 px-4 mx-auto mb-2 font-normal rounded-lg border"
+    >
+      {dateAssignedButtonText}
+    </RequestActionButton>
+  );
 }

@@ -65,6 +65,13 @@
         "text": "Contract can be signed until {{dueDate}}"
       },
       "selectYear": "Select year"
+    },
+    "reviews": {
+      "titles": {
+        "main": "Reviews",
+        "all": "All reviews"
+      },
+      "daysAgo": "{{days}} days ago"
     }
   },
   "calendar": {
@@ -100,6 +107,12 @@
         "supported": "Your birthday",
         "unsupported": "${person.birthday.supported} (YYYY-MM-DD)"
       }
+    }
+  },
+  "reviews": {
+    "titles": {
+      "private": "Review, which won't be publicized",
+      "public": "Review, which will be made public"
     }
   },
   "waitlist": {
