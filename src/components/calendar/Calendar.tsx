@@ -13,11 +13,8 @@ type Props = {
   className?: string
 };
 
-const defaultRowCreator = (e: CalendarWeekAvailability, idx: number) => (
-  <CalendarRow
-    key={idx}
-    data={e}
-  />
+const defaultRowCreator = (e: CalendarWeekAvailability) => (
+  <CalendarRow data={e} />
 );
 
 export function Calendar({
@@ -87,9 +84,11 @@ function CalendarRow({ data }: { data: CalendarWeekAvailability }) {
           const final = `KW ${calendarWeek.kw()
             .toString(10)
             .padStart(2, '0')} - ${t('calendar.weekFrom')} ${calendarWeek.format()} ${text}`;
+
           return (
             <li
-              key={calendarWeek.kw()}
+              key={calendarWeek.kw()
+                .toString(10) + text}
               className={`${getCellColor(state)}  text-center flex items-center justify-center p-2`}
             >
               <Emoji

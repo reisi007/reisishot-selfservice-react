@@ -46,6 +46,7 @@
       "react-app",
       "react-app/jest",
       "plugin:tailwindcss/recommended",
+      "plugin:react/jsx-runtime",
       "airbnb",
       "airbnb-typescript"
     ],
@@ -73,6 +74,7 @@
       "@typescript-eslint/quotes": "warn",
       "react/jsx-closing-tag-location": "warn",
       "react/jsx-closing-bracket-location": "warn",
+      "react/jsx-key": "error",
       "max-len": [
         "error",
         {

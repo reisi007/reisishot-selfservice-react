@@ -77,7 +77,7 @@ function DisplayDiagramPerYear(yearData: YearDataType & StatisticChartProps) {
   return (
     <>
       {[RealityCheck, AbsolutePerYear, RelativePerYear, TotalPie].map((Chart) => (
-        <div className="my-8">
+        <div key={Chart.toString()} className="my-8">
           <Savable>
             <Chart {...yearData} />
           </Savable>
@@ -91,7 +91,7 @@ function DisplayDiagramsPerMonth(monthData: MonthDataType & StatisticChartProps)
   return (
     <>
       {[AbsolutePerMonth].map((Chart) => (
-        <div className="my-8">
+        <div key={Chart.toString()} className="my-8">
           <Savable>
             <Chart {...monthData} />
           </Savable>
