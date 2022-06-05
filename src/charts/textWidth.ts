@@ -13,7 +13,7 @@ export function useFontSize(text: string, {
       const height = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
       return (!maxWidth || textMetrics.width > maxWidth) && (!maxHeight || height > maxHeight);
     });
-    return ALL_FONT_SIZES[idx];
+    return ALL_FONT_SIZES[idx > 0 ? idx - 1 : 0];
   }, [maxHeight, maxWidth, text]);
 }
 
@@ -58,10 +58,10 @@ function getFontSizeOf(overrides?: { el?: HTMLElement, weight?: string, size?: s
  */
 function binarySearch<T>(array: Array<T>, pred: (elem: T) => boolean): number {
   let lo = -1;
-  let
-    hi = array.length;
+  let hi = array.length;
   while (1 + lo < hi) {
-    const mi = lo + ((hi - lo) / 2);
+    // eslint-disable-next-line no-bitwise
+    const mi = lo + ((hi - lo) >> 1);
     if (pred(array[mi])) {
       hi = mi;
     } else {
