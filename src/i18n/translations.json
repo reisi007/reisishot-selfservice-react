@@ -120,7 +120,8 @@
     "moreInfo": "Further information",
     "positive": "Good experience",
     "negative": "Bad experience",
-    "points": "points"
+    "points": "points",
+    "xStars": "{{stars}} stars"
   },
   "actions": {
     "delete": "Delete"

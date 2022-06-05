@@ -4,15 +4,19 @@ import { useEffect } from 'react';
 import { StyledButton } from './components/StyledButton';
 import { useNavigation } from './hooks/useNavigation';
 import { useAdminLogin } from './admin/AdminLoginContextProvider';
+import { useWaitlistLogin } from './waitlist/WaitlistContextProvider';
 
 function useSpecialRedirects() {
   const [, navigate] = useNavigation();
   const [isAdminLoggedIn] = useAdminLogin();
+  const [isWaitlistLoggedIn] = useWaitlistLogin();
   useEffect(() => {
     if (isAdminLoggedIn) {
       navigate({ newUrl: '/dashboard' });
+    } else if (isWaitlistLoggedIn) {
+      navigate({ newUrl: '/waitlist/book' });
     }
-  }, [isAdminLoggedIn, navigate]);
+  }, [isAdminLoggedIn, isWaitlistLoggedIn, navigate]);
 }
 
 export default function Root() {
