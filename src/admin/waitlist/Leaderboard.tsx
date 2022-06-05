@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import dayjs from 'dayjs';
 import { FormikProps } from 'formik/dist/types';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDebounce } from 'use-debounce';
 import { number as validateNumber, object as validateObject } from 'yup';
 import { LoadingIndicator } from '../../LoadingIndicator';
@@ -80,7 +80,6 @@ function PerYearForm({
     fetchData({ year }, loginData);
   }, [fetchData, loginData, year]);
 
-  const displayData = useCallback((data: Array<LeaderboardEntry>) => <List className="mt-4 mb-2" items={data} />, []);
   return (
     <>
       <h3 className="py-2 text-2xl">{t('admin.waitlist.titles.leaderboard.year', values)}</h3>
@@ -95,8 +94,9 @@ function PerYearForm({
       <Loadable
         result={[request]}
         loadingElement={<LoadingIndicator height="10rem" />}
-        displayData={displayData}
-      />
+      >
+        {(data) => <List className="mt-4 mb-2" items={data} />}
+      </Loadable>
     </>
   );
 }

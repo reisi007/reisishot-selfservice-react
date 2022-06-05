@@ -88,16 +88,6 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
   } = formik;
   const { t } = useTranslation();
   const contractData = useContractFilenames();
-  const displayContractData = useCallback((data: { key: string, displayName: string }[]) => (
-    <FormSelect
-      options={data}
-      className="w-full"
-      label={t('admin.contract.selectContract')}
-      required
-      name="contractType"
-      disabledOption={t('admin.contract.selectContract')}
-    />
-  ), [t]);
   return (
     <div className="px-4">
       <FieldArray name="persons">
@@ -138,8 +128,18 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
         <Loadable
           result={contractData}
           loadingElement={<LoadingIndicator height="2rem" />}
-          displayData={displayContractData}
-        />
+        >
+          {(data) => (
+            <FormSelect
+              options={data}
+              className="w-full"
+              label={t('admin.contract.selectContract')}
+              required
+              name="contractType"
+              disabledOption={t('admin.contract.selectContract')}
+            />
+          )}
+        </Loadable>
       </div>
       <div>
         <FormInput

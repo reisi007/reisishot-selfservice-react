@@ -72,6 +72,7 @@
       "@typescript-eslint/space-infix-ops": "warn",
       "@typescript-eslint/quotes": "warn",
       "react/jsx-closing-tag-location": "warn",
+      "react/jsx-closing-bracket-location": "warn",
       "max-len": [
         "error",
         {
@@ -80,7 +81,7 @@
         }
       ],
       "no-console": [
-        "error",
+        "warn",
         {
           "allow": [
             "couunt",

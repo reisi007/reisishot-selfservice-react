@@ -28,7 +28,6 @@ export function SubmitButton<FormType>({
   const { t } = useTranslation();
   const result: [ResponseValues<unknown, unknown, unknown>] | undefined = useMemo(() => (requestInfo === undefined ? undefined : [requestInfo]), [requestInfo]);
   const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
-  const displayNothing = useCallback(() => <>{null}</>, []);
   const errorElement = useCallback((e: AxiosError<unknown, unknown>) => <DefaultErrorElement className="bg-white rounded" error={e} />, []);
   return (
     <StyledButton
@@ -43,7 +42,6 @@ export function SubmitButton<FormType>({
          && (
            <Loadable
              className="inline-flex mt-2"
-             displayData={displayNothing}
              loadingElement={<LoadingIndicator height="2rem" />}
              errorElement={errorElement}
              result={result}

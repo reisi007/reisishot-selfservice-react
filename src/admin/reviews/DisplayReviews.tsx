@@ -1,29 +1,110 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from 'dayjs';
+import { Cell, Pie, PieChart } from 'recharts';
+import classNames from 'classnames';
 import { LoadedReview, useGetAllReviews } from './reviews.api';
 import { LoginData } from '../login/LoginData';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
+import { useFontSize } from '../../charts/textWidth';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
   const data = useGetAllReviews(loginData);
-  const displayData = useCallback((curData: LoadedReview[]) => <DisplayReviewData data={curData} />, []);
   return (
     <>
       <h1 className="mb-2">{t('admin.reviews.titles.all')}</h1>
       <Loadable
         result={data}
         loadingElement={<LoadingIndicator height="10rem" />}
-        displayData={displayData}
-      />
+      >
+        {(curData) => (
+          <>
+            <DisplayChart data={curData} />
+            <DisplayReviewData data={curData} />
+          </>
+        )}
+      </Loadable>
     </>
   );
 }
 
+function DisplayChart({ data }: { data: Array<LoadedReview> }) {
+  const [avg, cnt] = useMemo(() => {
+    const filteredData = data.map((e) => e.rating)
+      .filter((e) => e !== undefined && !Number.isNaN(e));
+    const count = filteredData.length;
+    const sum = filteredData
+      .reduce((a, b) => (a ?? 0) + (b ?? 0)) ?? 0;
+    const average = Math.round(sum / count);
+    return [average, count] as const;
+  }, [data]);
+  const label = `${avg} / 100 (${cnt ?? 0})`;
+
+  return (
+    <>
+      <ResponsiveContainer className="mx-auto w-full md:w-1/2">
+        {(width) => <PieChartChart width={width} label={label} avg={avg} />}
+      </ResponsiveContainer>
+      <span className="text-xl font-medium text-center" />
+    </>
+  );
+}
+
+type PieChartChartProps = { width: number, label: string, avg: number };
+
+function PieChartChart({
+  width,
+  label,
+  avg,
+}: PieChartChartProps) {
+  const size = Math.min(500, width);
+  const fontSize = useFontSize(label, { maxWidth: size / 2 });
+  const fill = classNames({
+    red: avg >= 0 && avg < 20,
+    orange: avg >= 40 && avg < 60,
+    yellow: avg >= 60 && avg < 80,
+    green: avg >= 80,
+  });
+  return (
+    <PieChart
+      className="mb-4"
+      width={size}
+      height={size / 2}
+    >
+      <Pie
+        cy={size / 2}
+        startAngle={180}
+        endAngle={0}
+        outerRadius={0.5 * size}
+        innerRadius={0.3 * size}
+        dataKey="value"
+        data={[{
+          value: avg,
+        }, {
+          value: 100 - avg,
+        }]}
+      >
+        <Cell fill={fill} />
+        <Cell fill="white" />
+      </Pie>
+      <text
+        x={size / 2}
+        y={(size / 2) - fontSize}
+        style={{ fontSize: `${fontSize}px` }}
+        textAnchor="middle"
+        dominantBaseline="middle"
+      >
+        {label}
+      </text>
+    </PieChart>
+  );
+}
+
 function DisplayReviewData({ data }: { data: Array<LoadedReview> }) {
-  return <div className="grid md:grid-cols-2">{data.map((d) => <DisplaySingleReview data={d} />)}</div>;
+  return <div className="grid md:grid-cols-2">{data.map((d) => <DisplaySingleReview key={`${d.creation_date} ${d.name}`} data={d} />)}</div>;
 }
 
 function DisplaySingleReview({ data }: { data: LoadedReview }) {

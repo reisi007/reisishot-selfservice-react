@@ -23,8 +23,7 @@ export function RequestActionButton(rawProps: Props) {
   return (
     <ActionButton {...props} disabled={loading}>
       {children}
-      {/* eslint-disable-next-line react/jsx-no-useless-fragment,react/no-unstable-nested-components */}
-      <Loadable result={[request]} loadingElement={<LoadingIndicator height="2rem" />} displayData={() => <></>} />
+      <Loadable result={[request]} loadingElement={<LoadingIndicator height="2rem" />} />
     </ActionButton>
   );
 }
