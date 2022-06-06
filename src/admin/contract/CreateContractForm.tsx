@@ -132,7 +132,7 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
       </FieldArray>
       <div>
         <Loadable
-          result={contractData}
+          request={contractData}
           loadingElement={<LoadingIndicator height="2rem" />}
         >
           {(data) => (

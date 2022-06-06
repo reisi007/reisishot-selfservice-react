@@ -18,7 +18,7 @@ export function DisplayReviews({ loginData }: { loginData: LoginData }) {
     <>
       <h1 className="mb-2">{t('admin.reviews.titles.all')}</h1>
       <Loadable
-        result={data}
+        request={data}
         loadingElement={<LoadingIndicator height="10rem" />}
       >
         {(curData) => (

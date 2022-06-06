@@ -1,5 +1,5 @@
-import { useFetch } from '../../http';
-import { usePut } from '../admin.api';
+import { useFetch } from '../http';
+import { usePut } from '../admin/admin.api';
 
 export type ReferralInfo = {
   email: string,

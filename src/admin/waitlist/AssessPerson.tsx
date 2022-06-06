@@ -2,9 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { LoginData } from '../login/LoginData';
 import { RequestActionButton } from './ActionButton';
 import { AdminWaitlistRecord } from './waitlist.api';
-import { ReferralType, useAddPointsDirect } from './referral.api';
+import { ReferralType, useAddPointsDirect } from '../../waitlist/referral.api';
 
-export function AssessPerson({ loginData, registration }: { loginData: LoginData, registration: AdminWaitlistRecord }) {
+export function AssessPerson({
+  loginData,
+  registration,
+}: { loginData: LoginData, registration: AdminWaitlistRecord }) {
   const { t } = useTranslation();
   const [request, put] = useAddPointsDirect();
 
@@ -12,14 +15,20 @@ export function AssessPerson({ loginData, registration }: { loginData: LoginData
   return (
     <>
       <RequestActionButton
-        onClick={() => put({ email, action: ReferralType.SHOOTING_GOOD }, loginData)}
+        onClick={() => put({
+          email,
+          action: ReferralType.SHOOTING_GOOD,
+        }, loginData)}
         className="text-white bg-reisishot"
         request={request}
       >
         {t('waitlist.positive')}
       </RequestActionButton>
       <RequestActionButton
-        onClick={() => put({ email, action: ReferralType.SHOOTING_BAD }, loginData)}
+        onClick={() => put({
+          email,
+          action: ReferralType.SHOOTING_BAD,
+        }, loginData)}
         className="text-white bg-red-500"
         request={request}
       >

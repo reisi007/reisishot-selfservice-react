@@ -2,8 +2,10 @@ import React, { ReactNode } from 'react';
 import { AxiosError } from 'axios';
 import { ResponseValues } from 'axios-hooks';
 
+export type LoadableRequest<TResponse, TRequest, TError> = Pick<ResponseValues<TResponse, TRequest, TError>, 'data' | 'loading' | 'error'>;
+
 type Props<TResponse, TRequest, TError> = {
-  result: [ResponseValues<TResponse, TRequest, TError>, ...unknown[]],
+  request: [LoadableRequest<TResponse, TRequest, TError>, ...unknown[]],
   loadingElement: ReactNode,
   errorElement?: (error: AxiosError<TError, TRequest>) => ReactNode,
   children?: (data: TResponse) => ReactNode,
@@ -27,7 +29,7 @@ export function DefaultErrorElement({
 }
 
 export function Loadable<TResponse, TRequest, TError>({
-  result,
+  request,
   loadingElement,
   errorElement = (e) => <DefaultErrorElement error={e} />,
   children,
@@ -37,7 +39,7 @@ export function Loadable<TResponse, TRequest, TError>({
     data,
     loading,
     error,
-  }] = result;
+  }] = request;
 
   return (
     <div className={`flex flex-col ${className}`}>
