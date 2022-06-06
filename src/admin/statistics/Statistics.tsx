@@ -45,7 +45,7 @@ export function Statistics({ loginData }: LoginDataProps) {
       <StatisticDataPanel />
       <div className="w-full">
         <Loadable
-          result={yearResult}
+          request={yearResult}
           loadingElement={<LoadingIndicator height="20rem" />}
         >
           {(data) => (
@@ -57,7 +57,7 @@ export function Statistics({ loginData }: LoginDataProps) {
           )}
         </Loadable>
         <Loadable
-          result={monthResult}
+          request={monthResult}
           loadingElement={<LoadingIndicator height="20rem" />}
         >
           {(data) => (

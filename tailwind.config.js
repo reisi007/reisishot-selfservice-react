@@ -3,7 +3,7 @@ function extensions() {
 }
 
 module.exports = {
-    content: ["./src/**/*.{html,ts,tsx}", "./public/**/*.html"],
+    content: ["./src/**/*.{ts,tsx}"],
     theme: {
         extend: {
             fontWeight: extensions(),

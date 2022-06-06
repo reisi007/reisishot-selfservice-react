@@ -23,7 +23,7 @@ export function RequestActionButton(rawProps: Props) {
   return (
     <ActionButton {...props} disabled={loading}>
       {children}
-      <Loadable result={[request]} loadingElement={<LoadingIndicator height="2rem" />} />
+      <Loadable request={[request]} loadingElement={<LoadingIndicator height="2rem" />} />
     </ActionButton>
   );
 }

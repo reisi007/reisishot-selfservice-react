@@ -44,7 +44,7 @@ export function SubmitButton<FormType>({
              className="inline-flex mt-2"
              loadingElement={<LoadingIndicator height="2rem" />}
              errorElement={errorElement}
-             result={result}
+             request={result}
            />
          )}
       </>

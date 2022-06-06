@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
 import { CalendarWeek } from './CalendarWeek';
-import { ShootingDateEntry, ShootingSlotState } from '../../admin/login/login.api';
+import { ShootingDateEntry, ShootingSlotState } from './calendar.api';
 
 export class CalendarWeekAvailability {
   readonly calendarWeek: CalendarWeek;
@@ -41,9 +41,7 @@ export class CalendarWeekAvailability {
   }
 
   process(event: Array<CalendarWeekAvailability>, index: number): void;
-
   process(event: ShootingDateEntry): void;
-
   process(event: Array<CalendarWeekAvailability> | ShootingDateEntry, index: number | undefined = undefined): void {
     if (Array.isArray(event)) {
       if (index === undefined) {

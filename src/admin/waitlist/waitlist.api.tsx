@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { RefetchOptions, ResponseValues } from 'axios-hooks';
-import { WaitlistPerson, WaitlistRecord } from '../../waitlist/waitlist.api';
+import { WaitlistRecord } from '../../waitlist/private/waitlist-private.api';
 import { useFetch } from '../../http';
 import { LoginData } from '../login/LoginData';
 import { createHeader, usePut } from '../admin.api';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { Person } from '../../types/Person';
+import { WaitlistItem, WaitlistPerson } from '../../waitlist/public/waitlist-public.api';
 
 export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
@@ -172,18 +173,6 @@ export type AdminWaitlistRecord = WaitlistRecord & WaitlistPerson & {
   person_id: number,
   date_assigned: boolean,
   ignored: boolean
-};
-
-export type WaitlistItem = {
-  id: number,
-  short: string,
-  image_id: string,
-  title: string,
-  description: string,
-  available_from: string,
-  available_to: string,
-  max_waiting: number | null,
-  registered: boolean
 };
 
 export type PendingSignaturInformation = {

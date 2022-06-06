@@ -21,7 +21,7 @@ function App() {
   const adminRoutes = useAdminRoutes();
   const waitlistRoutes = useWaitlistRoutes();
   return (
-    <div className="container w-full h-full">
+    <div className="container p-4">
       <Router>
         <Suspense fallback={<div />}>
           <Routes>
