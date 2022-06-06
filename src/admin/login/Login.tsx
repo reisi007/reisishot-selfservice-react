@@ -11,10 +11,7 @@ import { useAdminLogin } from '../AdminLoginContextProvider';
 function CalendarWithSlider({ data }: { data: Array<ShootingDateEntry> }) {
   const { t } = useTranslation();
   const [weekSliderValueInternal, setWeekSliderValue] = useState(8);
-  const [weekSliderValue] = useDebounce(weekSliderValueInternal, 300, {
-    leading: true,
-    trailing: true,
-  });
+  const [weekSliderValue] = useDebounce(weekSliderValueInternal, 300, { maxWait: 500 });
 
   return (
     <Calendar weeks={weekSliderValue} data={data}>

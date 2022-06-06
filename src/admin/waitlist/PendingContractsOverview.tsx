@@ -37,5 +37,5 @@ export function PendingContractsOverview({ data }: Props) {
 }
 
 function computeUrl(email: string, accessKey: string) {
-  return `https://${window.location.host}/contracts/${email}/${accessKey}`;
+  return `${window.location.protocol}//${window.location.host}/contracts/${email}/${accessKey}`;
 }
