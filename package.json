@@ -82,6 +82,7 @@
       "space-in-parens": "warn",
       "react/jsx-one-expression-per-line": "warn",
       "object-curly-newline": "warn",
+      "@typescript-eslint/comma-dangle": "warn",
       "react/jsx-key": "error",
       "max-len": [
         "error",
