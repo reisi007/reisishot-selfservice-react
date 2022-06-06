@@ -117,12 +117,23 @@
     }
   },
   "waitlist": {
+    "titles": {
+      "login": "Login",
+      "register": "Register",
+      "public": "Shooting waitlist",
+      "private": "Register yourself for a shooting",
+      "publicActionButton": "Login or register to the waitlist to register for a shooting"
+    },
     "availability": "Availability",
     "moreInfo": "Further information",
     "positive": "Good experience",
     "negative": "Bad experience",
     "points": "points",
-    "xStars": "{{stars}} stars"
+    "xStars": "{{stars}} stars",
+    "openEmail": "You just got mail!\nClick the link in the email to continue!\nYou can close this window"
+  },
+  "referrable": {
+    "referredBy": "Referred by {{referrer}}"
   },
   "actions": {
     "delete": "Delete"

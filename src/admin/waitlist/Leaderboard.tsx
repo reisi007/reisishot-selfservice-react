@@ -92,7 +92,7 @@ function PerYearForm({
         min={minYear}
       />
       <Loadable
-        result={[request]}
+        request={[request]}
         loadingElement={<LoadingIndicator height="10rem" />}
       >
         {(data) => <List className="mt-4 mb-2" items={data} />}

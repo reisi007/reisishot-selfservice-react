@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 import { LoadingIndicator } from '../../LoadingIndicator';
-import { ShootingDateEntry, useCalendarData } from './login.api';
 import { Calendar } from '../../components/calendar/Calendar';
 import { LoginForm } from './LoginForm';
 import { Loadable } from '../../components/Loadable';
 import { useAdminLogin } from '../AdminLoginContextProvider';
+import { ShootingDateEntry, useCalendarData } from '../../components/calendar/calendar.api';
 
 function CalendarWithSlider({ data }: { data: Array<ShootingDateEntry> }) {
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ export function Login() {
       <h1 className="mb-2">{t('admin.login.title')}</h1>
       {!loginInfo && <LoginForm setData={setLoginInfo} />}
       <Loadable
-        result={calendarData}
+        request={calendarData}
         loadingElement={<LoadingIndicator height="20rem" />}
       >
         {(data) => <CalendarWithSlider data={data} />}

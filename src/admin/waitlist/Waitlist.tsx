@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 import { LoginDataProps } from '../login/LoginData';
 import { useWaitlistAdminData } from './waitlist.api';
 import { Loadable } from '../../components/Loadable';
@@ -7,6 +8,7 @@ import { ShootingOverview } from './ShootingOverview';
 import { PendingContractsOverview } from './PendingContractsOverview';
 import { Leaderboard } from './Leaderboard';
 import { IgnoredPersons } from './IgnoredPersons';
+import { useModal } from '../../components/Modal';
 
 export function Waitlist({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
@@ -16,7 +18,7 @@ export function Waitlist({ loginData }: LoginDataProps) {
     <>
       <h1 className="py-2 text-4xl">{t('admin.waitlist.titles.main')}</h1>
       <Loadable
-        result={data}
+        request={data}
         loadingElement={(
           <LoadingIndicator height="10rem" />
         )}
@@ -32,4 +34,11 @@ export function Waitlist({ loginData }: LoginDataProps) {
       </Loadable>
     </>
   );
+}
+
+function NeedMailModal() {
+  const { t } = useTranslation();
+  const children = useCallback(() => <p>{t('waitlist.openEmail')}</p>, [t]);
+  const [modal] = useModal(children, true);
+  return modal;
 }

@@ -2,10 +2,10 @@ import React, { HTMLProps, useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { CalendarWeekAvailability } from './CalendarWeekAvailability';
-import { ShootingDateEntry, ShootingSlotState } from '../../admin/login/login.api';
+import { ShootingDateEntry, ShootingSlotState } from './calendar.api';
 
 type RowCreator = (e: CalendarWeekAvailability, idx: number) => React.ReactElement<HTMLProps<HTMLDataListElement>>;
-type Props = {
+export type Props = {
   data: Array<ShootingDateEntry>,
   weeks: number,
   rowCreator?: RowCreator,

@@ -59,7 +59,7 @@ function KnownPersonDisplayChooser({
   const result = useKnownPersons(loginData);
   return (
     <Loadable
-      result={result}
+      request={result}
       loadingElement={<LoadingIndicator height="20rem" />}
     >
       {(data) => (
