@@ -47,7 +47,7 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
           dueDate: '',
           persons: [locationPerson ?? createPerson()],
           text: '',
-          baseUrl: window.location.host,
+          baseUrl: `${window.location.protocol}//${window.location.host}`,
         }}
         validationSchema={validateObject({
           contractType: requiredString(),

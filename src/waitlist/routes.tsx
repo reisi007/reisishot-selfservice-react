@@ -16,7 +16,7 @@ export function useWaitlistRoutes() {
     <Route path="/waitlist">
       {privateArea}
       <Route index element={<PublicPage />} />
-      <Route path=":referrer?" element={<PublicPage />} />
+      <Route path=":referrer" element={<PublicPage />} />
       <Route path=":email/:hash" element={<EmailPage />} />
       <Route path="*" element={<Navigate to="/waitlist" />} />
     </Route>

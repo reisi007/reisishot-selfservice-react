@@ -14,7 +14,7 @@ type Props = {
 };
 
 const defaultRowCreator = (e: CalendarWeekAvailability) => (
-  <CalendarRow data={e} />
+  <CalendarRow key={(e.text ?? '') + e.calendarWeek.kw()} data={e} />
 );
 
 export function Calendar({
@@ -113,6 +113,7 @@ const RAW_EMOJI_DATA: { [key: string]: string | Array<string> } = {
   '👙': 'Boudoir',
   '👧': ['Portrait', 'Porträt'],
   '🐶': 'Hund',
+  '🏘': 'Stadt',
   '❓❓': '??',
 };
 
