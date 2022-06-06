@@ -66,6 +66,7 @@
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/spac": "off",
       "jsx-a11y/no-static-element-interactions": "off",
+      "linebreak-style": "off",
       "@typescript-eslint/object-curly-spacing": "warn",
       "no-trailing-spaces": "warn",
       "no-multi-spaces": "warn",
@@ -77,6 +78,10 @@
       "react/jsx-closing-tag-location": "warn",
       "react/jsx-closing-bracket-location": "warn",
       "react/jsx-props-no-multi-spaces": "warn",
+      "@typescript-eslint/comma-spacing": "warn",
+      "space-in-parens": "warn",
+      "react/jsx-one-expression-per-line": "warn",
+      "object-curly-newline": "warn",
       "react/jsx-key": "error",
       "max-len": [
         "error",

@@ -50,7 +50,8 @@
           "main": "Leaderboard",
           "year": "Leaderboard ({{year}})",
           "total": "Total leaderboard"
-        }
+        },
+        "ignored": "Ignored models"
       },
       "statistics": {
         "start": "Enter shooting statistics",
