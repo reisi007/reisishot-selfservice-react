@@ -5,6 +5,7 @@ import { useFetch } from '../../http';
 import { LoginData } from '../login/LoginData';
 import { createHeader, usePut } from '../admin.api';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
+import { Person } from '../../types/Person';
 
 export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
@@ -152,7 +153,8 @@ export function usePostNewShootingStatistic() {
 export type WaitlistAdminData<LeaderPos extends number | undefined = number> = {
   registrations: Array<WaitlistItemWithRegistrations>,
   leaderboard: Array<LeaderboardEntry<LeaderPos>>
-  pendingContracts: Array<PendingSignaturInformation>
+  pendingContracts: Array<PendingSignaturInformation>,
+  blocked: Array<IgnoredPerson>
 };
 
 export type LeaderboardEntry<Pos extends number | undefined = number> = {
@@ -189,3 +191,5 @@ export type PendingSignaturInformation = {
   access_key: string,
   due_date: string
 };
+
+export type IgnoredPerson = Person & { ignoredUnit: string };
