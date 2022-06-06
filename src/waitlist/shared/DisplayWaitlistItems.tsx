@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { WaitlistItem } from '../public/waitlist-public.api';
 import { Image } from './Image';
 
@@ -9,7 +8,6 @@ export function DisplayWaitlistItems({
   items,
   children,
 }: Props) {
-  const { t } = useTranslation();
   return (
     <div className="grid gap-4 mt-6 md:grid-cols-2">
       {items.map((e) => <DisplayWaitlistItem key={e.id} item={e}>{children}</DisplayWaitlistItem>)}
