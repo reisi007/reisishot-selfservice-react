@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorageState';
-import { LoginData } from '../admin/login/LoginData';
+import { LoginData } from '../utils/LoginData';
 
 function usePersistedWaitlistLogin() {
   return useLocalStorage<LoginData>('waitlist');

@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
 import dayjs from 'dayjs';
-import { createHeader } from '../admin.api';
+import { createHeader } from '../../utils/http.authed';
 import { Totals } from '../../charts/helper';
 import { sumValues } from './statistics.utils';
-import { LoginData } from '../login/LoginData';
-import { useFetchGet } from '../../http';
+import { LoginData } from '../../utils/LoginData';
+import { useFetch } from '../../http';
 
 export type ShootingStatisticsResponse = {
   [key: string]: {
@@ -28,7 +28,7 @@ export function useChartDataPerYear(
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<ShootingStatisticsResponse>({
+  }] = useFetch<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_get.php',
     urlParams: {
       showGroups: String(showGroups),
@@ -92,7 +92,7 @@ export function useChartDataPerMonth(loginData: LoginData, {
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<ShootingStatisticsResponse>({
+  }] = useFetch<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_month_get.php',
     urlParams: {
       showGroups: String(showGroups),

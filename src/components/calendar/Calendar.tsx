@@ -94,9 +94,7 @@ function CalendarRow({ data }: { data: CalendarWeekAvailability }) {
               <Emoji
                 text={_text}
               />
-              <span
-                className="grow"
-              >
+              <span className="grow">
                 {final}
               </span>
             </li>
@@ -141,7 +139,7 @@ export function Emoji({ text: _text }: { text: string }) {
     <>
       {!!emojis && (
         <span
-          className="inline-flex justify-self-start items-center p-1 bg-white rounded-lg"
+          className="justify-self-start items-center p-1 w-14 text-center bg-white rounded-lg"
         >
           {emojis}
         </span>

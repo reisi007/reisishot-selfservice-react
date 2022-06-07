@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useCallback } from 'react';
 import { FormikHelpers } from 'formik/dist/types';
 import { usePostNewShootingStatistic, WaitlistItemWithRegistrations } from './waitlist.api';
 import { Registration } from './Registration';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
 import { useModal } from '../../components/Modal';
 import { SubmitButton } from '../../components/SubmitButton';

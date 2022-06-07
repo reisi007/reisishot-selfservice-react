@@ -1,7 +1,7 @@
 import { Navigate, Route } from 'react-router-dom';
 import { useWaitlistLogin } from './WaitlistContextProvider';
 import { lazyInternal, ReactFunctionComponent } from '../lazy';
-import { withLoginData } from '../admin/login/LoginData';
+import { withLoginData } from '../utils/LoginData';
 
 export function useWaitlistRoutes() {
   const [waitlistLogin] = useWaitlistLogin();

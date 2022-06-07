@@ -5,7 +5,7 @@ import { HOST } from './env';
 
 type Params = { url: string, headers?: AxiosRequestHeaders, urlParams?: { [key: string]: string }, options?: Options };
 
-function useFetch<Response, Request = unknown, Error = unknown>({
+export function useFetch<Response, Request = unknown, Error = unknown>({
   url,
   headers,
   urlParams = {},
@@ -26,9 +26,7 @@ function useFetch<Response, Request = unknown, Error = unknown>({
   }, options);
 }
 
-export const useFetchGet = useFetch;
-
-export function useFetchPost<Response, Request = unknown, Error = unknown>(oldPrams: Params) {
+export function useManualFetch<Response, Request = unknown, Error = unknown>(oldPrams: Params) {
   const params = {
     ...oldPrams,
     options: { manual: true, ...oldPrams.options },

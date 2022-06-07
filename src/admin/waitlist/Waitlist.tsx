@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
-import { LoginDataProps } from '../login/LoginData';
+import { LoginDataProps } from '../../utils/LoginData';
 import { useWaitlistAdminData } from './waitlist.api';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';

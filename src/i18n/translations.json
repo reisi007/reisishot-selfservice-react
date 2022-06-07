@@ -65,7 +65,9 @@
         "title": "Contracts, which are currently not signed",
         "text": "Contract can be signed until {{dueDate}}"
       },
-      "selectYear": "Select year"
+      "selectYear": "Select year",
+      "positive": "Good experience",
+      "negative": "Bad experience"
     },
     "reviews": {
       "titles": {
@@ -117,7 +119,8 @@
     "titles": {
       "private": "Review, which won't be publicized",
       "public": "Review, which will be made public"
-    }
+    },
+    "xStars": "{{stars}} stars"
   },
   "waitlist": {
     "titles": {
@@ -129,12 +132,14 @@
     },
     "availability": "Availability",
     "moreInfo": "Further information",
-    "positive": "Good experience",
-    "negative": "Bad experience",
     "points": "points",
-    "xStars": "{{stars}} stars",
     "xSuccessful": "{{action}} successful",
-    "openEmail": "You just got mail!\nClick the link in the email to continue!"
+    "openEmail": "You just got mail!\nClick the link in the email to continue!",
+    "registerNow": "Register now",
+    "unregisterNow": "Give up your place",
+    "shooting": {
+      "additionalInfo": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most"
+    }
   },
   "referrable": {
     "referredBy": "Referred by {{referrer}}"

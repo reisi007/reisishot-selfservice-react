@@ -5,7 +5,7 @@ import {
   FormErrorProps, SelectOptionProps, StyledInputField, StyledSelectField, StyledTextArea,
 } from './StyledFields';
 
-type FormFieldProps = { label: string, name: string, className?: string, required?: boolean };
+type FormFieldProps = { label?: string, name: string, className?: string, required?: boolean };
 type TextFieldProps =
   { type?: HTMLInputTypeAttribute }
   & FormFieldProps
@@ -91,7 +91,7 @@ function FormikFormInput({
 
   return (
     <span className={`flex flex-col ${className}`}>
-      <FormLabel name={name} label={label} required={required} />
+      {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledInputField {...field} {...props} error={error} required={required} />
       <FormError error={error} />
     </span>
@@ -115,7 +115,7 @@ function FormikCheckbox({
   return (
     <span className={`inline-block ${className}`}>
       <StyledInputField {...field} {...props} error={error} type="checkbox" required={required} />
-      <FormLabel name={name} label={label} required={required} />
+      {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <FormError error={error} />
     </span>
   );
@@ -137,7 +137,7 @@ function FormikTextArea({
 
   return (
     <span className={`flex flex-col ${className}`}>
-      <FormLabel name={name} label={label} required={required} />
+      {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledTextArea {...field} {...props} error={error} required={required} />
       <FormError error={error} />
     </span>
@@ -179,7 +179,7 @@ function FormikSelectInput({
 
   return (
     <span className={`flex flex-col ${className}`}>
-      <FormLabel name={name} label={label} required={required} />
+      {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledSelectField {...field} {...props} error={error} required={required} />
       <FormError error={error} />
     </span>
@@ -195,7 +195,7 @@ export function FormLabel({
   children,
 }: FormLabelProps) {
   return (
-    <label className="text-gray-700" htmlFor={name}>
+    <label className="text-gray-600" htmlFor={name}>
       {children}
       {' '}
       {label}
