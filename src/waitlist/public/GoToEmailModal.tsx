@@ -6,5 +6,5 @@ export function GoToEmailModal() {
   const { t } = useTranslation();
   const content = useCallback(() => <p>{t('waitlist.openEmail')}</p>, [t]);
   const [modal] = useModal(content, true);
-  return modal;
+  return <>{modal}</>;
 }

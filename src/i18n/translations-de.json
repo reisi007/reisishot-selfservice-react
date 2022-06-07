@@ -15,6 +15,7 @@
   "waitlist": {
     "shooting": {
       "additionalInfo": "Zusätzliche Informationen - Details, die du mir sagen möchtest oder wann (in welcher Kalenderwoche) du am besten Zeit für das Shooting hast"
-    }
+    },
+    "xHello": "Hallo {{name}}!"
   }
 }

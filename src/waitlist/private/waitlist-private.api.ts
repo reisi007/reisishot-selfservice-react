@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { useFetch, useManualFetch } from '../../http';
 import { createHeader, usePostWithAuthentication, usePutWithAuthentication } from '../../utils/http.authed';
-import { WaitlistItem, WaitlistRequest } from '../public/waitlist-public.api';
+import { WaitlistItem, WaitlistPerson, WaitlistRequest } from '../public/waitlist-public.api';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { LoadableRequest } from '../../components/Loadable';
 
@@ -51,4 +51,31 @@ export function useDeleteRegistrationForWaitlist() {
   const put = usePostWithAuthentication(rawPut);
 
   return [request, put] as const;
+}
+
+export function useWaitlistPerson(loginData: LoginData): [LoadableRequest<WaitlistPerson>] {
+  const [{
+    data: rawData,
+    loading,
+    error,
+  }] = useFetch<PdoEmulatedPrepared<WaitlistPerson>>({
+    url: 'api/waitlist-person_get.php',
+    headers: createHeader(loginData),
+  });
+
+  const data = useMemo((): WaitlistPerson | undefined => {
+    if (rawData === undefined) {
+      return undefined;
+    }
+    return {
+      ...rawData,
+      points: parseInt(rawData.points, 10),
+    };
+  }, [rawData]);
+
+  return [{
+    data,
+    loading,
+    error,
+  }];
 }

@@ -51,6 +51,18 @@ i.rs-podcast {
     vertical-align: -.0667em;
 }
 
+.rs-2xl {
+    font-size: 2rem;
+}
+
+.rs-3xl {
+    font-size: 3rem;
+}
+
+.rs-4xl {
+    font-size: 4rem;
+}
+
 .rs-star-full:before, .rs-star-half:before, .rs-star-empty:before {
     margin: 0.05rem
 }

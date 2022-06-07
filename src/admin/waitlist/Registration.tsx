@@ -62,12 +62,12 @@ export function Registration({
            {registration.text}
          </p>
        )}
-      <RegistrationAction registration={registration} loginData={loginData} />
+      <RegistrationActions registration={registration} loginData={loginData} />
     </div>
   );
 }
 
-function RegistrationAction({
+function RegistrationActions({
   registration,
   loginData,
 }: Props) {
