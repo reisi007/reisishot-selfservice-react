@@ -10,6 +10,7 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { useFontSize } from '../../charts/textWidth';
 import { FiveStarRating } from '../../form/FiveStarRating';
+import { Badge } from '../../components/Badge';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -130,9 +131,9 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
         )
       </h2>
       <div className="flex justify-center">
-        <span className="inline-block py-0.5 px-2.5 mr-2 font-light text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg">
+        <Badge>
           {t('admin.reviews.daysAgo', { days: daysAgo })}
-        </span>
+        </Badge>
       </div>
       {!!rating && <FiveStarRating className="mt-2 -mb-2 text-center" starClassName="rs-lg" percentage={rating} />}
       {!!privateReview && (
