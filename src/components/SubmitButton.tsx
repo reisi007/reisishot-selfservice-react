@@ -9,13 +9,13 @@ import { DefaultErrorElement, Loadable } from './Loadable';
 
 type Props<FormType> = {
   formik: FormikProps<FormType>
-  requestInfo?: ResponseValues<unknown, unknown, unknown>,
+  request?: ResponseValues<unknown, unknown, unknown>,
   allowInitialSubmit?: boolean
 };
 
 export function SubmitButton<FormType>({
   formik,
-  requestInfo,
+  request,
   allowInitialSubmit = false,
 }: Props<FormType>) {
   const {
@@ -24,9 +24,9 @@ export function SubmitButton<FormType>({
     submitForm,
     isSubmitting,
   } = formik;
-  const loading = requestInfo?.loading ?? false;
+  const loading = request?.loading ?? false;
   const { t } = useTranslation();
-  const result: [ResponseValues<unknown, unknown, unknown>] | undefined = useMemo(() => (requestInfo === undefined ? undefined : [requestInfo]), [requestInfo]);
+  const result: [ResponseValues<unknown, unknown, unknown>] | undefined = useMemo(() => (request === undefined ? undefined : [request]), [request]);
   const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
   const errorElement = useCallback((e: AxiosError<unknown, unknown>) => <DefaultErrorElement className="bg-white rounded" error={e} />, []);
   return (

@@ -2,10 +2,7 @@ import { Field, FieldProps, getIn } from 'formik';
 import { HTMLInputTypeAttribute, HTMLProps, ReactElement } from 'react';
 import { FormikProps } from 'formik/dist/types';
 import {
-  FormErrorProps,
-  SelectOptionProps,
-  StyledInputField,
-  StyledSelectField,
+  FormErrorProps, SelectOptionProps, StyledInputField, StyledSelectField, StyledTextArea,
 } from './StyledFields';
 
 type FormFieldProps = { label: string, name: string, className?: string, required?: boolean };
@@ -17,6 +14,7 @@ type SelectFieldProps =
   & SelectOptionProps
   & FormFieldProps
   & Partial<HTMLProps<HTMLSelectElement>>;
+type TextAreaProps = FormFieldProps & Partial<HTMLProps<HTMLTextAreaElement>>;
 
 type CheckfieldProps = Omit<TextFieldProps, 'type'>;
 
@@ -52,6 +50,23 @@ export function FormCheckbox({
       label={label}
       required={required}
       component={FormikCheckbox}
+    />
+  );
+}
+
+export function FormTextArea({
+  label,
+  name,
+  required,
+  ...props
+}: TextAreaProps) {
+  return (
+    <Field
+      {...props}
+      name={name}
+      label={label}
+      required={required}
+      component={FormikTextArea}
     />
   );
 }
@@ -101,6 +116,29 @@ function FormikCheckbox({
     <span className={`inline-block ${className}`}>
       <StyledInputField {...field} {...props} error={error} type="checkbox" required={required} />
       <FormLabel name={name} label={label} required={required} />
+      <FormError error={error} />
+    </span>
+  );
+}
+
+function FormikTextArea({
+  label,
+  field,
+  form,
+  required = false,
+  ...restProps
+}: TextAreaProps & FieldProps) {
+  const { name } = field;
+  const error = getError(form, name);
+  const {
+    className = '',
+    ...props
+  } = restProps;
+
+  return (
+    <span className={`flex flex-col ${className}`}>
+      <FormLabel name={name} label={label} required={required} />
+      <StyledTextArea {...field} {...props} error={error} required={required} />
       <FormError error={error} />
     </span>
   );

@@ -1,16 +1,17 @@
-import { useRef } from 'react';
+import { CSSProperties, useRef } from 'react';
 import { useWidth } from '../charts/helper';
 
-type Props = { children: (width: number) => JSX.Element | Array<JSX.Element>, className?: string };
+type Props = { children: (width: number) => JSX.Element | Array<JSX.Element>, className?: string, style?: CSSProperties };
 
 export function ResponsiveContainer({
   children,
   className,
+  style,
 }: Props) {
   const divRef = useRef<HTMLDivElement | null>(null);
   const width = useWidth(divRef);
   return (
-    <div className={className} ref={divRef}>
+    <div className={className} style={style} ref={divRef}>
       {width !== undefined && children(width)}
     </div>
   );

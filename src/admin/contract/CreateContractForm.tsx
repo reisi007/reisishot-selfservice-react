@@ -157,7 +157,7 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
         />
       </div>
       <div className="mx-4">
-        <SubmitButton requestInfo={submitState} formik={formik} />
+        <SubmitButton request={submitState} formik={formik} />
       </div>
     </div>
   );

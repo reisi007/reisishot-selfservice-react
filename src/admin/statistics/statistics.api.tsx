@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
 import dayjs from 'dayjs';
 import { createHeader } from '../admin.api';
-import { useFetch } from '../../http';
 import { Totals } from '../../charts/helper';
 import { sumValues } from './statistics.utils';
 import { LoginData } from '../login/LoginData';
+import { useFetchGet } from '../../http';
 
 export type ShootingStatisticsResponse = {
   [key: string]: {
@@ -19,11 +19,21 @@ export type MonthDataType = ReturnType<typeof convertMonthData>;
 
 export function useChartDataPerYear(
   loginData: LoginData,
-  { showGroups, showMinors }: StatisticsFetchSettings,
+  {
+    showGroups,
+    showMinors,
+  }: StatisticsFetchSettings,
 ): [ResponseValues<YearDataType, unknown, unknown>] {
-  const [{ data: rawData, loading, error }] = useFetch<ShootingStatisticsResponse>({
+  const [{
+    data: rawData,
+    loading,
+    error,
+  }] = useFetchGet<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_get.php',
-    urlParams: { showGroups: String(showGroups), showMinors: String(showMinors) },
+    urlParams: {
+      showGroups: String(showGroups),
+      showMinors: String(showMinors),
+    },
     headers: createHeader(loginData),
   });
 
@@ -34,7 +44,11 @@ export function useChartDataPerYear(
     return convertYearData(rawData);
   }, [rawData]);
 
-  return [{ data: convertedData, loading, error }];
+  return [{
+    data: convertedData,
+    loading,
+    error,
+  }];
 }
 
 const convertYearData = (data: ShootingStatisticsResponse): { data: ShootingStatisticsResponse, totals: Totals } => {
@@ -42,15 +56,21 @@ const convertYearData = (data: ShootingStatisticsResponse): { data: ShootingStat
     Object.entries(data)
       .map(([key, value]) => [key, sumValues(value)]),
   );
-  return { data, totals };
+  return {
+    data,
+    totals,
+  };
 };
 
 const convertMonthData = (rawData: ShootingStatisticsResponse): { data: ShootingStatisticsResponse, totals: Totals } => {
   const data = Object.fromEntries(
-    Object.entries(rawData).map(([key, values]) => {
-      const month = dayjs().month(parseInt(key, 10) - 1).format('MMMM');
-      return [month, values];
-    }),
+    Object.entries(rawData)
+      .map(([key, values]) => {
+        const month = dayjs()
+          .month(parseInt(key, 10) - 1)
+          .format('MMMM');
+        return [month, values];
+      }),
   );
 
   const totals = Object.fromEntries(
@@ -58,16 +78,26 @@ const convertMonthData = (rawData: ShootingStatisticsResponse): { data: Shooting
       .map(([key, value]) => [key, sumValues(value)]),
   );
 
-  return { data, totals };
+  return {
+    data,
+    totals,
+  };
 };
 
 export function useChartDataPerMonth(loginData: LoginData, {
   showMinors,
   showGroups,
 }: StatisticsFetchSettings): [ResponseValues<MonthDataType, unknown, unknown>] {
-  const [{ data: rawData, loading, error }] = useFetch<ShootingStatisticsResponse>({
+  const [{
+    data: rawData,
+    loading,
+    error,
+  }] = useFetchGet<ShootingStatisticsResponse>({
     url: '/api/waitlist-admin-shooting_statistics_month_get.php',
-    urlParams: { showGroups: String(showGroups), showMinor: String(showMinors) },
+    urlParams: {
+      showGroups: String(showGroups),
+      showMinor: String(showMinors),
+    },
     headers: createHeader(loginData),
   });
 
@@ -78,5 +108,9 @@ export function useChartDataPerMonth(loginData: LoginData, {
     return convertMonthData(rawData);
   }, [rawData]);
 
-  return [{ data: convertedData, loading, error }];
+  return [{
+    data: convertedData,
+    loading,
+    error,
+  }];
 }
