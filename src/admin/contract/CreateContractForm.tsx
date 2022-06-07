@@ -14,7 +14,7 @@ import { requiredString, validateDateString } from '../../yupHelper';
 import { CreateContract, useContractFilenames, useCreateContract } from './contract.api';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
-import { LoginDataProps } from '../login/LoginData';
+import { LoginDataProps } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
 
 export function CreateContractForm({ loginData }: LoginDataProps) {

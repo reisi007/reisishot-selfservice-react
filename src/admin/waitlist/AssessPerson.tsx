@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { RequestActionButton } from './ActionButton';
 import { AdminWaitlistRecord } from './waitlist.api';
 import { ReferralType, useAddPointsDirect } from '../../waitlist/referral.api';
@@ -22,7 +22,7 @@ export function AssessPerson({
         className="text-white bg-reisishot"
         request={request}
       >
-        {t('waitlist.positive')}
+        {t('admin.waitlist.positive')}
       </RequestActionButton>
       <RequestActionButton
         onClick={() => put({
@@ -32,7 +32,7 @@ export function AssessPerson({
         className="text-white bg-red-500"
         request={request}
       >
-        {t('waitlist.negative')}
+        {t('admin.waitlist.negative')}
       </RequestActionButton>
     </>
   );

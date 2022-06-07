@@ -49,7 +49,7 @@ export function StarRating(
           .map((i) => (
             <i
               key={i}
-              aria-label={t('waitlist.xStars', { stars: i })}
+              aria-label={t('reviews.xStars', { stars: i })}
               role={role}
               onClick={(e) => onClick(e)}
               className={`${starClassNameBase} rs-star-full ${starClassName}`}
@@ -59,7 +59,7 @@ export function StarRating(
       {
         halfStar && (
         <i
-          aria-label={t('waitlist.xStars', { stars: (fullStars + 1).toString(10) })}
+          aria-label={t('reviews.xStars', { stars: (fullStars + 1).toString(10) })}
           role={role}
           onClick={(e) => onClick(e)}
           className={`${starClassNameBase} rs-star-half ${starClassName}`}
@@ -70,7 +70,7 @@ export function StarRating(
         Array.from({ length: emptyStars }, (_, idx) => idx)
           .map((i) => (
             <i
-              aria-label={t('waitlist.xStars', { stars: (filledStars + 1).toString(10) })}
+              aria-label={t('reviews.xStars', { stars: (filledStars + 1).toString(10) })}
               key={i}
               role={role}
               onClick={(e) => onClick(e)}

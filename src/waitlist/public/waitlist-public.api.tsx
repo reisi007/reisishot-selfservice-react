@@ -3,43 +3,39 @@ import { Person } from '../../types/Person';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { LoadableRequest } from '../../components/Loadable';
 import { Referrable } from '../referral.api';
-import { usePut } from '../../admin/admin.api';
-import { useFetchGet, useFetchPost } from '../../http';
+import { usePost } from '../../utils/http.authed';
+import { useFetch, useManualFetch } from '../../http';
 
 export function useWaitlistLogin() {
-  const [request, rawPut] = useFetchPost<unknown, LoginRequest>({
+  const [request, rawPut] = useManualFetch<unknown, LoginRequest>({
     url: '/api/waitlist-login_post.php',
   });
-  const put = usePut(rawPut);
+  const put = usePost(rawPut);
   return [request, put] as const;
 }
 
 export function useWaitlistRegister() {
-  const [request, rawPut] = useFetchPost<unknown, RegisterRequest>({
+  const [request, rawPut] = useManualFetch<unknown, RegisterRequest>({
     url: '/api/waitlist-login_post.php',
     options: { manual: true },
   });
-  const put = usePut(rawPut);
+  const put = usePost(rawPut);
   return [request, put] as const;
 }
 
-export function usePublicWaitlistItems(): [LoadableRequest<Array<WaitlistItem>, unknown, unknown>] {
+export function usePublicWaitlistItems(): [LoadableRequest<Array<PublicWaitlistItem>>] {
   const [{
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<PdoEmulatedPrepared<Array<WaitlistItem>>>({
+  }] = useFetch<PdoEmulatedPrepared<Array<PublicWaitlistItem>>>({
     url: 'api/waitlist-overview-public_get.php',
   });
-  const data: Array<WaitlistItem> | undefined = useMemo(() => (rawData === undefined ? undefined : rawData.map((wi) => {
+  const data: Array<PublicWaitlistItem> | undefined = useMemo(() => (rawData === undefined ? undefined : rawData.map((wi) => {
     const id = parseInt(wi.id, 10);
-    const maxWaiting = wi.max_waiting === null ? null : parseInt(wi.max_waiting, 10);
-    const registered = wi.registered === '1';
     return {
       ...wi,
       id,
-      registered,
-      max_waiting: maxWaiting,
     };
   })), [rawData]);
 
@@ -62,6 +58,8 @@ export type WaitlistItem = {
   registered: boolean
 };
 
+export type PublicWaitlistItem = Omit<WaitlistItem, 'registered' | 'max_waiting' | 'available_to' | 'available_from'>;
+
 export type LoginRequest = Referrable & {
   email: string
 };
@@ -75,3 +73,9 @@ export type WaitlistPerson = Person &
   website?: string,
   points: number,
 };
+
+export type WaitlistRequest =
+  {
+    item_id: number,
+    text: string
+  };

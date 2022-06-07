@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Cell, Pie, PieChart } from 'recharts';
 import classNames from 'classnames';
 import { LoadedReview, useGetAllReviews } from './reviews.api';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';

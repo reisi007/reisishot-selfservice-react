@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
 import { Person } from '../../types/Person';
-import { createHeader, usePutWithAuthentication } from '../admin.api';
+import { createHeader, usePutWithAuthentication } from '../../utils/http.authed';
 import { formatDate } from '../../utils/Age';
-import { LoginData } from '../login/LoginData';
-import { useFetchGet, useFetchPost } from '../../http';
+import { LoginData } from '../../utils/LoginData';
+import { useFetch, useManualFetch } from '../../http';
 
 export type SearchablePerson = Person & { search: string };
 
@@ -13,7 +13,7 @@ export function useKnownPersons(loginData: LoginData): [ResponseValues<Searchabl
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<Array<Person>>({
+  }] = useFetch<Array<Person>>({
     url: 'api/contract-people_get.php',
     headers: createHeader(loginData),
   });
@@ -35,7 +35,7 @@ export function useContractFilenames(): [ResponseValues<Array<{ key: string, dis
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<Array<string>>({
+  }] = useFetch<Array<string>>({
     url: 'api/contract-templates_get.php',
   });
 
@@ -61,7 +61,7 @@ function capitalizeFirstLetter(string: string) {
 }
 
 export function useCreateContract() {
-  const [request, rawPut] = useFetchPost<unknown, CreateContract>({
+  const [request, rawPut] = useManualFetch<unknown, CreateContract>({
     url: '/api/contract_put.php',
     options: { manual: true },
   });

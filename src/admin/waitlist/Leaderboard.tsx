@@ -9,7 +9,7 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { Loadable } from '../../components/Loadable';
 import { FormInput } from '../../form/FormikFields';
 import { List } from './List';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { LeaderboardEntry, useFindLeaderboardByYear } from './waitlist.api';
 
 export function Leaderboard({

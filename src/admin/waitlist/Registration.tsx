@@ -5,7 +5,7 @@ import { AdminWaitlistRecord, useDeleteWaitlistItem, useSetDateAssigned } from '
 import { calculateAge } from '../../utils/Age';
 import { ActionButton, RequestActionButton } from './ActionButton';
 import { AssessPerson } from './AssessPerson';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { useNavigation } from '../../hooks/useNavigation';
 
 type Props = { registration: AdminWaitlistRecord, loginData: LoginData };
@@ -53,7 +53,7 @@ export function Registration({
         {' '}
         {registration.availability}
       </p>
-      {registration.text !== null && registration.text.length > 0
+      {registration.text !== undefined && registration.text.length > 0
        && (
          <p>
            {t('waitlist.moreInfo')}

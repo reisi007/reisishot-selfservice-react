@@ -15,7 +15,7 @@ import { StyledInputField } from '../../form/StyledFields';
 import { FormLabel } from '../../form/FormikFields';
 import { useNavigation } from '../../hooks/useNavigation';
 import { Savable } from '../../charts/Savable';
-import { LoginDataProps } from '../login/LoginData';
+import { LoginDataProps } from '../../utils/LoginData';
 import { StatisticChartProps } from './StatisticChartProps';
 
 export function Statistics({ loginData }: LoginDataProps) {

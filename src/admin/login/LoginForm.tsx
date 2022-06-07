@@ -7,7 +7,7 @@ import { FormInput } from '../../form/FormikFields';
 import { SubmitButton } from '../../components/SubmitButton';
 import { LoginFormData, useLoginUser } from './login.api';
 import { requiredString } from '../../yupHelper';
-import { LoginData } from './LoginData';
+import { LoginData } from '../../utils/LoginData';
 
 type Props = { data?: LoginData, setData: (i: LoginData | undefined) => void } & React.HTMLProps<HTMLDivElement>;
 

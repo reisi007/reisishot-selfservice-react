@@ -1,19 +1,18 @@
 import { useMemo, useState } from 'react';
 import { RefetchOptions, ResponseValues } from 'axios-hooks';
-import { WaitlistRecord } from '../../waitlist/private/waitlist-private.api';
-import { LoginData } from '../login/LoginData';
-import { createHeader, usePutWithAuthentication } from '../admin.api';
+import { LoginData } from '../../utils/LoginData';
+import { createHeader, usePostWithAuthentication } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { Person } from '../../types/Person';
-import { WaitlistItem, WaitlistPerson } from '../../waitlist/public/waitlist-public.api';
-import { useFetchGet, useFetchPost } from '../../http';
+import { WaitlistItem, WaitlistPerson, WaitlistRequest } from '../../waitlist/public/waitlist-public.api';
+import { useFetch, useManualFetch } from '../../http';
 
 export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
+  }] = useFetch<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
     url: 'api/waitlist-admin_get.php',
     headers: createHeader(loginData),
   });
@@ -69,14 +68,14 @@ export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<Wait
 type DateAssignedBody = { itemId: number, personId: number, value: boolean };
 
 export function useSetDateAssigned() {
-  const [request, rawPut] = useFetchPost<unknown, DateAssignedBody>({ url: 'api/waitlist-admin-entry-date-assigned_post.php' });
-  const put = usePutWithAuthentication(rawPut);
-  return [request, put] as const;
+  const [request, rawPost] = useManualFetch<unknown, DateAssignedBody>({ url: 'api/waitlist-admin-entry-date-assigned_post.php' });
+  const post = usePostWithAuthentication(rawPost);
+  return [request, post] as const;
 }
 
 export function useDeleteWaitlistItem() {
-  const [request, rawPut] = useFetchPost<unknown, { item: number, person: number }>({ url: 'api/waitlist-admin-delete_post.php' });
-  const put = usePutWithAuthentication(rawPut);
+  const [request, rawPut] = useManualFetch<unknown, { item: number, person: number }>({ url: 'api/waitlist-admin-delete_post.php' });
+  const put = usePostWithAuthentication(rawPut);
   return [request, put] as const;
 }
 
@@ -92,22 +91,22 @@ export function useFindLeaderboardByYear(): FindLeaderboardPerYear {
   const [{
     loading,
     error,
-  }, rawPut] = useFetchPost<PdoEmulatedPrepared<Array<LeaderboardEntry<undefined>>>, FindLoaderboardByYearBody>({ url: 'api/waitlist-admin-leaderboard_by_year_post.php' });
+  }, rawPost] = useManualFetch<PdoEmulatedPrepared<Array<LeaderboardEntry<undefined>>>, FindLoaderboardByYearBody>({ url: 'api/waitlist-admin-leaderboard_by_year_post.php' });
   const [data, setData] = useState<Array<LeaderboardEntry> | undefined>(undefined);
   const options: RefetchOptions = useMemo(() => ({ useCache: true }), []);
-  const preparedPut = usePutWithAuthentication(rawPut, undefined, options);
+  const preparedPost = usePostWithAuthentication(rawPost, undefined, options);
 
-  const mappedPut = useMemo(() => (body: FindLoaderboardByYearBody, loginData: LoginData) => preparedPut(body, loginData)
+  const mappedPost = useMemo(() => (body: FindLoaderboardByYearBody, loginData: LoginData) => preparedPost(body, loginData)
     .then((e) => {
       const curData = calculateLeaderboardPosition(e.data);
       setData(curData);
       return curData;
-    }), [preparedPut]);
+    }), [preparedPost]);
   return [{
     data,
     loading,
     error,
-  }, mappedPut] as const;
+  }, mappedPost] as const;
 }
 
 function calculateLeaderboardPosition(rawData: PdoEmulatedPrepared<Array<LeaderboardEntry<undefined>>>): Array<LeaderboardEntry> {
@@ -132,13 +131,12 @@ function calculateLeaderboardPosition(rawData: PdoEmulatedPrepared<Array<Leaderb
 }
 
 export function usePostNewShootingStatistic() {
-  const [request, rawPut] = useFetchPost<unknown, { itemId: number, isMinor: boolean, isGroup: boolean }>({
+  const [request, rawPost] = useManualFetch<unknown, { itemId: number, isMinor: boolean, isGroup: boolean }>({
     url: 'api/waitlist-admin-shooting_statistics_post.php',
   });
 
-  const put = usePutWithAuthentication(rawPut);
-
-  return [request, put] as const;
+  const post = usePostWithAuthentication(rawPost);
+  return [request, post] as const;
 }
 
 export type WaitlistAdminData<LeaderPos extends number | undefined = number> = {
@@ -158,7 +156,7 @@ export type WaitlistItemWithRegistrations = WaitlistItem & {
   registrations: Array<AdminWaitlistRecord>;
 };
 
-export type AdminWaitlistRecord = WaitlistRecord & WaitlistPerson & {
+export type AdminWaitlistRecord = WaitlistRequest & WaitlistPerson & {
   points: number,
   person_id: number,
   date_assigned: boolean,

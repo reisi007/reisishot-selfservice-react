@@ -7,7 +7,7 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { Loadable } from '../../components/Loadable';
 import { FormattedDate } from '../../utils/Age';
 import { FormInput } from '../../form/FormikFields';
-import { LoginDataProps } from '../login/LoginData';
+import { LoginDataProps } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
 
 type Props = { onPersonSelected: (p: SearchablePerson) => void };
