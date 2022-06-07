@@ -27,7 +27,7 @@ function PointInformation({
   const isPositive = points >= 0;
   return (
     <>
-      <Badge background={isPositive ? 'bg-reisishot' : 'bg-red-500'} text={isPositive ? 'text-gray-100' : 'text-gray-100'}>
+      <Badge background={isPositive ? 'bg-reisishot' : 'bg-red-500'} text="text-gray-100">
         {points}
         {' '}
         {t('waitlist.points')}
