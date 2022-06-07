@@ -15,7 +15,7 @@ export function createHeader(loginData?: LoginData, moreHeaders?: AxiosRequestHe
   return moreHeaders ?? {};
 }
 
-export function usePut<Request, Response>(
+export function usePutWithAuthentication<Request, Response>(
   rawPut: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
   config?: AxiosRequestConfig<Request>,
   options?: RefetchOptions,
@@ -28,6 +28,18 @@ export function usePut<Request, Response>(
       user,
       auth,
     }),
+    method: 'put',
+    data: body,
+    ...config,
+  }, options), [config, options, rawPut]);
+}
+
+export function usePut<Request, Response>(
+  rawPut: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
+  config?: AxiosRequestConfig<Request>,
+  options?: RefetchOptions,
+) {
+  return useCallback((body: Request) => rawPut({
     method: 'put',
     data: body,
     ...config,

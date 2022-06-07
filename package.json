@@ -89,6 +89,8 @@
       "react/jsx-curly-brace-presence": "warn",
       "import/order": "warn",
       "react/self-closing-comp": "warn",
+      "@typescript-eslint/keyword-spacing": "warn",
+      "arrow-spacing": "warn",
       "react/jsx-key": "error",
       "react-hooks/exhaustive-deps": "error",
       "max-len": [

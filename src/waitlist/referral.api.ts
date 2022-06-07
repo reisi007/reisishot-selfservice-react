@@ -1,5 +1,5 @@
-import { useFetch } from '../http';
-import { usePut } from '../admin/admin.api';
+import { usePutWithAuthentication } from '../admin/admin.api';
+import { useFetchPost } from '../http';
 
 export type ReferralInfo = {
   email: string,
@@ -31,19 +31,17 @@ export interface ReferralPointEntry {
 }
 
 export function useAddPoints() {
-  const [request, rawPut] = useFetch<unknown, ReferralInfo>({
+  const [request, rawPut] = useFetchPost<unknown, ReferralInfo>({
     url: '/api/referral-points_post.php',
-    options: { manual: true },
   });
-  const put = usePut(rawPut);
+  const put = usePutWithAuthentication(rawPut);
   return [request, put] as const;
 }
 
 export function useAddPointsDirect() {
-  const [request, rawPut] = useFetch<unknown, ReferralInfo>({
+  const [request, rawPut] = useFetchPost<unknown, ReferralInfo>({
     url: '/api/referral-points-direct_post.php',
-    options: { manual: true },
   });
-  const put = usePut(rawPut);
+  const put = usePutWithAuthentication(rawPut);
   return [request, put] as const;
 }

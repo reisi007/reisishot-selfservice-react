@@ -1,19 +1,19 @@
 import { useMemo, useState } from 'react';
 import { RefetchOptions, ResponseValues } from 'axios-hooks';
 import { WaitlistRecord } from '../../waitlist/private/waitlist-private.api';
-import { useFetch } from '../../http';
 import { LoginData } from '../login/LoginData';
-import { createHeader, usePut } from '../admin.api';
+import { createHeader, usePutWithAuthentication } from '../admin.api';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { Person } from '../../types/Person';
 import { WaitlistItem, WaitlistPerson } from '../../waitlist/public/waitlist-public.api';
+import { useFetchGet, useFetchPost } from '../../http';
 
 export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
     data: rawData,
     loading,
     error,
-  }] = useFetch<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
+  }] = useFetchGet<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
     url: 'api/waitlist-admin_get.php',
     headers: createHeader(loginData),
   });
@@ -69,20 +69,14 @@ export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<Wait
 type DateAssignedBody = { itemId: number, personId: number, value: boolean };
 
 export function useSetDateAssigned() {
-  const [request, rawPut] = useFetch<unknown, DateAssignedBody>({
-    url: 'api/waitlist-admin-entry-date-assigned_post.php',
-    options: { manual: true },
-  });
-  const put = usePut(rawPut);
+  const [request, rawPut] = useFetchPost<unknown, DateAssignedBody>({ url: 'api/waitlist-admin-entry-date-assigned_post.php' });
+  const put = usePutWithAuthentication(rawPut);
   return [request, put] as const;
 }
 
 export function useDeleteWaitlistItem() {
-  const [request, rawPut] = useFetch<unknown, { item: number, person: number }>({
-    url: 'api/waitlist-admin-delete_post.php',
-    options: { manual: true },
-  });
-  const put = usePut(rawPut);
+  const [request, rawPut] = useFetchPost<unknown, { item: number, person: number }>({ url: 'api/waitlist-admin-delete_post.php' });
+  const put = usePutWithAuthentication(rawPut);
   return [request, put] as const;
 }
 
@@ -98,13 +92,10 @@ export function useFindLeaderboardByYear(): FindLeaderboardPerYear {
   const [{
     loading,
     error,
-  }, rawPut] = useFetch<PdoEmulatedPrepared<Array<LeaderboardEntry<undefined>>>, FindLoaderboardByYearBody>({
-    url: 'api/waitlist-admin-leaderboard_by_year_post.php',
-    options: { manual: true },
-  });
+  }, rawPut] = useFetchPost<PdoEmulatedPrepared<Array<LeaderboardEntry<undefined>>>, FindLoaderboardByYearBody>({ url: 'api/waitlist-admin-leaderboard_by_year_post.php' });
   const [data, setData] = useState<Array<LeaderboardEntry> | undefined>(undefined);
   const options: RefetchOptions = useMemo(() => ({ useCache: true }), []);
-  const preparedPut = usePut(rawPut, undefined, options);
+  const preparedPut = usePutWithAuthentication(rawPut, undefined, options);
 
   const mappedPut = useMemo(() => (body: FindLoaderboardByYearBody, loginData: LoginData) => preparedPut(body, loginData)
     .then((e) => {
@@ -141,12 +132,11 @@ function calculateLeaderboardPosition(rawData: PdoEmulatedPrepared<Array<Leaderb
 }
 
 export function usePostNewShootingStatistic() {
-  const [request, rawPut] = useFetch<unknown, { itemId: number, isMinor: boolean, isGroup: boolean }>({
+  const [request, rawPut] = useFetchPost<unknown, { itemId: number, isMinor: boolean, isGroup: boolean }>({
     url: 'api/waitlist-admin-shooting_statistics_post.php',
-    options: { manual: true },
   });
 
-  const put = usePut(rawPut);
+  const put = usePutWithAuthentication(rawPut);
 
   return [request, put] as const;
 }
