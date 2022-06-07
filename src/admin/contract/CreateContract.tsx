@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { CreateContractForm } from './CreateContractForm';
-import { LoginDataProps } from '../login/LoginData';
+import { LoginDataProps } from '../../utils/LoginData';
 
 export function CreateContract({ loginData }: LoginDataProps) {
   const { t } = useTranslation();

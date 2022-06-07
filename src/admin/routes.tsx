@@ -1,7 +1,7 @@
 import { Navigate, Outlet, Route } from 'react-router-dom';
 import { lazyInternal, ReactFunctionComponent } from '../lazy';
 import { useAdminLogin } from './AdminLoginContextProvider';
-import { withLoginData } from './login/LoginData';
+import { withLoginData } from '../utils/LoginData';
 
 export function useAdminRoutes() {
   const [loginData] = useAdminLogin();

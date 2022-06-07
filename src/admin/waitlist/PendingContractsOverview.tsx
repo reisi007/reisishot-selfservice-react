@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { PendingSignaturInformation } from './waitlist.api';
 import { formatDate } from '../../utils/Age';
-import { LoginData } from '../login/LoginData';
+import { LoginData } from '../../utils/LoginData';
 import { StyledInputField } from '../../form/StyledFields';
 import { FormLabel } from '../../form/FormikFields';
 

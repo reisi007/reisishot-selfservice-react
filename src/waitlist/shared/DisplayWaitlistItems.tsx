@@ -1,13 +1,13 @@
 import { ReactNode } from 'react';
-import { WaitlistItem } from '../public/waitlist-public.api';
+import { PublicWaitlistItem } from '../public/waitlist-public.api';
 import { Image } from './Image';
 
-type Props = { items: Array<WaitlistItem>, children: ItemProps['children'] };
+type Props<WI extends PublicWaitlistItem> = { items: Array<WI>, children: ItemProps<WI>['children'] };
 
-export function DisplayWaitlistItems({
+export function DisplayWaitlistItems<WI extends PublicWaitlistItem>({
   items,
   children,
-}: Props) {
+}: Props<WI>) {
   return (
     <div className="grid gap-4 mt-6 md:grid-cols-2">
       {items.map((e) => <DisplayWaitlistItem key={e.id} item={e}>{children}</DisplayWaitlistItem>)}
@@ -15,12 +15,12 @@ export function DisplayWaitlistItems({
   );
 }
 
-type ItemProps = { item: WaitlistItem, children: (item: WaitlistItem) => ReactNode };
+type ItemProps<WI extends PublicWaitlistItem> = { item: WI, children: (item: WI) => ReactNode };
 
-function DisplayWaitlistItem({
+function DisplayWaitlistItem<WI extends PublicWaitlistItem>({
   item,
   children,
-}: ItemProps) {
+}: ItemProps<WI>) {
   const {
     title,
     image_id: imageId,

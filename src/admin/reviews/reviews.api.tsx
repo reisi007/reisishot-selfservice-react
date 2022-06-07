@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
 import { UpdatableReview } from '../../review/review.api';
-import { LoginData } from '../login/LoginData';
-import { createHeader } from '../admin.api';
+import { LoginData } from '../../utils/LoginData';
+import { createHeader } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
-import { useFetchGet } from '../../http';
+import { useFetch } from '../../http';
 
 export type LoadedReview = UpdatableReview & {
   creation_date: string;
@@ -15,7 +15,7 @@ export function useGetAllReviews(loginData: LoginData): [ResponseValues<Array<Lo
     data: rawData,
     loading,
     error,
-  }] = useFetchGet<PdoEmulatedPrepared<Array<LoadedReview>>>({
+  }] = useFetch<PdoEmulatedPrepared<Array<LoadedReview>>>({
     url: 'api/reviews-admin_get.php',
     headers: createHeader(loginData),
   });

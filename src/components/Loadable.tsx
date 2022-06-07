@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { AxiosError } from 'axios';
 import { ResponseValues } from 'axios-hooks';
 
-export type LoadableRequest<TResponse, TRequest, TError> = Pick<ResponseValues<TResponse, TRequest, TError>, 'data' | 'loading' | 'error'>;
+export type LoadableRequest<TResponse, TRequest = unknown, TError = unknown> = Pick<ResponseValues<TResponse, TRequest, TError>, 'data' | 'loading' | 'error'>;
 
 type Props<TResponse, TRequest, TError> = {
   request: [LoadableRequest<TResponse, TRequest, TError>, ...unknown[]],
