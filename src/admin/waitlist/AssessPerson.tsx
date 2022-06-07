@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { LoginData } from '../../utils/LoginData';
 import { RequestActionButton } from './ActionButton';
 import { AdminWaitlistRecord } from './waitlist.api';
-import { ReferralType, useAddPointsDirect } from '../../waitlist/referral.api';
+import { useAddPointsDirect } from '../../waitlist/referral.api';
 
 export function AssessPerson({
   loginData,
@@ -17,7 +17,7 @@ export function AssessPerson({
       <RequestActionButton
         onClick={() => put({
           email,
-          action: ReferralType.SHOOTING_GOOD,
+          action: 'shooting_good',
         }, loginData)}
         className="text-white bg-reisishot"
         request={request}
@@ -27,7 +27,7 @@ export function AssessPerson({
       <RequestActionButton
         onClick={() => put({
           email,
-          action: ReferralType.SHOOTING_BAD,
+          action: 'shooting_bad',
         }, loginData)}
         className="text-white bg-red-500"
         request={request}

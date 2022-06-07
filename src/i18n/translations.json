@@ -127,9 +127,9 @@
       "login": "Login",
       "register": "Register",
       "public": "Shooting waitlist",
-      "private": "Register yourself for a shooting",
-      "publicActionButton": "Login or register to the waitlist to register for a shooting"
+      "private": "Register yourself for a shooting"
     },
+    "publicActionButton": "Login or register to the waitlist to register for a shooting",
     "availability": "Availability",
     "moreInfo": "Further information",
     "points": "points",
@@ -137,14 +137,39 @@
     "openEmail": "You just got mail!\nClick the link in the email to continue!",
     "registerNow": "Register now",
     "unregisterNow": "Give up your place",
+    "xHello": "Hello {{name}}!",
     "shooting": {
       "additionalInfo": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most"
+    },
+    "pointHistory": {
+      "openText": "Show detailed points history",
+      "modal": {
+        "title": "Detailed point history"
+      }
+    },
+    "contactMe": {
+      "title": "Contact the photographer",
+      "body": "If you want to talk to a real person, you can contact me at any time.{ I will try to answer your questions!"
     }
   },
-  "referrable": {
-    "referredBy": "Referred by {{referrer}}"
+  "referable": {
+    "referredBy": "Referred by {{referrer}}",
+    "types": {
+      "manual_thx_100": "Manual change +100 points",
+      "perk_more-people": "Shooting with multiple people (not including couples)",
+      "perk_no-public": "No pictures made in this shooting can be displayed publicly",
+      "perk_pics_25+": "Applied for every 5 images after exceeding 25 pictures",
+      "perk_shooting_2h+": "Applied for every 30 minutes of planned shooting time exceeding 2h",
+      "shooting_bad": "Bad shooting experience",
+      "shooting_good": "Good shooting experience",
+      "shooting_referred_bad": "Bad shooting experience of a referred person",
+      "shooting_referred_good": "Good shooting experience of a referred person",
+      "waitlist_register": "A referred person has signed up",
+      "waitlist_register_self": "You signed-up to this platform"
+    }
   },
   "actions": {
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close"
   }
 }
