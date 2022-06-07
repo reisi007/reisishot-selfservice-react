@@ -28,7 +28,11 @@ function ModalContent({
     <>
       <h1>{t('waitlist.pointHistory.modal.title')}</h1>
       <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-        {(data) => <DisplayPointsHistory data={data} />}
+        {(data) => (
+          <div className="overflow-y-auto max-h-[50%]">
+            <DisplayPointsHistory data={data} />
+          </div>
+        )}
       </Loadable>
       <StyledButton className="w-full text-white bg-reisishot" onClick={() => setOpen(false)}>{t('actions.close')}</StyledButton>
     </>
