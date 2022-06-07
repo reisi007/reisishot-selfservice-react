@@ -19,7 +19,7 @@ export function Waitlist() {
         {t('waitlist.titles.public')}
       </h1>
       {referrer && <p className="text-xl font-thin text-center">{t('referrable.referredBy', { referrer })}</p>}
-      <div className="grid mt-2 md:grid-cols-2">
+      <div className="grid gap-4 items-center my-2 md:grid-cols-2">
         <LoginForm />
         <RegisterForm />
       </div>

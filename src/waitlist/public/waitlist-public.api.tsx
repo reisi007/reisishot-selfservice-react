@@ -1,16 +1,26 @@
 import { useMemo } from 'react';
 import { Person } from '../../types/Person';
-import { useFetch } from '../../http';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { LoadableRequest } from '../../components/Loadable';
 import { Referrable } from '../referral.api';
+import { usePut } from '../../admin/admin.api';
+import { useFetchGet, useFetchPost } from '../../http';
 
 export function useWaitlistLogin() {
-
+  const [request, rawPut] = useFetchPost<unknown, LoginRequest>({
+    url: '/api/waitlist-login_post.php',
+  });
+  const put = usePut(rawPut);
+  return [request, put] as const;
 }
 
-export function useWaitglistRegister() {
-
+export function useWaitlistRegister() {
+  const [request, rawPut] = useFetchPost<unknown, RegisterRequest>({
+    url: '/api/waitlist-login_post.php',
+    options: { manual: true },
+  });
+  const put = usePut(rawPut);
+  return [request, put] as const;
 }
 
 export function usePublicWaitlistItems(): [LoadableRequest<Array<WaitlistItem>, unknown, unknown>] {
@@ -18,7 +28,7 @@ export function usePublicWaitlistItems(): [LoadableRequest<Array<WaitlistItem>, 
     data: rawData,
     loading,
     error,
-  }] = useFetch<PdoEmulatedPrepared<Array<WaitlistItem>>>({
+  }] = useFetchGet<PdoEmulatedPrepared<Array<WaitlistItem>>>({
     url: 'api/waitlist-overview-public_get.php',
   });
   const data: Array<WaitlistItem> | undefined = useMemo(() => (rawData === undefined ? undefined : rawData.map((wi) => {
@@ -56,9 +66,9 @@ export type LoginRequest = Referrable & {
   email: string
 };
 
-type RegisterRequest = WaitlistPerson;
+export type RegisterRequest = Omit<WaitlistPerson, 'points'> & Referrable;
 
-export type WaitlistPerson = Person & Referrable &
+export type WaitlistPerson = Person &
 {
   availability: string,
   phone_number: string,

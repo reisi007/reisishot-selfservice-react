@@ -96,7 +96,7 @@ function StatisticModalContent({
               <FormCheckbox label={t('admin.statistics.settings.18+')} name="is18" />
               <FormCheckbox label={t('admin.statistics.settings.groups')} name="groups" />
             </div>
-            <SubmitButton formik={formik} requestInfo={request} allowInitialSubmit />
+            <SubmitButton formik={formik} request={request} allowInitialSubmit />
           </>
         )}
       </Formik>

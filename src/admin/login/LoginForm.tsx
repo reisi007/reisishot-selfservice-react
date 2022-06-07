@@ -11,12 +11,22 @@ import { LoginData } from './LoginData';
 
 type Props = { data?: LoginData, setData: (i: LoginData | undefined) => void } & React.HTMLProps<HTMLDivElement>;
 
-export function LoginForm({ data, setData, ...divProps }: Props) {
+export function LoginForm({
+  data,
+  setData,
+  ...divProps
+}: Props) {
   const [request, loginUser] = useLoginUser();
   const onSubmit: (values: LoginFormData, formikHelpers: FormikHelpers<LoginFormData>) => void | Promise<any> = useCallback(async (values, { setSubmitting }) => {
     const result = await loginUser(values);
-    const { user, hash } = result.data;
-    setData({ user, auth: hash });
+    const {
+      user,
+      hash,
+    } = result.data;
+    setData({
+      user,
+      auth: hash,
+    });
     setSubmitting(false);
   }, [loginUser, setData]);
   const { t } = useTranslation();
@@ -25,7 +35,10 @@ export function LoginForm({ data, setData, ...divProps }: Props) {
     <div {...divProps}>
 
       <Formik<LoginFormData>
-        initialValues={{ user: '', pwd: '' }}
+        initialValues={{
+          user: '',
+          pwd: '',
+        }}
         validationSchema={validateObject({
           user: requiredString(),
           pwd: requiredString(),
@@ -45,7 +58,7 @@ export function LoginForm({ data, setData, ...divProps }: Props) {
                   label={t('admin.login.password')}
                 />
               </div>
-              <SubmitButton requestInfo={request} formik={formik} />
+              <SubmitButton request={request} formik={formik} />
             </Form>
           )
         }

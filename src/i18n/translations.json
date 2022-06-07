@@ -108,7 +108,10 @@
         "supported": "Your birthday",
         "unsupported": "${person.birthday.supported} (YYYY-MM-DD)"
       }
-    }
+    },
+    "phone": "Phone number",
+    "social": "Link to your e.g. Instagram Profile",
+    "availability": "What is the best time for a shooting for you? (Days or times that usually fit your schedule)"
   },
   "reviews": {
     "titles": {
@@ -130,7 +133,8 @@
     "negative": "Bad experience",
     "points": "points",
     "xStars": "{{stars}} stars",
-    "openEmail": "You just got mail!\nClick the link in the email to continue!\nYou can close this window"
+    "xSuccessful": "{{action}} successful",
+    "openEmail": "You just got mail!\nClick the link in the email to continue!"
   },
   "referrable": {
     "referredBy": "Referred by {{referrer}}"

@@ -25,6 +25,28 @@ export function StyledInputField(rawProps: StyledInputFieldProps) {
   );
 }
 
+type StyledTextAreaProps = HTMLProps<HTMLTextAreaElement> & FormErrorProps;
+
+export function StyledTextArea(rawProps: StyledTextAreaProps) {
+  const {
+    error,
+    name,
+    className = '',
+    ...props
+  } = rawProps;
+  const conditionalClassNames = classNames({
+    'border-red-500': !!error,
+  });
+
+  return (
+    <textarea
+      {...props}
+      id={name}
+      className={`p-2 border accent-reisishot border-gray-200 rounded-lg ${conditionalClassNames} ${className}`}
+    />
+  );
+}
+
 type StyledSelectFieldProps = Omit<HTMLProps<HTMLSelectElement>, 'className'> & FormErrorProps & SelectOptionProps;
 
 export function StyledSelectField(rawProps: StyledSelectFieldProps) {

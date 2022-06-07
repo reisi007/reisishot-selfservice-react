@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { LoginData } from '../../admin/login/LoginData';
 import { createHeader } from '../../admin/admin.api';
-import { useFetch } from '../../http';
+import { useFetchGet } from '../../http';
 
 export type ShootingDateEntry = {
   kw: number,
@@ -20,7 +20,7 @@ export enum ShootingSlotState {
 export function useCalendarData(loginData: LoginData | undefined = undefined) {
   const url = loginData === undefined ? '/api/shooting_dates_get.php' : '/api/shooting_dates_private_get.php?';
   const headers = useMemo(() => createHeader(loginData), [loginData]);
-  return useFetch<Array<ShootingDateEntry>>({
+  return useFetchGet<Array<ShootingDateEntry>>({
     url,
     headers,
   });
