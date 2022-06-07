@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
-import { createHeader, usePostWithAuthentication } from '../utils/http.authed';
+import { createHeader, usePutWithAuthentication } from '../utils/http.authed';
 import { useFetch, useManualFetch } from '../http';
 import { PdoEmulatedPrepared } from '../types/PdoEmulatedPrepared';
 import { LoginData } from '../utils/LoginData';
@@ -42,20 +42,14 @@ export interface ReferralPointEntry {
   timestamp: string
 }
 
-export function useAddPoints() { // FIXME this should be used as well
-  const [request, rawPost] = useManualFetch<unknown, ReferralInfo>({
-    url: '/api/referral-points_post.php',
-  });
-  const post = usePostWithAuthentication(rawPost);
-  return [request, post] as const;
-}
+type ReferralRequest = { email: string, referrerAction: ReferralType, directAction: ReferralType };
 
-export function useAddPointsDirect() {
-  const [request, rawPost] = useManualFetch<unknown, ReferralInfo>({
-    url: '/api/referral-points-direct_post.php',
+export function useAddPoints() {
+  const [request, rawPut] = useManualFetch<unknown, ReferralRequest>({
+    url: '/api/referral-points_put.php',
   });
-  const post = usePostWithAuthentication(rawPost);
-  return [request, post] as const;
+  const put = usePutWithAuthentication(rawPut);
+  return [request, put] as const;
 }
 
 export function useGetPointHistory(loginData: LoginData): [LoadableRequest<Array<ReferralPointEntry>>] {
