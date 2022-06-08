@@ -1,0 +1,20 @@
+[data-markdown] {
+    @apply px-2 md:px-4;
+}
+
+[data-markdown] img {
+    @apply mx-auto
+}
+
+[data-markdown] h1 {
+    @apply mb-2 mt-1
+}
+
+[data-markdown] h2 {
+    @apply my-1
+}
+
+[data-markdown] img {
+    @apply my-2 rounded-xl
+}
+

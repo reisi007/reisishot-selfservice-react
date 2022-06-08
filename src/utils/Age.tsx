@@ -7,11 +7,15 @@ export const TEMPLATE_DATETIME = `${TEMPLATE_DATE} HH:mm`;
 
 type DateFormattingProps = { dateString: string };
 
+export function formatDateTime(dateString: string) {
+  return dayjs(dateString)
+    .format(TEMPLATE_DATETIME);
+}
+
 export function FormattedDateTime({ dateString }: DateFormattingProps) {
   return (
     <>
-      {dayjs(dateString)
-        .format(TEMPLATE_DATETIME)}
+      {formatDateTime(dateString)}
     </>
   );
 }

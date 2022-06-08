@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 16.x
           cache: 'npm'
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npm run build
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.2.0

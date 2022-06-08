@@ -8,6 +8,7 @@ import LRU from 'lru-cache';
 import Root from './Root';
 import { useAdminRoutes } from './admin/routes';
 import { useWaitlistRoutes } from './waitlist/routes';
+import { useContractRoutes } from './contract/routes';
 
 // Configure useAxiosCache
 configure({
@@ -20,6 +21,7 @@ configure({
 function App() {
   const adminRoutes = useAdminRoutes();
   const waitlistRoutes = useWaitlistRoutes();
+  const contractRoutes = useContractRoutes();
   return (
     <div className="container p-4">
       <Router>
@@ -28,6 +30,7 @@ function App() {
             <Route index element={<Root />} />
             {waitlistRoutes}
             {adminRoutes}
+            {contractRoutes}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
