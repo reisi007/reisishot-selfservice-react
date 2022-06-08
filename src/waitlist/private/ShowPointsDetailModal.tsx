@@ -21,12 +21,16 @@ type ModalProps = { loginData: LoginData };
 function ModalContent({
   loginData,
 }: ModalProps) {
-  const request = useGetPointHistory(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useGetPointHistory(loginData);
   return (
-    <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => (
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => (
         <div className="overflow-y-auto max-h-[50%]">
-          <DisplayPointsHistory data={data} />
+          <DisplayPointsHistory data={response} />
         </div>
       )}
     </Loadable>

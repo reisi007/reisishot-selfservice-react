@@ -73,7 +73,11 @@ function PerYearForm({
 }: PerYearProps) {
   const { values } = formik;
   const { year: yearInternal } = values;
-  const [request, fetchData] = useFindLeaderboardByYear();
+  const [{
+    data,
+    loading,
+    error,
+  }, fetchData] = useFindLeaderboardByYear();
   const [year] = useDebounce(yearInternal, 300);
   const { t } = useTranslation();
   useEffect(() => {
@@ -92,10 +96,12 @@ function PerYearForm({
         min={minYear}
       />
       <Loadable
-        request={[request]}
-        loadingElement={<LoadingIndicator height="10rem" />}
+        data={data}
+        loading={loading}
+        error={error}
+        loadingElement={<LoadingIndicator />}
       >
-        {(data) => <List className="mt-4 mb-2" items={data} />}
+        {(response) => <List className="mt-4 mb-2" items={response} />}
       </Loadable>
     </>
   );

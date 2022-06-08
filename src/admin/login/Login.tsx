@@ -34,17 +34,23 @@ function CalendarWithSlider({ data }: { data: Array<ShootingDateEntry> }) {
 export function Login() {
   const { t } = useTranslation();
   const [loginInfo, setLoginInfo] = useAdminLogin();
-  const calendarData = useCalendarData(loginInfo);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useCalendarData(loginInfo);
 
   return (
     <div className="container">
       <h1 className="mb-2">{t('admin.login.title')}</h1>
       {!loginInfo && <LoginForm setData={setLoginInfo} />}
       <Loadable
-        request={calendarData}
+        data={data}
+        loading={loading}
+        error={error}
         loadingElement={<LoadingIndicator height="20rem" />}
       >
-        {(data) => <CalendarWithSlider data={data} />}
+        {(response) => <CalendarWithSlider data={response} />}
       </Loadable>
     </div>
   );

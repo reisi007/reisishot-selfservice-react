@@ -4,10 +4,14 @@ import { Loadable } from '../Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 
 export function PublicCalendar(props: Omit<CalendarProps, 'data' | 'rowCreator' | 'children'>) {
-  const request = useCalendarData();
+  const [{
+    data,
+    loading,
+    error,
+  }] = useCalendarData();
   return (
-    <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => <Calendar {...props} data={data} />}
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => <Calendar {...props} data={response} />}
     </Loadable>
   );
 }

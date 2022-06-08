@@ -94,7 +94,11 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
     text,
   } = values;
   const { t } = useTranslation();
-  const contractData = useContractFilenames();
+  const [{
+    data,
+    loading,
+    error,
+  }] = useContractFilenames();
   return (
     <div className="px-4">
       <FieldArray name="persons">
@@ -139,12 +143,14 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
       </FieldArray>
 
       <Loadable
-        request={contractData}
+        data={data}
+        loading={loading}
+        error={error}
         loadingElement={<LoadingIndicator height="2rem" />}
       >
-        {(data) => (
+        {(response) => (
           <FormSelect
-            options={data}
+            options={response}
             className="w-full"
             label={t('admin.contract.selectContract')}
             required

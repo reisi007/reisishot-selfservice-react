@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import React, { CSSProperties } from 'react';
 
-type Props = { height: CSSProperties['height'], className?: React.HTMLProps<HTMLDivElement>['className'] };
+type Props = { height?: CSSProperties['height'], className?: React.HTMLProps<HTMLDivElement>['className'] };
 
 export function LoadingIndicator({
-  height,
+  height = '10rem',
   className = 'w-full',
 }: Props) {
   return (

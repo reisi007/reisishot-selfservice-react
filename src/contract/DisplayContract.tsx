@@ -10,16 +10,20 @@ import { formatDateTime } from '../utils/Age';
 export function DisplayContract({ loginData }: { loginData: LoginData }) {
   const { user } = loginData;
   const { t } = useTranslation();
-  const request = useGetContractData(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useGetContractData(loginData);
   return (
-    <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => {
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => {
         const {
           markdown,
           hash_value: hash,
           hash_algo: algo,
           due_date: dueDateTime,
-        } = data;
+        } = response;
         const formattedDateTime = formatDateTime(dueDateTime);
         return (
           <>

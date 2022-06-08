@@ -13,11 +13,15 @@ import { useModal } from '../components/Modal';
 import { FormattedDateTime } from '../utils/Age';
 
 export function SignAction({ loginData }: { loginData: LoginData }) {
-  const [request, get] = useSignStatus(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }, get] = useSignStatus(loginData);
 
   return (
-    <Loadable request={[request]} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => <SignActionArea cur={data} refetchSignStatus={get} loginData={loginData} />}
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => <SignActionArea cur={response} refetchSignStatus={get} loginData={loginData} />}
     </Loadable>
   );
 }
@@ -80,13 +84,17 @@ function SignActionArea({
 }
 
 function ViewLogModalContent({ loginData }: { loginData: LoginData }) {
-  const request = useGetLogEntries(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useGetLogEntries(loginData);
   const { t } = useTranslation();
   return (
-    <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => (
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => (
         <div className="grid gap-2 md:grid-cols-2 xxl:grid-cols-3">
-          {data.map(({
+          {response.map(({
             log_type: type,
             timestamp,
             email,

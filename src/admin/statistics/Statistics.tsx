@@ -36,8 +36,16 @@ export function Statistics({ loginData }: LoginDataProps) {
     showMinors: !only18,
     showGroups,
   }), [only18, showGroups]);
-  const yearResult = useChartDataPerYear(loginData, params);
-  const monthResult = useChartDataPerMonth(loginData, params);
+  const [{
+    data: yearData,
+    loading: yearLoading,
+    error: yearError,
+  }] = useChartDataPerYear(loginData, params);
+  const [{
+    data: monthData,
+    loading: monthLoading,
+    error: monthError,
+  }] = useChartDataPerMonth(loginData, params);
   const { t } = useTranslation();
   return (
     <>
@@ -45,24 +53,28 @@ export function Statistics({ loginData }: LoginDataProps) {
       <StatisticDataPanel />
       <div className="w-full">
         <Loadable
-          request={yearResult}
+          data={yearData}
+          loading={yearLoading}
+          error={yearError}
           loadingElement={<LoadingIndicator height="20rem" />}
         >
-          {(data) => (
+          {(response) => (
             <DisplayDiagramPerYear
-              {...data}
+              {...response}
               visibilities={visibilities}
               setVisibilities={setVisibilities}
             />
           )}
         </Loadable>
         <Loadable
-          request={monthResult}
+          data={monthData}
+          loading={monthLoading}
+          error={monthError}
           loadingElement={<LoadingIndicator height="20rem" />}
         >
-          {(data) => (
+          {(response) => (
             <DisplayDiagramsPerMonth
-              {...data}
+              {...response}
               visibilities={visibilities}
               setVisibilities={setVisibilities}
             />
