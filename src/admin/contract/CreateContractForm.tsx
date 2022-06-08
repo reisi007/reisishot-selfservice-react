@@ -71,7 +71,7 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
                     .toDate(), t('form.errors.date.requirePastDate')),
               }),
             )
-            .min(1),
+            .min(2),
         })}
       >
         {(props) => <CreateContractFormContent {...props} submitState={submitState} />}
