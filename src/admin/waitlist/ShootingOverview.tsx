@@ -31,7 +31,7 @@ function ShootingType({
 }: { item: WaitlistItemWithRegistrations, loginData: LoginData }) {
   const { t } = useTranslation();
   const { id: itemId } = item;
-  const [modal, setVisibility] = useModal((setModalOpen) => (
+  const [modal, setVisibility] = useModal(t('admin.waitlist.statistics.title'), (setModalOpen) => (
     <StatisticModalContent
       itemId={itemId}
       loginData={loginData}
@@ -81,25 +81,22 @@ function StatisticModalContent({
   }, [itemId, loginData, setModalOpen, store]);
 
   return (
-    <div>
-      <h2 className="mb-2">{t('admin.waitlist.statistics.title')}</h2>
-      <Formik
-        initialValues={{
-          is18: false,
-          isGroup: false,
-        }}
-        onSubmit={onSubmit}
-      >
-        {(formik) => (
-          <>
-            <div className="flex flex-wrap justify-around items-center my-2 space-x-4">
-              <FormCheckbox label={t('admin.statistics.settings.18+')} name="is18" />
-              <FormCheckbox label={t('admin.statistics.settings.groups')} name="groups" />
-            </div>
-            <SubmitButton formik={formik} request={request} allowInitialSubmit />
-          </>
-        )}
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{
+        is18: true,
+        isGroup: false,
+      }}
+      onSubmit={onSubmit}
+    >
+      {(formik) => (
+        <>
+          <div className="flex flex-wrap justify-around items-center my-2 space-x-4">
+            <FormCheckbox label={t('admin.statistics.settings.18+')} name="is18" />
+            <FormCheckbox label={t('admin.statistics.settings.groups')} name="groups" />
+          </div>
+          <SubmitButton formik={formik} request={request} allowInitialSubmit />
+        </>
+      )}
+    </Formik>
   );
 }

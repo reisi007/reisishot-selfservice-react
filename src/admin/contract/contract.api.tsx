@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
 import { Person } from '../../types/Person';
 import { createHeader, usePutWithAuthentication } from '../../utils/http.authed';
 import { formatDate } from '../../utils/Age';
 import { LoginData } from '../../utils/LoginData';
 import { useFetch, useManualFetch } from '../../http';
+import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
+import { LoadableRequest } from '../../components/Loadable';
 
 export type SearchablePerson = Person & { search: string };
 
@@ -76,3 +78,45 @@ export type CreateContract = {
   dueDate: string;
   baseUrl: string;
 };
+
+export type SignStatus = {
+  email: string,
+  firstname: string,
+  lastname: string,
+  birthday: string,
+  signed: boolean
+};
+
+export function useSignStatus(loginData: LoginData): [LoadableRequest<Array<SignStatus>>, () => Promise<Array<SignStatus>>] {
+  const [{
+    loading,
+    error,
+    data: rawData,
+  }, rawGet] = useFetch<PdoEmulatedPrepared<Array<SignStatus>>>({
+    url: 'api/contract-signed_status_get.php',
+    headers: createHeader(loginData),
+  });
+
+  function mapData(d: PdoEmulatedPrepared<SignStatus>): SignStatus {
+    return ({
+      ...d,
+      signed: d.signed === '1',
+    });
+  }
+
+  const data = useMemo((): Array<SignStatus> | undefined => {
+    if (rawData === undefined) {
+      return undefined;
+    }
+    return rawData.map(mapData);
+  }, [rawData]);
+
+  const get = useCallback((): Promise<Array<SignStatus>> => rawGet(undefined, { useCache: false })
+    .then((e) => e.data.map(mapData)), [rawGet]);
+
+  return [{
+    loading,
+    error,
+    data,
+  }, get];
+}

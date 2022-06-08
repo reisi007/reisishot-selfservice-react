@@ -36,11 +36,11 @@ export type Perk = {
   value: number
 };
 
-export interface ReferralPointEntry {
+export type ReferralPointEntry = {
   points: number,
   key: ReferralType,
   timestamp: string
-}
+};
 
 type ReferralRequest = { email: string, referrerAction: ReferralType, directAction: ReferralType };
 

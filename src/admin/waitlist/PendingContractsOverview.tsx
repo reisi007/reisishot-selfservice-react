@@ -4,6 +4,7 @@ import { formatDate } from '../../utils/Age';
 import { LoginData } from '../../utils/LoginData';
 import { StyledInputField } from '../../form/StyledFields';
 import { FormLabel } from '../../form/FormikFields';
+import { computeContractLink } from '../../utils/baseUrl';
 
 type Props = { data: Array<PendingSignaturInformation>, loginData: LoginData };
 
@@ -25,7 +26,16 @@ export function PendingContractsOverview({ data }: Props) {
               return (
                 <li className="flex items-center my-2 space-x-2 w-full" key={key}>
                   <FormLabel name={key} label={label} required={false} />
-                  <StyledInputField className="grow" error={false} name={key} readOnly value={computeUrl(email, accessKey)} />
+                  <StyledInputField
+                    className="grow"
+                    error={false}
+                    name={key}
+                    readOnly
+                    value={computeContractLink({
+                      user: email,
+                      auth: accessKey,
+                    })}
+                  />
                 </li>
               );
             })}
@@ -34,8 +44,4 @@ export function PendingContractsOverview({ data }: Props) {
       )}
     </>
   );
-}
-
-function computeUrl(email: string, accessKey: string) {
-  return `${window.location.protocol}//${window.location.host}/contracts/${email}/${accessKey}`;
 }
