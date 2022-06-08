@@ -78,6 +78,11 @@
       "daysAgo": "{{days}} days ago"
     }
   },
+  "contracts": {
+    "display": {
+      "title": "Contract for {{name}} - can be signed until {{dateTime}}"
+    }
+  },
   "calendar": {
     "title": "Available Shooting Dates",
     "weeks": "Weeks",
