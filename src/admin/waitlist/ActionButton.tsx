@@ -17,11 +17,12 @@ export function RequestActionButton(rawProps: Props) {
   const {
     request,
     children,
+    disabled = false,
     ...props
   } = rawProps;
   const { loading } = request;
   return (
-    <ActionButton {...props} disabled={loading}>
+    <ActionButton {...props} disabled={loading || disabled}>
       {children}
       <Loadable request={[request]} loadingElement={<LoadingIndicator height="2rem" />} />
     </ActionButton>

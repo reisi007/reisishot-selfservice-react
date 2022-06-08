@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import { LoginData } from '../utils/LoginData';
 import { DisplayContract } from './DisplayContract';
+import { SignAction } from './SignAction';
 
 export function SignContract() {
   const {
@@ -25,7 +26,12 @@ export function SignContract() {
   }, [accessKey, email]);
   return (
     <>
-      {loginData !== undefined && <DisplayContract loginData={loginData} />}
+      {loginData !== undefined && (
+      <>
+        <DisplayContract loginData={loginData} />
+        <SignAction loginData={loginData} />
+      </>
+      )}
     </>
   );
 }

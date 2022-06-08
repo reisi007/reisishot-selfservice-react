@@ -80,7 +80,13 @@
   },
   "contracts": {
     "display": {
-      "title": "Contract for {{name}} - can be signed until {{dateTime}}"
+      "title": "Contract for {{name}} - can be signed until {{dateTime}}",
+      "sign": "Sign",
+      "signDisabled": "Already signed",
+      "log": {
+        "details": "Show all log entries",
+        "title": "All log entries"
+      }
     }
   },
   "calendar": {
