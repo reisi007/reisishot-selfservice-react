@@ -40,7 +40,8 @@
       "filterPerson": "Filter person",
       "storedPersons": "Stored persons",
       "selectContract": "Select Contract",
-      "dueDate": "Due date"
+      "dueDate": "Due date",
+      "additionalText": "Additional text (e.g. date)"
     },
     "waitlist": {
       "titles": {

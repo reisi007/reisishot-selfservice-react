@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { ResponseValues } from 'axios-hooks';
 import { useLocation } from 'react-router-dom';
 import { KnownPersonChooser } from './KnownPersonChooser';
-import { FormInput, FormSelect } from '../../form/FormikFields';
+import { FormInput, FormSelect, FormTextArea } from '../../form/FormikFields';
 import { Person } from '../../types/Person';
 import { SubmitButton } from '../../components/SubmitButton';
 import { requiredString, validateDateString } from '../../yupHelper';
@@ -16,6 +16,8 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { LoginDataProps } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
+import Markdown from '../../utils/markdown/Markdown';
+import { Card } from '../../components/Card';
 
 export function CreateContractForm({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
@@ -51,6 +53,7 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
         }}
         validationSchema={validateObject({
           contractType: requiredString(),
+          text: requiredString(),
           dueDate: validateDateString()
             .required(t('form.errors.required'))
             .min(new Date(), t('form.errors.date.requireFutureDate')),
@@ -86,6 +89,10 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
     submitState,
     values,
   } = formik;
+  const {
+    persons,
+    text,
+  } = values;
   const { t } = useTranslation();
   const contractData = useContractFilenames();
   return (
@@ -93,7 +100,7 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
       <FieldArray name="persons">
         {(arrayHelper) => (
           <>
-            {values.persons.map(({
+            {persons.map(({
               email,
               firstName,
               lastName,
@@ -130,32 +137,37 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
           </>
         )}
       </FieldArray>
-      <div>
-        <Loadable
-          request={contractData}
-          loadingElement={<LoadingIndicator height="2rem" />}
-        >
-          {(data) => (
-            <FormSelect
-              options={data}
-              className="w-full"
-              label={t('admin.contract.selectContract')}
-              required
-              name="contractType"
-              disabledOption={t('admin.contract.selectContract')}
-            />
-          )}
-        </Loadable>
-      </div>
-      <div>
-        <FormInput
-          className="w-full"
-          label={t('admin.contract.dueDate')}
-          required
-          name="dueDate"
-          type="datetime-local"
-        />
-      </div>
+
+      <Loadable
+        request={contractData}
+        loadingElement={<LoadingIndicator height="2rem" />}
+      >
+        {(data) => (
+          <FormSelect
+            options={data}
+            className="w-full"
+            label={t('admin.contract.selectContract')}
+            required
+            name="contractType"
+            disabledOption={t('admin.contract.selectContract')}
+          />
+        )}
+      </Loadable>
+
+      <FormInput
+        className="w-full"
+        label={t('admin.contract.dueDate')}
+        required
+        name="dueDate"
+        type="datetime-local"
+      />
+
+      <FormTextArea name="text" required label={t('admin.contract.additionalText')} />
+      {!!text && (
+        <Card className="my-2">
+          <Markdown className="text-center" content={text} />
+        </Card>
+      )}
       <div className="mx-4">
         <SubmitButton request={submitState} formik={formik} />
       </div>
