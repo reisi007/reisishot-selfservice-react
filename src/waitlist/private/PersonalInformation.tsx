@@ -9,10 +9,14 @@ import { useShowPointsDetailModal } from './ShowPointsDetailModal';
 import { StyledButton } from '../../components/StyledButton';
 
 export function PersonalInformation({ loginData }: { loginData: LoginData }) {
-  const request = useWaitlistPerson(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useWaitlistPerson(loginData);
   return (
-    <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-      {(data) => <DisplayPersonalInformation loginData={loginData} person={data} />}
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => <DisplayPersonalInformation loginData={loginData} person={response} />}
     </Loadable>
   );
 }

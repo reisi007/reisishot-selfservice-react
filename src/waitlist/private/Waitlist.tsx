@@ -8,11 +8,16 @@ import { WaitlistActionButton } from './WaitlistActionButton';
 import { PublicCalendar } from '../../components/calendar/PublicCalendar';
 import { ContactMe } from '../shared/ContactMe';
 import { PersonalInformation } from './PersonalInformation';
+import { Selfservice } from './selfservice/Selfservice';
 
 export function Waitlist({ loginData }: { loginData: LoginData }) {
   const { user } = loginData;
   const { t } = useTranslation();
-  const request = usePrivateWaitlistItems(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = usePrivateWaitlistItems(loginData);
   return (
     <>
       <h1 className="mb-2 text-4xl font-thin">
@@ -20,9 +25,10 @@ export function Waitlist({ loginData }: { loginData: LoginData }) {
       </h1>
       <PersonalInformation loginData={loginData} />
       <ContactMe />
+      <Selfservice loginData={loginData} />
       <PublicCalendar weeks={8} />
-      <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
-        {(data) => <DisplayWaitlistItems items={data}>{(item) => <WaitlistActionButton item={item} loginData={loginData} />}</DisplayWaitlistItems>}
+      <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+        {(response) => <DisplayWaitlistItems items={response}>{(item) => <WaitlistActionButton item={item} loginData={loginData} />}</DisplayWaitlistItems>}
       </Loadable>
     </>
   );

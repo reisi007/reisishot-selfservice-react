@@ -98,6 +98,9 @@
       "react/jsx-curly-spacing": "warn",
       "react/jsx-key": "error",
       "react-hooks/exhaustive-deps": "error",
+      "comma-style": "warn",
+      "react/jsx-max-props-per-line": "warn",
+      "array-bracket-spacing": "warn",
       "max-len": [
         "error",
         {

@@ -30,11 +30,15 @@ function Register({
   loginData,
   setRegistered,
 }: Props) {
-  const [request, post] = useRegisterForWaitlist();
+  const [{
+    data,
+    loading,
+    error,
+  }, post] = useRegisterForWaitlist();
   const { t } = useTranslation();
   const { id: itemId } = item;
-  const onSubmit = useCallback((data: WaitlistRequest, { setSubmitting }: FormikHelpers<WaitlistRequest>) => {
-    post(data, loginData)
+  const onSubmit = useCallback((submittedValue: WaitlistRequest, { setSubmitting }: FormikHelpers<WaitlistRequest>) => {
+    post(submittedValue, loginData)
       .then(() => {
         setSubmitting(false);
         setRegistered(true);
@@ -51,7 +55,16 @@ function Register({
       {(formik) => (
         <>
           <FormTextArea rows={5} placeholder={t('waitlist.shooting.additionalInfo')} name="text" />
-          <SubmitButton className="font-semibold" allowInitialSubmit formik={formik} request={request}>{t('waitlist.registerNow')}</SubmitButton>
+          <SubmitButton
+            className="font-semibold"
+            allowInitialSubmit
+            formik={formik}
+            data={data}
+            loading={loading}
+            error={error}
+          >
+            {t('waitlist.registerNow')}
+          </SubmitButton>
         </>
       )}
     </Formik>
@@ -63,11 +76,15 @@ function DeleteRegistration({
   loginData,
   setRegistered,
 }: Props) {
-  const [request, post] = useDeleteRegistrationForWaitlist();
+  const [{
+    data,
+    loading,
+    error,
+  }, post] = useDeleteRegistrationForWaitlist();
   const { t } = useTranslation();
   const { id: itemId } = item;
-  const onSubmit = useCallback((data: DeleteWaitlistRequest, { setSubmitting }: FormikHelpers<DeleteWaitlistRequest>) => {
-    post(data, loginData)
+  const onSubmit = useCallback((submittedValue: DeleteWaitlistRequest, { setSubmitting }: FormikHelpers<DeleteWaitlistRequest>) => {
+    post(submittedValue, loginData)
       .then(() => {
         setSubmitting(false);
         setRegistered(false);
@@ -80,7 +97,9 @@ function DeleteRegistration({
           className="font-semibold bg-red-500"
           allowInitialSubmit
           formik={formik}
-          request={request}
+          data={data}
+          loading={loading}
+          error={error}
         >
           {t('waitlist.unregisterNow')}
         </SubmitButton>

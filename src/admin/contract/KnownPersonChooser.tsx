@@ -56,16 +56,22 @@ function KnownPersonDisplayChooser({
   loginData,
   search,
 }: SearchProps & LoginDataProps) {
-  const result = useKnownPersons(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useKnownPersons(loginData);
   return (
     <Loadable
-      request={result}
+      data={data}
+      loading={loading}
+      error={error}
       loadingElement={<LoadingIndicator height="20rem" />}
     >
-      {(data) => (
+      {(response) => (
         <div className="grid grid-cols-2 gap-4 m-4">
           {
-            data
+            response
               .filter((p) => !search || p.search.indexOf(search) >= 0)
               .map((person) => (
                 <ClickablePerson

@@ -15,7 +15,11 @@ import { ContactMe } from '../shared/ContactMe';
 export function Waitlist() {
   const { referrer } = useParams<'referrer'>();
   const { t } = useTranslation();
-  const request = usePublicWaitlistItems();
+  const [{
+    data,
+    loading,
+    error,
+  }] = usePublicWaitlistItems();
   const navigate = useNavigate();
   const [loginData] = useWaitlistLogin();
 
@@ -35,7 +39,7 @@ export function Waitlist() {
       </div>
       <ContactMe />
       <PublicCalendar weeks={4} />
-      <Loadable request={request} loadingElement={<LoadingIndicator height="10rem" />}>
+      <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
         {(items) => (
           <DisplayWaitlistItems items={items}>
             {() => <StyledButton disabled className="w-full">{t('waitlist.publicActionButton')}</StyledButton>}

@@ -14,13 +14,19 @@ import { Badge } from '../../components/Badge';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
-  const data = useGetAllReviews(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useGetAllReviews(loginData);
   return (
     <>
       <h1 className="mb-2">{t('admin.reviews.titles.all')}</h1>
       <Loadable
-        request={data}
-        loadingElement={<LoadingIndicator height="10rem" />}
+        data={data}
+        loading={loading}
+        error={error}
+        loadingElement={<LoadingIndicator />}
       >
         {(curData) => (
           <>

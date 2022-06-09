@@ -139,7 +139,26 @@
       "login": "Login",
       "register": "Register",
       "public": "Shooting waitlist",
-      "private": "Register yourself for a shooting"
+      "private": "Register yourself for a shooting",
+      "selfservice": {
+        "title": "Your profile",
+        "openButton": "View your profile",
+        "contractAttention": "A contract requires your attention",
+        "tabs": {
+          "profile": {
+            "title": {
+              "short": "Update profile",
+              "long": "Update your profile"
+            }
+          },
+          "contracts": {
+            "title": {
+              "short": "Contracts",
+              "long": "View all contracts"
+            }
+          }
+        }
+      }
     },
     "publicActionButton": "Login or register to the waitlist to register for a shooting",
     "availability": "Availability",

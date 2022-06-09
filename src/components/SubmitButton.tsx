@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ResponseValues } from 'axios-hooks';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { FormikProps } from 'formik/dist/types';
 import { AxiosError } from 'axios';
 import { StyledButton } from './StyledButton';
@@ -9,16 +9,17 @@ import { DefaultErrorElement, Loadable } from './Loadable';
 
 type Props<FormType> = {
   formik: FormikProps<FormType>
-  request?: ResponseValues<unknown, unknown, unknown>,
   allowInitialSubmit?: boolean,
   className?: string,
   children?: ReactNode
-};
+} & ResponseValues<unknown, unknown, unknown>;
 
 export function SubmitButton<FormType>({
   formik,
-  request,
   children,
+  data = undefined,
+  loading = false,
+  error = null,
   className = '',
   allowInitialSubmit = false,
 }: Props<FormType>) {
@@ -28,9 +29,8 @@ export function SubmitButton<FormType>({
     submitForm,
     isSubmitting,
   } = formik;
-  const loading = request?.loading ?? false;
   const { t } = useTranslation();
-  const result: [ResponseValues<unknown, unknown, unknown>] | undefined = useMemo(() => (request === undefined ? undefined : [request]), [request]);
+
   const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
 
   return (
@@ -42,15 +42,14 @@ export function SubmitButton<FormType>({
     >
       <>
         {children ?? t('form.submit')}
-        {result !== undefined
-         && (
-           <Loadable
-             className="inline-flex mt-2"
-             loadingElement={<LoadingIndicator height="2rem" />}
-             errorElement={ButtonErrorElement}
-             request={result}
-           />
-         )}
+        <Loadable
+          className="inline-flex mt-2"
+          loadingElement={<LoadingIndicator height="2rem" />}
+          errorElement={ButtonErrorElement}
+          data={data}
+          loading={loading}
+          error={error}
+        />
       </>
     </StyledButton>
   );

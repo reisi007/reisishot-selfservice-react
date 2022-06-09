@@ -10,6 +10,10 @@ import { useNavigation } from '../../hooks/useNavigation';
 
 type Props = { registration: AdminWaitlistRecord, loginData: LoginData };
 
+export function normalizePhoneNumber(phone: string) {
+  return phone; // Test this very well
+}
+
 export function Registration({
   registration,
   loginData,
@@ -41,6 +45,10 @@ export function Registration({
       </div>
       <div>
         <MarkAsReadButton registration={registration} loginData={loginData} />
+      </div>
+      <div className="flex justify-between mx-auto mb-4 w-full md:w-1/2">
+        <a aria-label="Whatsapp" href={`https://wa.me/${normalizePhoneNumber(registration.phone_number)}`} rel="noopener noreferrer" target="_blank"><i className="icon rs-whatsapp rs-2xl" /></a>
+        <a aria-label="Email" href={`mailto:${registration.email}`} target="_blank" rel="noreferrer"><i className="icon rs-mail rs-2xl" /></a>
       </div>
       <div className={`mx-auto py-2 px-4 mx-auto text-lg font-semibold text-center rounded-lg ${pointClasses}`}>
         <span className="underline">{registration.points}</span>

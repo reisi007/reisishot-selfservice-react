@@ -62,7 +62,11 @@ function StatisticModalContent({
   setModalOpen,
 }: { loginData: LoginData, itemId: number, setModalOpen: Dispatch<SetStateAction<boolean>> }) {
   const { t } = useTranslation();
-  const [request, store] = usePostNewShootingStatistic();
+  const [{
+    data,
+    loading,
+    error,
+  }, store] = usePostNewShootingStatistic();
 
   const onSubmit = useCallback(({
     is18,
@@ -94,7 +98,7 @@ function StatisticModalContent({
             <FormCheckbox label={t('admin.statistics.settings.18+')} name="is18" />
             <FormCheckbox label={t('admin.statistics.settings.groups')} name="groups" />
           </div>
-          <SubmitButton formik={formik} request={request} allowInitialSubmit />
+          <SubmitButton formik={formik} data={data} loading={loading} error={error} allowInitialSubmit />
         </>
       )}
     </Formik>

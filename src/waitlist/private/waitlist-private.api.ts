@@ -79,3 +79,45 @@ export function useWaitlistPerson(loginData: LoginData): [LoadableRequest<Waitli
     error,
   }];
 }
+
+export function useAllContracts(loginData: LoginData): [LoadableRequest<Array<UserContract>>] {
+  const [{
+    data: rawData,
+    loading,
+    error,
+  }] = useFetch<PdoEmulatedPrepared<Array<UserContract>>>({
+    url: 'api/waitlistlist_contracts_get.php',
+    headers: createHeader(loginData),
+  });
+
+  const data = useMemo((): Array<UserContract> | undefined => {
+    if (rawData === undefined) return undefined;
+    return rawData.map((e) => ({
+      ...e,
+      can_sign: e.can_sign === '1',
+      is_signed: e.is_signed === '1',
+    }));
+  }, [rawData]);
+
+  return [{
+    data,
+    loading,
+    error,
+  }];
+}
+
+export type UserContract = {
+  access_key: string;
+  due_date: string;
+  is_signed: boolean;
+  can_sign: boolean;
+};
+
+export function useUpdateWaitlistPerson() {
+  const [request, rawPost] = useManualFetch({
+    url: 'api/waitlist-person_post.php',
+  });
+
+  const post = usePostWithAuthentication(rawPost);
+  return [request, post] as const;
+}

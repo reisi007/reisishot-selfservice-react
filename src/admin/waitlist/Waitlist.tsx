@@ -10,15 +10,21 @@ import { IgnoredPersons } from './IgnoredPersons';
 
 export function Waitlist({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
-  const data = useWaitlistAdminData(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }] = useWaitlistAdminData(loginData);
 
   return (
     <>
       <h1 className="py-2 text-4xl">{t('admin.waitlist.titles.main')}</h1>
       <Loadable
-        request={data}
+        data={data}
+        loading={loading}
+        error={error}
         loadingElement={(
-          <LoadingIndicator height="10rem" />
+          <LoadingIndicator />
         )}
       >
         {(d) => (
