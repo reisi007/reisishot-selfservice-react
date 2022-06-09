@@ -36,9 +36,9 @@ export function WaitlistPersonForm(
     >
       {(formik) => (
         <>
-          <div className="flex flex-wrap">
-            <FormInput className=" w-full md:w-1/2" label={t('person.firstname')} required name="firstName" />
-            <FormInput className=" w-full md:w-1/2" label={t('person.lastname')} required name="lastName" />
+          <div className="grid md:grid-cols-2">
+            <FormInput label={t('person.firstname')} required name="firstName" />
+            <FormInput label={t('person.lastname')} required name="lastName" />
           </div>
           <FormInput label={t('person.email')} name="email" required type="email" id="registerEmail" />
           <FormInput label={t('person.birthday.title')} data-date-placeholder={t('person.birthday.placeholder.supported')} name="birthday" required type="date" />
