@@ -155,7 +155,10 @@
             "title": {
               "short": "Contracts",
               "long": "View all contracts"
-            }
+            },
+            "signed": "Signed",
+            "canSign": "Possible to sign",
+            "tooLate": "Contract can no longer be signed and is void"
           }
         }
       }
@@ -201,6 +204,7 @@
   },
   "actions": {
     "delete": "Delete",
-    "close": "Close"
+    "close": "Close",
+    "save": "Save"
   }
 }

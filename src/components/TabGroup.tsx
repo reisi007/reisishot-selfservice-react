@@ -42,7 +42,7 @@ function TabGroup<AdditionalParam>({
 
   const containerClasses = classNames(
     containerClassName,
-    'w-full m-2 flex flex-col',
+    'w-full flex flex-col',
   );
 
   const headerContainerClasses = classNames(

@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { useFetch, useManualFetch } from '../../http';
-import { createHeader, usePostWithAuthentication, usePutWithAuthentication } from '../../utils/http.authed';
+import {
+  createHeader, usePost, usePostWithAuthentication, usePutWithAuthentication,
+} from '../../utils/http.authed';
 import { WaitlistItem, WaitlistPerson, WaitlistRequest } from '../public/waitlist-public.api';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { LoadableRequest } from '../../components/Loadable';
@@ -113,11 +115,12 @@ export type UserContract = {
   can_sign: boolean;
 };
 
-export function useUpdateWaitlistPerson() {
+export function useUpdateWaitlistPerson(loginData: LoginData) {
   const [request, rawPost] = useManualFetch({
     url: 'api/waitlist-person_post.php',
+    headers: createHeader(loginData),
   });
 
-  const post = usePostWithAuthentication(rawPost);
+  const post = usePost(rawPost);
   return [request, post] as const;
 }
