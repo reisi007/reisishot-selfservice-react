@@ -9,16 +9,17 @@ import { DefaultErrorElement, Loadable } from './Loadable';
 
 type Props<FormType> = {
   formik: FormikProps<FormType>
-  request?: ResponseValues<unknown, unknown, unknown>,
   allowInitialSubmit?: boolean,
   className?: string,
   children?: ReactNode
-};
+} & ResponseValues<unknown, unknown, unknown>;
 
 export function SubmitButton<FormType>({
   formik,
-  request,
   children,
+  data = undefined,
+  loading = false,
+  error = null,
   className = '',
   allowInitialSubmit = false,
 }: Props<FormType>) {
@@ -29,11 +30,7 @@ export function SubmitButton<FormType>({
     isSubmitting,
   } = formik;
   const { t } = useTranslation();
-  const {
-    data = undefined,
-    loading = false,
-    error = null,
-  } = request ?? {};
+
   const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
 
   return (

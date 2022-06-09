@@ -4,83 +4,85 @@ import {
 import classNames from 'classnames';
 import { StyledButton } from './StyledButton';
 
-export type TabProps = { className?: string, title: string, activateByTitle: Dispatch<SetStateAction<string>> };
-type Tab = (props: TabProps) => JSX.Element;
-type Props = HeaderStyleProps & CurrentTabStyleProps & { children: { [title: string]: Tab }, className?: string, };
-type HeaderStyleProps = { tabHeaderContainerClassName?: string, activeTabHeaderClassName?: string };
-type CurrentTabStyleProps = { tabClassName?: string, tabHeaderClassName?: string };
+export type TabProps<AdditionalParam> = { title: string, activateByTitle: Dispatch<SetStateAction<string>>, data: AdditionalParam };
+type Tab<AdditionalParam> = (props: TabProps<AdditionalParam>) => JSX.Element;
+type Props<AdditionalParam> = ContainerStyleProps & CurrentTabStyleProps & { tabs: { [title: string]: Tab<AdditionalParam> }, data: AdditionalParam };
+type ContainerStyleProps = { headerContainerClassName?: string, tabContainerClassName?: string, containerClassName?: string };
+type CurrentTabStyleProps = { tabHeaderClassName?: string, activeTabHeaderClassName?: string };
 
-export function TabGroup({
-  children,
-  className: containerClassName,
-  tabClassName,
+export function TabGroup<AdditionalParam = never>({
+  data,
+  tabs,
+  containerClassName,
   tabHeaderClassName,
   activeTabHeaderClassName,
-  tabHeaderContainerClassName,
-}: Props) {
-  const [activeTitle, activateByTitle] = useState(Object.keys(children)[0] ?? '');
+  headerContainerClassName,
+  tabContainerClassName,
+}: Props<AdditionalParam>) {
+  const [activeTitle, activateByTitle] = useState(Object.keys(tabs)[0] ?? '');
 
   const currentTab = useMemo(() => {
-    const tabClasses = classNames({
-      tabClassName,
-      grow: true,
-    });
-    const Child = children[activeTitle];
+    const Child = tabs[activeTitle];
     return (
       <>
-        {Child !== undefined && <Child title={activeTitle} activateByTitle={activateByTitle} className={tabClasses} />}
+        {Child !== undefined && <Child data={data} title={activeTitle} activateByTitle={activateByTitle} />}
       </>
     );
-  }, [activeTitle, children, tabClassName]);
+  }, [tabs, activeTitle, data]);
 
-  const containerClasses = classNames({
+  const containerClasses = classNames(
     containerClassName,
-    'm-2 flex flex-col': true,
-  });
+    'w-full m-2 flex flex-col',
+  );
 
-  const headerContainerClasses = classNames({
-    tabHeaderClassName,
-    'flex flex-wrap mb-2': true,
-  });
+  const headerContainerClasses = classNames(
+    headerContainerClassName,
+    'flex flex-wrap mb-2',
+  );
 
   return (
     <div className={containerClasses}>
       <div className={headerContainerClasses}>
         {
-          Object.keys(children)
+          Object.keys(tabs)
             .map((title) => (
               <TabHeader
                 key={title}
                 activateByTitle={activateByTitle}
                 title={title}
                 isActive={title === activeTitle}
-                tabHeaderContainerClassName={tabHeaderContainerClassName}
+                tabHeaderClassName={tabHeaderClassName}
                 activeTabHeaderClassName={activeTabHeaderClassName}
               />
             ))
         }
       </div>
-      {currentTab}
+      <div className={classNames(tabContainerClassName)}>
+        {currentTab}
+      </div>
     </div>
   );
 }
 
-type TabHeaderProps = HeaderStyleProps & { title: string, isActive: boolean, activateByTitle: Dispatch<SetStateAction<string>> };
+type TabHeaderProps = CurrentTabStyleProps & { title: string, isActive: boolean, activateByTitle: Dispatch<SetStateAction<string>> };
 
 function TabHeader({
   title,
-  tabHeaderContainerClassName,
   activeTabHeaderClassName,
+  tabHeaderClassName,
   isActive,
   activateByTitle,
 }: TabHeaderProps) {
-  const tabStyle = classNames({
-    tabHeaderContainerClassName,
-    activeTabHeaderClassName: activeTabHeaderClassName && isActive,
-  });
-  return (
-    <StyledButton className={tabStyle} onClick={() => activateByTitle(title)}>
-      {title}
-    </StyledButton>
+  const classes = classNames(
+    { [activeTabHeaderClassName ?? '']: activeTabHeaderClassName && isActive },
+    tabHeaderClassName,
+  );
+  return (isActive
+    ? <p className={classes}>{title}</p>
+    : (
+      <StyledButton className={classes} onClick={() => activateByTitle(title)}>
+        {title}
+      </StyledButton>
+    )
   );
 }

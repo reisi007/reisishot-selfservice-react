@@ -21,7 +21,11 @@ import { Card } from '../../components/Card';
 
 export function CreateContractForm({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
-  const [submitState, submitContract] = useCreateContract();
+  const [{
+    data,
+    loading,
+    error,
+  }, submitContract] = useCreateContract();
 
   const onSubmit: (values: CreateContract, formikHelpers: FormikHelpers<CreateContract>) => void | Promise<any> = useCallback(async (values, {
     setSubmitting,
@@ -74,7 +78,7 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
             .min(2),
         })}
       >
-        {(props) => <CreateContractFormContent {...props} submitState={submitState} />}
+        {(props) => <CreateContractFormContent {...props} data={data} loading={loading} error={error} />}
       </Formik>
     </div>
   );
@@ -82,22 +86,25 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
 
 type CreateContractFormikProps =
   FormikProps<CreateContract>
-  & { submitState: ResponseValues<unknown, unknown, unknown> };
+  & ResponseValues<unknown, unknown, unknown>;
 
 function CreateContractFormContent(formik: CreateContractFormikProps) {
   const {
-    submitState,
+    data,
+    loading,
+    error,
     values,
   } = formik;
+
   const {
     persons,
     text,
   } = values;
   const { t } = useTranslation();
   const [{
-    data,
-    loading,
-    error,
+    data: contractData,
+    loading: contractLoading,
+    error: contractError,
   }] = useContractFilenames();
   return (
     <div className="px-4">
@@ -143,9 +150,9 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
       </FieldArray>
 
       <Loadable
-        data={data}
-        loading={loading}
-        error={error}
+        data={contractData}
+        loading={contractLoading}
+        error={contractError}
         loadingElement={<LoadingIndicator height="2rem" />}
       >
         {(response) => (
@@ -175,7 +182,7 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
         </Card>
       )}
       <div className="mx-4">
-        <SubmitButton request={submitState} formik={formik} />
+        <SubmitButton data={data} loading={loading} error={error} formik={formik} />
       </div>
     </div>
   );

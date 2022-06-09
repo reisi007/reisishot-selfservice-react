@@ -8,7 +8,11 @@ import { GoToEmailModal } from './GoToEmailModal';
 
 export function LoginForm({ referrer }: Referrable) {
   const { t } = useTranslation();
-  const [request, put] = useWaitlistLogin();
+  const [{
+    data,
+    loading,
+    error,
+  }, put] = useWaitlistLogin();
   return (
     <div>
       <h2>
@@ -29,11 +33,11 @@ export function LoginForm({ referrer }: Referrable) {
         {(formik) => (
           <>
             <FormInput label={t('person.email')} name="email" type="email" required id="loginEmail" />
-            <SubmitButton formik={formik} request={request} />
+            <SubmitButton formik={formik} data={data} loading={loading} error={error} />
           </>
         )}
       </Formik>
-      {!!request.data && <GoToEmailModal />}
+      {!!data && <GoToEmailModal />}
     </div>
   );
 }

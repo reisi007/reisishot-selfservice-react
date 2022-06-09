@@ -8,6 +8,7 @@ import { WaitlistActionButton } from './WaitlistActionButton';
 import { PublicCalendar } from '../../components/calendar/PublicCalendar';
 import { ContactMe } from '../shared/ContactMe';
 import { PersonalInformation } from './PersonalInformation';
+import { Selfservice } from './selfservice/Selfservice';
 
 export function Waitlist({ loginData }: { loginData: LoginData }) {
   const { user } = loginData;
@@ -24,6 +25,7 @@ export function Waitlist({ loginData }: { loginData: LoginData }) {
       </h1>
       <PersonalInformation loginData={loginData} />
       <ContactMe />
+      <Selfservice loginData={loginData} />
       <PublicCalendar weeks={8} />
       <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
         {(response) => <DisplayWaitlistItems items={response}>{(item) => <WaitlistActionButton item={item} loginData={loginData} />}</DisplayWaitlistItems>}
