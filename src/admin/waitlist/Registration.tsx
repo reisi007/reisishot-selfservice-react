@@ -8,7 +8,7 @@ import { AssessPerson } from './AssessPerson';
 import { LoginData } from '../../utils/LoginData';
 import { useNavigation } from '../../hooks/useNavigation';
 
-type Props = { registration: AdminWaitlistRecord, loginData: LoginData };
+type Props = { registration: AdminWaitlistRecord, loginData: LoginData, refetch: () => void };
 
 export function normalizePhoneNumber(phone: string) {
   return phone; // Test this very well
@@ -17,6 +17,7 @@ export function normalizePhoneNumber(phone: string) {
 export function Registration({
   registration,
   loginData,
+  refetch,
 }: Props) {
   const { t } = useTranslation();
   const classes = classNames(
@@ -70,7 +71,7 @@ export function Registration({
            {registration.text}
          </p>
        )}
-      <RegistrationActions registration={registration} loginData={loginData} />
+      <RegistrationActions registration={registration} loginData={loginData} refetch={refetch} />
     </div>
   );
 }
@@ -78,6 +79,7 @@ export function Registration({
 function RegistrationActions({
   registration,
   loginData,
+  refetch,
 }: Props) {
   const { t } = useTranslation();
   const [, navigate] = useNavigation();
@@ -102,7 +104,8 @@ function RegistrationActions({
         onClick={() => deletePerson({
           person,
           item,
-        }, loginData)}
+        }, loginData)
+          .then(refetch)}
         className="text-white bg-reisishot"
       >
         {t('actions.delete')}
