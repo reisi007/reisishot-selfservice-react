@@ -10,17 +10,18 @@ import { useModal } from '../../components/Modal';
 import { SubmitButton } from '../../components/SubmitButton';
 import { FormCheckbox } from '../../form/FormikFields';
 
-type ShootingOverviewProps = { data: Array<WaitlistItemWithRegistrations>, loginData: LoginData };
+type ShootingOverviewProps = { data: Array<WaitlistItemWithRegistrations>, loginData: LoginData, refetch: () => void };
 
 export function ShootingOverview({
   data,
   loginData,
+  refetch,
 }: ShootingOverviewProps) {
   const { t } = useTranslation();
   return (
     <>
       <h2 className="text-3xl">{t('admin.waitlist.titles.registrations')}</h2>
-      {data.map((e) => <ShootingType key={e.short} item={e} loginData={loginData} />)}
+      {data.map((e) => <ShootingType key={e.short} item={e} loginData={loginData} refetch={refetch} />)}
     </>
   );
 }
@@ -28,7 +29,8 @@ export function ShootingOverview({
 function ShootingType({
   item,
   loginData,
-}: { item: WaitlistItemWithRegistrations, loginData: LoginData }) {
+  refetch,
+}: { item: WaitlistItemWithRegistrations, loginData: LoginData, refetch: () => void }) {
   const { t } = useTranslation();
   const { id: itemId } = item;
   const [modal, setVisibility] = useModal(t('admin.waitlist.statistics.title'), (setModalOpen) => (
@@ -46,8 +48,8 @@ function ShootingType({
           <h3 className="inline-block my-3 text-2xl">{item.title}</h3>
           <StyledButton onClick={() => setVisibility(true)}>{t('admin.waitlist.statistics.start')}</StyledButton>
         </div>
-        <div className="flex flex-wrap items-center">
-          {item.registrations.map((e) => <Registration key={e.person_id} loginData={loginData} registration={e} />)}
+        <div className="flex flex-wrap">
+          {item.registrations.map((e) => <Registration key={e.person_id} loginData={loginData} registration={e} refetch={refetch} />)}
         </div>
       </div>
     </>
