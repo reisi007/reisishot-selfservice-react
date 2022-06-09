@@ -33,12 +33,12 @@ function Modal({
   );
 }
 
-export function useModal(title: string, children?: (setVisible: Dispatch<SetStateAction<boolean>>) => ReactNode, initialVisibility: boolean = false) {
+export function useModal(title: string, content?: (setVisible: Dispatch<SetStateAction<boolean>>) => ReactNode, initialVisibility: boolean = false) {
   const [isVisible, setVisible] = useState(initialVisibility);
   const modal: ReactNode = isVisible && (
-  <Modal title={title} setVisible={setVisible}>
-    {(setVisibility) => children !== undefined && children(setVisibility)}
-  </Modal>
+    <Modal title={title} setVisible={setVisible}>
+      {(setVisibility) => content !== undefined && content(setVisibility)}
+    </Modal>
   );
   return [modal, setVisible] as const;
 }

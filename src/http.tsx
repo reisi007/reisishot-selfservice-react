@@ -26,10 +26,10 @@ export function useFetch<Response, Request = unknown, Error = unknown>({
   }, options);
 }
 
-export function useManualFetch<Response, Request = unknown, Error = unknown>(oldPrams: Params) {
-  const params = {
-    ...oldPrams,
-    options: { manual: true, ...oldPrams.options },
+export function useManualFetch<Response, Request = unknown, Error = unknown>(params: Params) {
+  const finalParams = {
+    ...params,
+    options: { manual: true, ...params.options },
   };
-  return useFetch<Response, Request, Error>(params);
+  return useFetch<Response, Request, Error>(finalParams);
 }

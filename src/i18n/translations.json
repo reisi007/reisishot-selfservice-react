@@ -141,6 +141,9 @@
       "public": "Shooting waitlist",
       "private": "Register yourself for a shooting",
       "selfservice": {
+        "title": "Your profile",
+        "openButton": "View your profile",
+        "contractAttention": "A contract requires your attention",
         "tabs": {
           "profile": {
             "title": {

@@ -6,21 +6,31 @@ import { StyledButton } from './StyledButton';
 
 export type TabProps<AdditionalParam> = { title: string, activateByTitle: Dispatch<SetStateAction<string>>, data: AdditionalParam };
 type Tab<AdditionalParam> = (props: TabProps<AdditionalParam>) => JSX.Element;
-type Props<AdditionalParam> = ContainerStyleProps & CurrentTabStyleProps & { tabs: { [title: string]: Tab<AdditionalParam> }, data: AdditionalParam };
+
+type Props<AdditionalParam> = UseProps<AdditionalParam> & { activeTitle: string, activateByTitle: Dispatch<SetStateAction<string>> };
+type UseProps<AdditionalParam> = ContainerStyleProps & CurrentTabStyleProps & { tabs: { [title: string]: Tab<AdditionalParam> }, data: AdditionalParam };
+
 type ContainerStyleProps = { headerContainerClassName?: string, tabContainerClassName?: string, containerClassName?: string };
 type CurrentTabStyleProps = { tabHeaderClassName?: string, activeTabHeaderClassName?: string };
 
-export function TabGroup<AdditionalParam = never>({
+export function useTabGroup<AdditionalParam>(props: UseProps<AdditionalParam>): [JSX.Element, Dispatch<SetStateAction<string>>] {
+  const { tabs } = props;
+  const [activeTitle, activateByTitle] = useState(Object.keys(tabs)[0] ?? '');
+  const tabGroup = <TabGroup {...props} activateByTitle={activateByTitle} activeTitle={activeTitle} />;
+  return [tabGroup, activateByTitle];
+}
+
+function TabGroup<AdditionalParam>({
   data,
   tabs,
+  activeTitle,
+  activateByTitle,
   containerClassName,
   tabHeaderClassName,
   activeTabHeaderClassName,
   headerContainerClassName,
   tabContainerClassName,
 }: Props<AdditionalParam>) {
-  const [activeTitle, activateByTitle] = useState(Object.keys(tabs)[0] ?? '');
-
   const currentTab = useMemo(() => {
     const Child = tabs[activeTitle];
     return (
@@ -28,7 +38,7 @@ export function TabGroup<AdditionalParam = never>({
         {Child !== undefined && <Child data={data} title={activeTitle} activateByTitle={activateByTitle} />}
       </>
     );
-  }, [tabs, activeTitle, data]);
+  }, [tabs, activeTitle, data, activateByTitle]);
 
   const containerClasses = classNames(
     containerClassName,
