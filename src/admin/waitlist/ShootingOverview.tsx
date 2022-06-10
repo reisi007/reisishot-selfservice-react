@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import {
+  Dispatch, SetStateAction, useCallback, useEffect, useState,
+} from 'react';
 import { FormikHelpers } from 'formik/dist/types';
-import { usePostNewShootingStatistic, WaitlistItemWithRegistrations } from './waitlist.api';
+import { AdminWaitlistRecord, usePostNewShootingStatistic, WaitlistItemWithRegistrations } from './waitlist.api';
 import { Registration } from './Registration';
 import { LoginData } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
@@ -10,18 +12,18 @@ import { useModal } from '../../components/Modal';
 import { SubmitButton } from '../../components/SubmitButton';
 import { FormCheckbox } from '../../form/FormikFields';
 
-type ShootingOverviewProps = { data: Array<WaitlistItemWithRegistrations>, loginData: LoginData, refetch: () => void };
+type ShootingOverviewProps = { data: Array<WaitlistItemWithRegistrations>, loginData: LoginData, };
 
 export function ShootingOverview({
   data,
   loginData,
-  refetch,
 }: ShootingOverviewProps) {
   const { t } = useTranslation();
+
   return (
     <>
       <h2 className="text-3xl">{t('admin.waitlist.titles.registrations')}</h2>
-      {data.map((e) => <ShootingType key={e.short} item={e} loginData={loginData} refetch={refetch} />)}
+      {data.map((e) => <ShootingType key={e.short} item={e} loginData={loginData} />)}
     </>
   );
 }
@@ -29,8 +31,7 @@ export function ShootingOverview({
 function ShootingType({
   item,
   loginData,
-  refetch,
-}: { item: WaitlistItemWithRegistrations, loginData: LoginData, refetch: () => void }) {
+}: { item: WaitlistItemWithRegistrations, loginData: LoginData }) {
   const { t } = useTranslation();
   const { id: itemId } = item;
   const [modal, setVisibility] = useModal(t('admin.waitlist.statistics.title'), (setModalOpen) => (
@@ -40,6 +41,18 @@ function ShootingType({
       setModalOpen={setModalOpen}
     />
   ));
+  const { registrations: rawRegistrations } = item;
+
+  const [registrations, setRegistrations] = useState<Array<AdminWaitlistRecord>>(rawRegistrations);
+
+  useEffect(() => {
+    setRegistrations(rawRegistrations);
+  }, [rawRegistrations]);
+
+  const removeRegistration = useCallback(({ item_id: searchItemId }: AdminWaitlistRecord) => {
+    setRegistrations((oldData) => oldData.filter(({ item_id: curItemId }) => !(searchItemId === curItemId)));
+  }, [setRegistrations]);
+
   return (
     <>
       {modal}
@@ -49,7 +62,7 @@ function ShootingType({
           <StyledButton onClick={() => setVisibility(true)}>{t('admin.waitlist.statistics.start')}</StyledButton>
         </div>
         <div className="flex flex-wrap">
-          {item.registrations.map((e) => <Registration key={e.person_id} loginData={loginData} registration={e} refetch={refetch} />)}
+          {registrations.map((e) => <Registration key={e.person_id} loginData={loginData} registration={e} removeRegistration={removeRegistration} />)}
         </div>
       </div>
     </>

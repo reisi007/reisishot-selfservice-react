@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { RefetchOptions, ResponseValues } from 'axios-hooks';
-import { AxiosPromise } from 'axios';
 import { LoginData } from '../../utils/LoginData';
 import { createHeader, usePostWithAuthentication } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
@@ -8,12 +7,12 @@ import { Person } from '../../types/Person';
 import { WaitlistItem, WaitlistPerson, WaitlistRequest } from '../../waitlist/public/waitlist-public.api';
 import { useFetch, useManualFetch } from '../../http';
 
-export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>, () => AxiosPromise<unknown>] {
+export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
     data: rawData,
     loading,
     error,
-  }, refetch] = useFetch<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
+  }] = useFetch<PdoEmulatedPrepared<WaitlistAdminData<undefined>>>({
     url: 'api/waitlist-admin_get.php',
     headers: createHeader(loginData),
   });
@@ -63,7 +62,7 @@ export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<Wait
     data,
     loading,
     error,
-  }, refetch];
+  }];
 }
 
 type DateAssignedBody = { itemId: number, personId: number, value: boolean };
