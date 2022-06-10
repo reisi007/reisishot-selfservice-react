@@ -87,7 +87,11 @@ function RegistrationActions({
     person_id: person,
     item_id: item,
   } = registration;
-  const [deleteState, deletePerson] = useDeleteWaitlistItem();
+  const [{
+    data,
+    loading,
+    error,
+  }, deletePerson] = useDeleteWaitlistItem();
   return (
     <div className="grid gap-2 mx-auto mt-2 sm:grid-cols-2 lg:w-3/4 xl:grid-cols-4 xl:w-full 2xl:w-3/4">
       <ActionButton
@@ -100,7 +104,9 @@ function RegistrationActions({
         {t('admin.contract.title')}
       </ActionButton>
       <RequestActionButton
-        request={deleteState}
+        data={data}
+        loading={loading}
+        error={error}
         onClick={() => deletePerson({
           person,
           item,
@@ -136,7 +142,11 @@ function MarkAsReadButton({
   } = registration;
   const [isDateAssigned, setStateAssigned] = useState(dateAssigned);
   const { t } = useTranslation();
-  const [request, post] = useSetDateAssigned();
+  const [{
+    data,
+    loading,
+    error,
+  }, post] = useSetDateAssigned();
 
   const dateAssignedButtonText = t(isDateAssigned ? 'admin.waitlist.markAs.unread' : 'admin.waitlist.markAs.read');
   const onClick = useCallback(() => {
@@ -149,7 +159,9 @@ function MarkAsReadButton({
   }, [isDateAssigned, itemId, loginData, personId, post]);
   return (
     <RequestActionButton
-      request={request}
+      data={data}
+      loading={loading}
+      error={error}
       onClick={onClick}
       className="py-1 px-4 mx-auto mb-2 font-normal rounded-lg border"
     >

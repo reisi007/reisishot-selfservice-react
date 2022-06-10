@@ -9,6 +9,7 @@ import Root from './Root';
 import { useAdminRoutes } from './admin/routes';
 import { useWaitlistRoutes } from './waitlist/routes';
 import { useContractRoutes } from './contract/routes';
+import { useReviewRoutes } from './review/routes';
 
 // Configure useAxiosCache
 configure({
@@ -22,6 +23,8 @@ function App() {
   const adminRoutes = useAdminRoutes();
   const waitlistRoutes = useWaitlistRoutes();
   const contractRoutes = useContractRoutes();
+  const reviewRoutes = useReviewRoutes();
+
   return (
     <div className="container p-4">
       <Router>
@@ -31,6 +34,7 @@ function App() {
             {waitlistRoutes}
             {adminRoutes}
             {contractRoutes}
+            {reviewRoutes}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>

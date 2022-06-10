@@ -133,6 +133,7 @@
   },
   "reviews": {
     "titles": {
+      "write": "Write review",
       "private": "Review, which won't be publicized",
       "public": "Review, which will be made public"
     },
@@ -209,6 +210,9 @@
   "actions": {
     "delete": "Delete",
     "close": "Close",
-    "save": "Save"
+    "save": "Save",
+    "next": "Next",
+    "prev": "Previous",
+    "send": "Send"
   }
 }

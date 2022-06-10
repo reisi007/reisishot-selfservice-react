@@ -9,7 +9,11 @@ export function AssessPerson({
   registration,
 }: { loginData: LoginData, registration: AdminWaitlistRecord }) {
   const { t } = useTranslation();
-  const [request, post] = useAddPoints();
+  const [{
+    data,
+    loading,
+    error,
+  }, post] = useAddPoints();
   const { email } = registration;
   return (
     <>
@@ -22,7 +26,9 @@ export function AssessPerson({
           }, loginData);
         }}
         className="text-white bg-reisishot"
-        request={request}
+        data={data}
+        loading={loading}
+        error={error}
       >
         {t('admin.waitlist.positive')}
       </RequestActionButton>
@@ -35,7 +41,9 @@ export function AssessPerson({
           }, loginData);
         }}
         className="text-white bg-red-500"
-        request={request}
+        data={data}
+        loading={loading}
+        error={error}
       >
         {t('admin.waitlist.negative')}
       </RequestActionButton>

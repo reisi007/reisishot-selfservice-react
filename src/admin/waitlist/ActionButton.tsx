@@ -1,30 +1,30 @@
 import { ButtonHTMLAttributes } from 'react';
 import { ResponseValues } from 'axios-hooks';
+import classNames from 'classnames';
 import { StyledButton } from '../../components/StyledButton';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  request: ResponseValues<unknown, unknown, unknown>
-};
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & ResponseValues<unknown, unknown, unknown>;
 
 export function ActionButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   const { className } = props;
-  return <StyledButton {...props} className={`p-2.5 font-bold rounded-2xl ${className}`} />;
+  const classes = classNames(
+    className,
+    'p-2.5 font-bold rounded-2xl',
+  );
+  return <StyledButton {...props} className={classes} />;
 }
 
 export function RequestActionButton(rawProps: Props) {
   const {
-    request,
+    data,
+    loading,
+    error,
     children,
     disabled = false,
     ...props
   } = rawProps;
-  const {
-    loading,
-    data,
-    error,
-  } = request;
   return (
     <ActionButton {...props} disabled={loading || disabled}>
       {children}
