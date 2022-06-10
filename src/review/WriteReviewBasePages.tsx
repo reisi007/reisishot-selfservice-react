@@ -1,77 +1,101 @@
-import { ButtonHTMLAttributes, Dispatch, SetStateAction } from 'react';
+import {
+  ButtonHTMLAttributes, Dispatch, MutableRefObject, ReactNode, SetStateAction,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { PageableContextState, PageableContextStateType } from '../components/Pageable';
 import { LoadableRequest } from '../components/Loadable';
 import { RequestActionButton } from '../admin/waitlist/ActionButton';
 import { StyledButton } from '../components/StyledButton';
-import { Review } from './review.api';
+import { ReviewRequest } from './review.api';
 
 export type ReviewPages = {
-  person: Pick<Review, 'name' | 'email'>,
-  rating: Pick<Review, 'rating'>,
+  person: Pick<ReviewRequest, 'name' | 'email'>,
+  rating: Pick<ReviewRequest, 'rating'>,
 };
 
-export type PageProps = { context: PageableContextStateType<ReviewPages>, request: LoadableRequest<unknown>, onSubmit: () => void };
+export type WriteReviewPageProps = { context: PageableContextStateType<ReviewPages>, request: LoadableRequest<unknown>, onSubmit: () => void, value: MutableRefObject<ReviewPages> };
 
-type AdditionalBasePageProps = { children: JSX.Element, canNext: boolean, canSubmit: boolean };
+type AdditionalBasePageProps = { children: ReactNode, buttons?: ReactNode, canNext: boolean, canSubmit: boolean, saveState: () => void };
 
 export function WriteReviewBasePage({
   children,
-  onSubmit,
+  buttons,
   request,
   context,
   canNext,
-  canSubmit,
-}: PageProps & AdditionalBasePageProps) {
+  saveState,
+}: WriteReviewPageProps & AdditionalBasePageProps) {
   const [state, setState] = context;
   return (
     <div className="flex flex-col">
-      <div className="min-h-[30vh]">
+      <div className="mx-auto min-h-[30vh]">
         {children}
       </div>
       <div className="grow" />
-      <NavButtons {...state} {...request} setCurrentPage={setState} canNext={canNext} canSubmit={canSubmit} onSubmit={onSubmit} />
+      {buttons}
+      <NavButtons
+        {...state}
+        {...request}
+        setCurrentPage={setState}
+        canNext={canNext}
+        saveState={saveState}
+      />
     </div>
+  );
+}
+
+function SubmitButton({
+  onSubmit,
+  data,
+  loading,
+  error,
+  saveState,
+}: { canSubmit: boolean, onSubmit: () => void, saveState: () => void } & LoadableRequest<unknown>) {
+  const { t } = useTranslation();
+  return (
+    <RequestActionButton
+      onClick={() => {
+        saveState();
+        onSubmit();
+      }}
+      data={data}
+      loading={loading}
+      error={error}
+      className="basis-0 grow py-1 px-2 text-white bg-reisishot !rounded-none"
+    >
+      {t('actions.send')}
+    </RequestActionButton>
   );
 }
 
 function NavButtons({
   canNext,
-  canSubmit,
+  saveState,
   isLast,
   isFirst,
   setCurrentPage,
-  onSubmit,
-  data,
-  loading,
-  error,
-}: PageableContextState<ReviewPages> & LoadableRequest<unknown>
-& { canSubmit: boolean, canNext: boolean, setCurrentPage: Dispatch<SetStateAction<number>>, onSubmit: () => void }) {
+}: PageableContextState<ReviewPages> & { canNext: boolean, setCurrentPage: Dispatch<SetStateAction<number>>, saveState: () => void }) {
   const { t } = useTranslation();
   return (
-    <div className="grid grid-cols-3 mx-auto mt-2 w-3/4">
+    <div className="flex  mx-auto mt-2 w-3/4">
       <PageButton
         disabled={isFirst}
-        onClick={() => setCurrentPage((p) => p - 1)}
-        className="rounded-r-none"
+        onClick={() => {
+          saveState();
+          setCurrentPage((p) => p - 1);
+        }}
+        className="basis-0 grow rounded-r-none"
       >
         {t('actions.prev')}
       </PageButton>
-      <RequestActionButton
-        disabled={!canSubmit}
-        onClick={onSubmit}
-        data={data}
-        loading={loading}
-        error={error}
-        className="py-1 px-2 text-white bg-reisishot !rounded-none"
-      >
-        {t('actions.send')}
-      </RequestActionButton>
       <PageButton
         disabled={isLast || !canNext}
-        onClick={() => setCurrentPage((p) => p + 1)}
-        className="rounded-l-none"
+        onClick={() => {
+          saveState();
+          setCurrentPage((p) => p + 1);
+        }}
+        className="basis-0 grow rounded-l-none"
       >
         {t('actions.next')}
       </PageButton>

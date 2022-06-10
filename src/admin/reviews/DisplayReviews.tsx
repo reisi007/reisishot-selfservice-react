@@ -147,7 +147,13 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
       <div className="flex justify-center">
         <Badge><DaysAgo dateString={creationDate} /></Badge>
       </div>
-      {!!rating && <FiveStarRating className="mt-2 -mb-2 text-center" starClassName="rs-lg" percentage={rating} />}
+      {!!rating && (
+      <FiveStarRating
+        className="mt-2 -mb-2 text-center"
+        starSize="rs-lg"
+        value={rating}
+      />
+      )}
       {!!privateReview && (
         <>
           <h3 className="my-2 font-medium">{t('reviews.titles.private')}</h3>

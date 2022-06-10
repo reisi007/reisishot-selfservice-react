@@ -137,7 +137,16 @@
       "private": "Review, which won't be publicized",
       "public": "Review, which will be made public"
     },
-    "xStars": "{{stars}} stars"
+    "xStars": "{{stars}} stars",
+    "person": {
+      "title": "Who is writing this review?",
+      "name": "Your full name",
+      "email": "Your email"
+    },
+    "rating": {
+      "what": "What is your overall rating for this photoshooting",
+      "rating": "Your rating"
+    }
   },
   "waitlist": {
     "titles": {

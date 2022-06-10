@@ -2,7 +2,7 @@ import { AriaRole, MouseEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconSizes } from '../utils/icons';
 
-type Props = { starClassName: IconSizes, className?: string, halfStar: boolean, fullStars: number, totalStars: number, setStars?: (fullStars: number, halfStar: boolean) => void };
+type Props = { starSize: IconSizes, className?: string, halfStar: boolean, fullStars: number, totalStars: number, setStars?: (fullStars: number, halfStar: boolean) => void };
 
 export function StarRating(
   {
@@ -10,12 +10,12 @@ export function StarRating(
     fullStars,
     setStars,
     totalStars,
-    starClassName,
+    starSize,
     className = '',
   }: Props,
 ) {
   const starClassNameBase = 'icon px-2';
-  const filledStars = fullStars - (halfStar ? 1 : 0);
+  const filledStars = fullStars + (halfStar ? 1 : 0);
   const emptyStars = totalStars - filledStars;
   const editable = setStars !== undefined;
   const { t } = useTranslation();
@@ -52,7 +52,7 @@ export function StarRating(
               aria-label={t('reviews.xStars', { stars: i })}
               role={role}
               onClick={(e) => onClick(e)}
-              className={`${starClassNameBase} rs-star-full ${starClassName}`}
+              className={`${starClassNameBase} rs-star-full ${starSize}`}
             />
           ))
       }
@@ -62,7 +62,7 @@ export function StarRating(
           aria-label={t('reviews.xStars', { stars: (fullStars + 1).toString(10) })}
           role={role}
           onClick={(e) => onClick(e)}
-          className={`${starClassNameBase} rs-star-half ${starClassName}`}
+          className={`${starClassNameBase} rs-star-half ${starSize}`}
         />
         )
       }
@@ -74,7 +74,7 @@ export function StarRating(
               key={i}
               role={role}
               onClick={(e) => onClick(e)}
-              className={`${starClassNameBase} rs-star-empty ${starClassName}`}
+              className={`${starClassNameBase} rs-star-empty ${starSize}`}
             />
           ))
       }
