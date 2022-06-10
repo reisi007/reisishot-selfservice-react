@@ -8,7 +8,7 @@ import { AssessPerson } from './AssessPerson';
 import { LoginData } from '../../utils/LoginData';
 import { useNavigation } from '../../hooks/useNavigation';
 
-type Props = { registration: AdminWaitlistRecord, loginData: LoginData, refetch: () => void };
+type Props = { registration: AdminWaitlistRecord, loginData: LoginData, removeRegistration: (registration: AdminWaitlistRecord) => void };
 
 export function normalizePhoneNumber(phone: string) {
   return phone; // Test this very well
@@ -17,7 +17,7 @@ export function normalizePhoneNumber(phone: string) {
 export function Registration({
   registration,
   loginData,
-  refetch,
+  removeRegistration,
 }: Props) {
   const { t } = useTranslation();
   const classes = classNames(
@@ -71,7 +71,7 @@ export function Registration({
            {registration.text}
          </p>
        )}
-      <RegistrationActions registration={registration} loginData={loginData} refetch={refetch} />
+      <RegistrationActions registration={registration} loginData={loginData} removeRegistration={removeRegistration} />
     </div>
   );
 }
@@ -79,7 +79,7 @@ export function Registration({
 function RegistrationActions({
   registration,
   loginData,
-  refetch,
+  removeRegistration,
 }: Props) {
   const { t } = useTranslation();
   const [, navigate] = useNavigation();
@@ -87,7 +87,11 @@ function RegistrationActions({
     person_id: person,
     item_id: item,
   } = registration;
-  const [deleteState, deletePerson] = useDeleteWaitlistItem();
+  const [{
+    data,
+    loading,
+    error,
+  }, deletePerson] = useDeleteWaitlistItem();
   return (
     <div className="grid gap-2 mx-auto mt-2 sm:grid-cols-2 lg:w-3/4 xl:grid-cols-4 xl:w-full 2xl:w-3/4">
       <ActionButton
@@ -100,12 +104,14 @@ function RegistrationActions({
         {t('admin.contract.title')}
       </ActionButton>
       <RequestActionButton
-        request={deleteState}
+        data={data}
+        loading={loading}
+        error={error}
         onClick={() => deletePerson({
           person,
           item,
         }, loginData)
-          .then(refetch)}
+          .then(() => removeRegistration(registration))}
         className="text-white bg-reisishot"
       >
         {t('actions.delete')}
@@ -136,7 +142,11 @@ function MarkAsReadButton({
   } = registration;
   const [isDateAssigned, setStateAssigned] = useState(dateAssigned);
   const { t } = useTranslation();
-  const [request, post] = useSetDateAssigned();
+  const [{
+    data,
+    loading,
+    error,
+  }, post] = useSetDateAssigned();
 
   const dateAssignedButtonText = t(isDateAssigned ? 'admin.waitlist.markAs.unread' : 'admin.waitlist.markAs.read');
   const onClick = useCallback(() => {
@@ -149,7 +159,9 @@ function MarkAsReadButton({
   }, [isDateAssigned, itemId, loginData, personId, post]);
   return (
     <RequestActionButton
-      request={request}
+      data={data}
+      loading={loading}
+      error={error}
       onClick={onClick}
       className="py-1 px-4 mx-auto mb-2 font-normal rounded-lg border"
     >

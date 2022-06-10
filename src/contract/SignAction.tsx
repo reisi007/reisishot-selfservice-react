@@ -37,7 +37,11 @@ function SignActionArea({
     email,
   }) => signed && email === loginData.user) >= 0, [cur, loginData.user]);
 
-  const [request, putLogEntry] = usePutLogEntry(loginData);
+  const [{
+    data,
+    loading,
+    error,
+  }, putLogEntry] = usePutLogEntry(loginData);
   useEffect(() => {
     if (!isSigned) {
       putLogEntry({
@@ -69,7 +73,9 @@ function SignActionArea({
     <div className="grid gap-2 ">
       <RequestActionButton
         className="text-white bg-reisishot"
-        request={request}
+        data={data}
+        loading={loading}
+        error={error}
         onClick={signAction}
         disabled={isSigned}
       >

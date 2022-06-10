@@ -101,6 +101,8 @@
       "comma-style": "warn",
       "react/jsx-max-props-per-line": "warn",
       "array-bracket-spacing": "warn",
+      "@typescript-eslint/space-before-blocks": "warn",
+      "prefer-template": "warn",
       "max-len": [
         "error",
         {

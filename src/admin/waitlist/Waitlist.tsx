@@ -14,7 +14,7 @@ export function Waitlist({ loginData }: LoginDataProps) {
     data,
     loading,
     error,
-  }, refetch] = useWaitlistAdminData(loginData);
+  }] = useWaitlistAdminData(loginData);
 
   return (
     <>
@@ -30,7 +30,7 @@ export function Waitlist({ loginData }: LoginDataProps) {
         {(d) => (
           <>
             <PendingContractsOverview data={d.pendingContracts} loginData={loginData} />
-            <ShootingOverview data={d.registrations} loginData={loginData} refetch={refetch} />
+            <ShootingOverview data={d.registrations} loginData={loginData} />
             <IgnoredPersons data={d.blocked} />
             <Leaderboard data={d.leaderboard} loginData={loginData} />
           </>

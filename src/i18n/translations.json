@@ -75,7 +75,11 @@
         "main": "Reviews",
         "all": "All reviews"
       },
-      "daysAgo": "{{days}} days ago"
+      "daysAgo": "{{days}} days ago",
+      "copy": {
+        "action": "Open admin review",
+        "title": "Copy review"
+      }
     }
   },
   "contracts": {
@@ -129,6 +133,7 @@
   },
   "reviews": {
     "titles": {
+      "write": "Write review",
       "private": "Review, which won't be publicized",
       "public": "Review, which will be made public"
     },
@@ -205,6 +210,9 @@
   "actions": {
     "delete": "Delete",
     "close": "Close",
-    "save": "Save"
+    "save": "Save",
+    "next": "Next",
+    "prev": "Previous",
+    "send": "Send"
   }
 }
