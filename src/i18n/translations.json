@@ -189,7 +189,8 @@
     "contactMe": {
       "title": "Contact the photographer",
       "body": "If you want to talk to a real person, you can contact me at any time.{ I will try to answer your questions!"
-    }
+    },
+    "review": "Submit a review"
   },
   "referable": {
     "referredBy": "Referred by {{referrer}}",

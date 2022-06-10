@@ -11,7 +11,6 @@ import { PersonalInformation } from './PersonalInformation';
 import { Selfservice } from './selfservice/Selfservice';
 
 export function Waitlist({ loginData }: { loginData: LoginData }) {
-  const { user } = loginData;
   const { t } = useTranslation();
   const [{
     data,

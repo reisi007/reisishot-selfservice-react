@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistPerson } from '../public/waitlist-public.api';
 import { useWaitlistPerson } from './waitlist-private.api';
@@ -55,9 +56,25 @@ function DisplayPersonalInformation({
   return (
     <>
       <h2 className="mb-2 text-2xl">{t('waitlist.xHello', { name: firstName })}</h2>
+      <div className="flex justify-center items-center my-2"><Review person={person} /></div>
       <div className="flex justify-center items-center">
         <PointInformation loginData={loginData} points={points} />
       </div>
+
     </>
+  );
+}
+
+function Review({ person }: { person: WaitlistPerson }) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  return (
+    <StyledButton onClick={() => {
+      navigate('/reviews/write', { state: person });
+    }}
+    >
+      {t('waitlist.review')}
+    </StyledButton>
   );
 }

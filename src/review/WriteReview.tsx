@@ -29,7 +29,7 @@ export function WriteReview() {
   const { t } = useTranslation();
   return (
     <>
-      <h1>{t('reviews.titles.write')}</h1>
+      <h1 className="mb-2">{t('reviews.titles.write')}</h1>
       <PageableForm />
     </>
   );
@@ -65,11 +65,11 @@ function NamePage(props: PageProps) {
   const [{ name }] = context;
   return (
     <WriteReviewBasePage {...props} canNext={false} canSubmit={false}>
-      <h1>
+      <h2>
         !!
         {name}
         !!
-      </h1>
+      </h2>
     </WriteReviewBasePage>
   );
 }
@@ -79,11 +79,11 @@ function RatingPage(props: PageProps) {
   const [{ name }] = context;
   return (
     <WriteReviewBasePage {...props} canNext={false} canSubmit={false}>
-      <h1>
+      <h2>
         !!
         {name}
         !!
-      </h1>
+      </h2>
     </WriteReviewBasePage>
   );
 }
