@@ -75,7 +75,11 @@
         "main": "Reviews",
         "all": "All reviews"
       },
-      "daysAgo": "{{days}} days ago"
+      "daysAgo": "{{days}} days ago",
+      "copy": {
+        "action": "Open admin review",
+        "title": "Copy review"
+      }
     }
   },
   "contracts": {

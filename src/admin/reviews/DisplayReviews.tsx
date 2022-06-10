@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import dayjs, { Dayjs } from 'dayjs';
 import { Cell, Pie, PieChart } from 'recharts';
 import classNames from 'classnames';
 import { LoadedReview, useGetAllReviews } from './reviews.api';
@@ -11,6 +10,11 @@ import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { useFontSize } from '../../charts/textWidth';
 import { FiveStarRating } from '../../form/FiveStarRating';
 import { Badge } from '../../components/Badge';
+import { Card } from '../../components/Card';
+import { StyledButton } from '../../components/StyledButton';
+import { useModal } from '../../components/Modal';
+import { StyledTextArea } from '../../form/StyledFields';
+import { DaysAgo } from '../../utils/Age';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -113,7 +117,11 @@ function PieChartChart({
 }
 
 function DisplayReviewData({ data }: { data: Array<LoadedReview> }) {
-  return <div className="grid md:grid-cols-2">{data.map((d) => <DisplaySingleReview key={`${d.creation_date} ${d.name}`} data={d} />)}</div>;
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      {data.map((d) => <DisplaySingleReview key={`${d.creation_date} ${d.name}`} data={d} />)}
+    </div>
+  );
 }
 
 function DisplaySingleReview({ data }: { data: LoadedReview }) {
@@ -125,10 +133,10 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
     review_public: publicReview = '',
     rating,
   } = data;
-  const daysAgo = useMemo(() => computeDaysAgo(creationDate), [creationDate]);
   const { t } = useTranslation();
+  const [copyModal, openCopyModal] = useModal(t('admin.reviews.copy.title'), () => <CopyReview data={data} />);
   return (
-    <div className="p-2 m-2 rounded-lg border">
+    <Card>
       <h2 className="mb-2">
         {name}
         {' '}
@@ -137,9 +145,7 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
         )
       </h2>
       <div className="flex justify-center">
-        <Badge>
-          {t('admin.reviews.daysAgo', { days: daysAgo })}
-        </Badge>
+        <Badge><DaysAgo dateString={creationDate} /></Badge>
       </div>
       {!!rating && <FiveStarRating className="mt-2 -mb-2 text-center" starClassName="rs-lg" percentage={rating} />}
       {!!privateReview && (
@@ -154,11 +160,49 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
           <p className="text-center whitespace-pre-line">{publicReview}</p>
         </>
       )}
-    </div>
+      <div className="grow" />
+      <StyledButton
+        onClick={() => openCopyModal(true)}
+        className="mt-2"
+      >
+        {t('admin.reviews.copy.action')}
+      </StyledButton>
+      {copyModal}
+    </Card>
   );
 }
 
-function computeDaysAgo(dateString: string, relativeTo: Dayjs = dayjs()) {
-  return -dayjs(dateString)
-    .diff(relativeTo, 'days', false);
+export function CopyReview({ data }: { data: LoadedReview }) {
+  const reviewContent = useMemo(() => {
+    const lines = new Array<string>();
+    lines.push(
+      '---',
+      'video: ???',
+      'image: ???',
+      'type: boudoir | beauty | business | sport | pärchen | live',
+      `name: ${data.name}`,
+      `date: ${data.creation_date.split(' ')[0]}`,
+    );
+    if (data.rating) {
+      lines.push(`rating: ${data.rating}`);
+    }
+    lines.push('---');
+    if (data.review_public) {
+      lines.push(data.review_public);
+    }
+
+    return lines.join('\r\n');
+  }, [data]);
+  return (
+    <StyledTextArea
+      onClick={(e) => {
+        e.currentTarget.select();
+        navigator.clipboard?.writeText(reviewContent);
+      }}
+      className="w-full h-60 font-mono text-sm"
+      readOnly
+      error={false}
+      value={reviewContent}
+    />
+  );
 }
