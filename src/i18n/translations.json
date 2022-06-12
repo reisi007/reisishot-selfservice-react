@@ -14,8 +14,8 @@
     "statistics": {
       "title": "Statistics",
       "settings": {
-        "groups": "Show group shootings",
-        "18+": "Show 18+ shootings only"
+        "groups": "Group shooting",
+        "18+": "Shooting with a person 18 years or older"
       },
       "charts": {
         "absolutePerYear": {
