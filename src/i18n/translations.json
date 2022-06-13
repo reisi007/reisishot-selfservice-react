@@ -14,8 +14,8 @@
     "statistics": {
       "title": "Statistics",
       "settings": {
-        "groups": "Show group shootings",
-        "18+": "Show 18+ shootings only"
+        "groups": "Group shooting",
+        "18+": "Shooting with a person 18 years or older"
       },
       "charts": {
         "absolutePerYear": {
@@ -135,9 +135,33 @@
     "titles": {
       "write": "Write review",
       "private": "Review, which won't be publicized",
-      "public": "Review, which will be made public"
+      "text": "Review, which will be made public",
+      "check": "Check your review before submitting"
     },
-    "xStars": "{{stars}} stars"
+    "xStars": "{{stars}} stars",
+    "person": {
+      "title": "Who is writing this review?",
+      "name": "Your full name",
+      "email": "Your email"
+    },
+    "rating": {
+      "what": "What is your overall rating for this photoshooting",
+      "rating": "Your rating"
+    },
+    "text": {
+      "public": {
+        "textarea": "Review, which will be made public",
+        "before": "Some things you might want to talk about:",
+        "1": "How did you get to know me?",
+        "2": "How do you feel before / during / after the photo-shooting",
+        "3": "How did you feel like seeing your pictures for the first time",
+        "after": "I would appreciate referrals a lot (you can find a custom referral link in the waitlist)"
+      },
+      "private": {
+        "textarea": "Review, which won't be publicized",
+        "before": "If there is anything left you want to tell me, feel free to use the following:"
+      }
+    }
   },
   "waitlist": {
     "titles": {
@@ -180,6 +204,7 @@
     "shooting": {
       "additionalInfo": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most"
     },
+    "copyReferralLink": "Click here to copy your referral link",
     "pointHistory": {
       "openText": "Show detailed points history",
       "modal": {
@@ -188,8 +213,9 @@
     },
     "contactMe": {
       "title": "Contact the photographer",
-      "body": "If you want to talk to a real person, you can contact me at any time.{ I will try to answer your questions!"
-    }
+      "body": "If you want to talk to a real person, you can contact me at any time. I will try to answer your questions!"
+    },
+    "review": "Submit a review"
   },
   "referable": {
     "referredBy": "Referred by {{referrer}}",

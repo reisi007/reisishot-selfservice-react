@@ -1,9 +1,11 @@
 import { Field, FieldProps, getIn } from 'formik';
 import { HTMLInputTypeAttribute, HTMLProps, ReactElement } from 'react';
 import { FormikProps } from 'formik/dist/types';
+import classNames from 'classnames';
 import {
   FormErrorProps, SelectOptionProps, StyledInputField, StyledSelectField, StyledTextArea,
 } from './StyledFields';
+import { FiveStarRating, FiveStarRatingProps } from './FiveStarRating';
 
 type FormFieldProps = { label?: string, name: string, className?: string, required?: boolean };
 type TextFieldProps =
@@ -17,6 +19,8 @@ type SelectFieldProps =
 type TextAreaProps = FormFieldProps & Partial<HTMLProps<HTMLTextAreaElement>>;
 
 type CheckfieldProps = Omit<TextFieldProps, 'type'>;
+
+type FiveStarRatingFormProps = FormFieldProps & Omit<FiveStarRatingProps, 'value' | 'onChange'>;
 
 export function FormInput({
   label,
@@ -54,6 +58,57 @@ export function FormCheckbox({
   );
 }
 
+export function Form5StarRating({
+  label,
+  name,
+  required,
+  ...props
+}: FiveStarRatingFormProps) {
+  return (
+    <Field
+      {...props}
+      name={name}
+      label={label}
+      required={required}
+      component={FormFiveStarRating}
+    />
+  );
+}
+
+function FormFiveStarRating({
+  label,
+  field,
+  form,
+  required = false,
+  ...restProps
+}: FiveStarRatingFormProps & FieldProps) {
+  const {
+    name,
+    value = 0,
+    onChange,
+  } = field;
+  const error = getError(form, name);
+  const {
+    className,
+    ...props
+  } = restProps;
+
+  const classes = classNames(className, 'flex flex-col');
+  return (
+    <span className={classes}>
+      {label !== undefined && <FormLabel name={name} label={label} required={required} />}
+      <FiveStarRating
+        className="flex flex-wrap justify-center py-2"
+        {...field}
+        {...props}
+        onChange={(v) => form.setFieldValue(name, v, true)}
+        value={parseInt(value, 10)}
+      />
+      <FormError error={error} />
+    </span>
+  );
+}
+
 export function FormTextArea({
   label,
   name,
@@ -85,12 +140,13 @@ function FormikFormInput({
   const { name } = field;
   const error = getError(form, name);
   const {
-    className = '',
+    className,
     ...props
   } = restProps;
 
+  const classes = classNames(className, 'flex flex-col');
   return (
-    <span className={`flex flex-col ${className}`}>
+    <span className={classes}>
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledInputField {...field} {...props} error={error} required={required} />
       <FormError error={error} />
@@ -111,9 +167,9 @@ function FormikCheckbox({
     className = '',
     ...props
   } = restProps;
-
+  const classes = classNames('inline-block', className);
   return (
-    <span className={`inline-block ${className}`}>
+    <span className={classes}>
       <StyledInputField {...field} {...props} error={error} type="checkbox" required={required} />
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <FormError error={error} />
@@ -131,12 +187,13 @@ function FormikTextArea({
   const { name } = field;
   const error = getError(form, name);
   const {
-    className = '',
+    className,
     ...props
   } = restProps;
 
+  const classes = classNames(className, 'flex flex-col');
   return (
-    <span className={`flex flex-col ${className}`}>
+    <span className={classes}>
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledTextArea {...field} {...props} error={error} required={required} />
       <FormError error={error} />
@@ -173,12 +230,13 @@ function FormikSelectInput({
   const { name } = field;
   const error = getError(form, name);
   const {
-    className = '',
+    className,
     ...props
   } = restProps;
 
+  const classes = classNames(className, 'flex flex-col');
   return (
-    <span className={`flex flex-col ${className}`}>
+    <span className={classes}>
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <StyledSelectField {...field} {...props} error={error} required={required} />
       <FormError error={error} />

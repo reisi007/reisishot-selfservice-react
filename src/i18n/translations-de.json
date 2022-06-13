@@ -12,6 +12,22 @@
       "required": "* Erforderlich"
     }
   },
+  "reviews": {
+    "text": {
+      "public": {
+        "textarea": "Öffentliche Bewertung",
+        "before": "Falls du nicht weißt über was du schreiben solltest hier hier ein paar Ideen:",
+        "1": "Wie bist du auf mich aufmerksam geworden?",
+        "2": "Wie hast du dich vor / während / nach dem Shooting gefühlt?",
+        "3": "Wie hat es sich anfühlt die Bilder zu sehen?",
+        "after": "Ich würde mich sehr freuen, wenn du mich weiterempfehlen könntest. Einen persönlichen Weiterempfehlungs Link findest du in der Warteliste"
+      },
+      "private": {
+        "textarea": "Private Bewertung",
+        "before": "Wenn du mir nich etwas sagen möchtest, hier ist der Platz dafür:"
+      }
+    }
+  },
   "waitlist": {
     "shooting": {
       "additionalInfo": "Zusätzliche Informationen - Details, die du mir sagen möchtest oder wann (in welcher Kalenderwoche) du am besten Zeit für das Shooting hast"
