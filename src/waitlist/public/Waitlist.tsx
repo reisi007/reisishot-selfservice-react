@@ -24,8 +24,8 @@ export function Waitlist() {
   const [loginData] = useWaitlistLogin();
 
   useEffect(() => {
-    if (loginData) navigate('./book');
-  }, [loginData, navigate]);
+    if (!referrer && loginData) navigate('./book');
+  }, [loginData, navigate, referrer]);
 
   return (
     <>

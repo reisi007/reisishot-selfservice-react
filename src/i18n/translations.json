@@ -204,6 +204,7 @@
     "shooting": {
       "additionalInfo": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most"
     },
+    "copyReferralLink": "Click here to copy your referral link",
     "pointHistory": {
       "openText": "Show detailed points history",
       "modal": {
@@ -212,7 +213,7 @@
     },
     "contactMe": {
       "title": "Contact the photographer",
-      "body": "If you want to talk to a real person, you can contact me at any time.{ I will try to answer your questions!"
+      "body": "If you want to talk to a real person, you can contact me at any time. I will try to answer your questions!"
     },
     "review": "Submit a review"
   },

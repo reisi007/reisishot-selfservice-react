@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistPerson } from '../public/waitlist-public.api';
 import { useWaitlistPerson } from './waitlist-private.api';
@@ -7,7 +8,7 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { Badge } from '../../components/Badge';
 import { useShowPointsDetailModal } from './ShowPointsDetailModal';
-import { StyledButton } from '../../components/StyledButton';
+import { StyledButton, StyledLinkButton } from '../../components/StyledButton';
 
 export function PersonalInformation({ loginData }: { loginData: LoginData }) {
   const [{
@@ -26,19 +27,33 @@ function PointInformation({
   points,
   loginData,
 }: { points: number, loginData: LoginData }) {
-  const [modal, showModal] = useShowPointsDetailModal(loginData);
-
+  const [pointsModal, showPointsModal] = useShowPointsDetailModal(loginData);
+  const { origin } = window.location;
   const { t } = useTranslation();
   const isPositive = points >= 0;
+  const referralLink = `${origin}/waitlist/${loginData.user}`;
+  const copyReferralLinkOnClick = useCallback(() => {
+    navigator.clipboard.writeText(referralLink);
+    return false;
+  }, [referralLink]);
   return (
     <>
-      <Badge background={isPositive ? 'bg-reisishot' : 'bg-red-500'} text="text-gray-100">
-        {points}
-        {' '}
-        {t('waitlist.points')}
-      </Badge>
-      <StyledButton className="py-0" onClick={() => showModal(true)}>{t('waitlist.pointHistory.openText')}</StyledButton>
-      {modal}
+      <div className="flex  justify-center items-center">
+        <Badge
+          className="text-center"
+          background={isPositive ? 'bg-reisishot' : 'bg-red-500'}
+          text="text-gray-100"
+        >
+          {points}
+          {' '}
+          {t('waitlist.points')}
+        </Badge>
+      </div>
+      <div className="grid gap-2 mt-2 md:grid-cols-2">
+        <StyledButton className="py-0" onClick={() => showPointsModal(true)}>{t('waitlist.pointHistory.openText')}</StyledButton>
+        <StyledLinkButton href={referralLink} className="py-0" onClick={copyReferralLinkOnClick}>{t('waitlist.copyReferralLink')}</StyledLinkButton>
+      </div>
+      {pointsModal}
     </>
   );
 }
@@ -56,11 +71,8 @@ function DisplayPersonalInformation({
   return (
     <>
       <h2 className="mb-2 text-2xl">{t('waitlist.xHello', { name: firstName })}</h2>
-      <div className="flex justify-center items-center my-2"><Review person={person} /></div>
-      <div className="flex justify-center items-center">
-        <PointInformation loginData={loginData} points={points} />
-      </div>
-
+      <PointInformation loginData={loginData} points={points} />
+      <div className="flex justify-center items-center my-2 mt-4"><Review person={person} /></div>
     </>
   );
 }
