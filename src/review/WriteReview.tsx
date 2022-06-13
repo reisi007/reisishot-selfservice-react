@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { Formik } from 'formik';
-import { number as validateNumber, object as validateObject } from 'yup';
+import { number as validateNumber, object as validateObject, string as validateString } from 'yup';
+import dayjs from 'dayjs';
 import { useSubmitReview } from './review.api';
 import { WaitlistPerson } from '../waitlist/public/waitlist-public.api';
 import { Page, Pageable } from '../components/Pageable';
 import { ReviewPages, WriteReviewBasePage, WriteReviewPageProps } from './WriteReviewBasePages';
-import { Form5StarRating, FormInput } from '../form/FormikFields';
+import { Form5StarRating, FormInput, FormTextArea } from '../form/FormikFields';
 import { requiredString } from '../yupHelper';
+import { Review } from './Review';
+import { TEMPLATE_STRING_AS_DATE } from '../utils/Age';
+import { RequestActionButton } from '../admin/waitlist/ActionButton';
 
 function useInitialReview(): [keyof ReviewPages, ReviewPages] {
   const {
@@ -26,6 +30,11 @@ function useInitialReview(): [keyof ReviewPages, ReviewPages] {
     rating: {
       rating: 0,
     },
+    text: {
+      review_public: '',
+      review_private: '',
+    },
+    check: undefined,
   }];
 }
 
@@ -50,12 +59,15 @@ function PageableForm() {
     const {
       person,
       rating,
+      text,
     } = value.current;
 
     postReview({
       name: person.name,
       email: person.email,
       rating: rating.rating,
+      review_private: text.review_private,
+      review_public: text.review_public,
     });
   }, [postReview]);
 
@@ -66,9 +78,8 @@ function PageableForm() {
           <Page context={context} name="person">
             {(c) => (
               <NamePage
-                value={value}
                 request={request}
-                onSubmit={onSubmit}
+                value={value}
                 context={c}
               />
             )}
@@ -76,9 +87,27 @@ function PageableForm() {
           <Page context={context} name="rating">
             {(c) => (
               <RatingPage
-                value={value}
                 request={request}
+                value={value}
+                context={c}
+              />
+            )}
+          </Page>
+          <Page context={context} name="text">
+            {(c) => (
+              <PublicPage
+                request={request}
+                value={value}
+                context={c}
+              />
+            )}
+          </Page>
+          <Page context={context} name="check">
+            {(c) => (
+              <ReviewReview
                 onSubmit={onSubmit}
+                request={request}
+                value={value}
                 context={c}
               />
             )}
@@ -101,7 +130,8 @@ function NamePage(props: WriteReviewPageProps) {
       initialValues={value.current.person}
       validationSchema={validateObject({
         name: requiredString(),
-        email: requiredString(),
+        email: requiredString()
+          .email(),
       })}
       onSubmit={() => {
         // Form won't be submitted
@@ -115,8 +145,7 @@ function NamePage(props: WriteReviewPageProps) {
         <WriteReviewBasePage
           key={name}
           {...props}
-          canNext={(isValid && isDirty) || !!(values.email && values.name)}
-          canSubmit={false}
+          canNext={(isValid && isDirty) || (values.email !== undefined && values.email.length > 0 && !isDirty)}
           saveState={() => {
             value.current.person = values;
           }}
@@ -161,7 +190,6 @@ function RatingPage(props: WriteReviewPageProps) {
           key={name}
           {...props}
           canNext={(isValid && isDirty) || (values.rating !== undefined && values.rating > 0)}
-          canSubmit={false}
           saveState={() => {
             value.current.rating = values;
           }}
@@ -178,5 +206,106 @@ function RatingPage(props: WriteReviewPageProps) {
         </WriteReviewBasePage>
       )}
     </Formik>
+  );
+}
+
+function PublicPage(props: WriteReviewPageProps) {
+  const {
+    context,
+    value,
+  } = props;
+  const { t } = useTranslation();
+  const [{ name }] = context;
+  return (
+    <Formik<ReviewPages['text']>
+      initialValues={value.current.text}
+      validationSchema={validateObject({
+        review_public: requiredString()
+          .min(1, t('form.errors.required')),
+        review_private: validateString(),
+      })}
+      onSubmit={() => {
+      }}
+    >
+      {({
+        values,
+        isValid,
+        dirty: isDirty,
+      }) => (
+        <WriteReviewBasePage
+          key={name}
+          {...props}
+          canNext={(isValid && isDirty)}
+          saveState={() => {
+            value.current.text = values;
+          }}
+        >
+          <h2>
+            {t('reviews.titles.text')}
+          </h2>
+          <p>
+            {t('reviews.text.public.before')}
+          </p>
+          <ul>
+            {(['1', '2', '3'] as const).map((e) => (
+              <li key={e}>
+                {t(`reviews.text.public.${e}`)}
+              </li>
+            ))}
+          </ul>
+          <p>
+            {t('reviews.text.public.after')}
+          </p>
+          <FormTextArea
+            required
+            name="review_public"
+            rows={5}
+            label={t('reviews.text.public.textarea')}
+          />
+          <FormTextArea
+            required
+            name="review_private"
+            label={t('reviews.text.private.textarea')}
+          />
+        </WriteReviewBasePage>
+      )}
+    </Formik>
+  );
+}
+
+function ReviewReview(props: WriteReviewPageProps & { onSubmit: () => void }) {
+  const { t } = useTranslation();
+  const {
+    value,
+    request,
+    onSubmit,
+  } = props;
+  const {
+    rating,
+    text,
+    person,
+  } = value.current;
+  const buttons = useMemo(() => <RequestActionButton className="text-white bg-reisishot" {...request} onClick={onSubmit}>{t('form.submit')}</RequestActionButton>, [onSubmit, request, t]);
+  return (
+    <WriteReviewBasePage
+      {...props}
+      canNext={false}
+      saveState={() => {
+      }}
+      buttons={buttons}
+    >
+      <h2>
+        {t('reviews.titles.check')}
+      </h2>
+
+      <Review
+        className="my-4"
+        {...rating}
+        {...text}
+        {...person}
+        creation_date={dayjs()
+          .format(TEMPLATE_STRING_AS_DATE)}
+      />
+    </WriteReviewBasePage>
   );
 }

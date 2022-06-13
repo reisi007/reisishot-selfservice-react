@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { ResponseValues } from 'axios-hooks';
-import { UpdatableReview } from '../../review/review.api';
+import { Review } from '../../review/review.api';
 import { LoginData } from '../../utils/LoginData';
 import { createHeader } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { useFetch } from '../../http';
 
-export type LoadedReview = UpdatableReview & {
+export type LoadedReview = Review & {
   creation_date: string;
 };
 

@@ -14,10 +14,6 @@ export type Review = {
 
 export type ReviewRequest = RequiredField<Review, 'rating'>;
 
-export type UpdatableReview = Review & {
-  access_key: string;
-};
-
 export function useSubmitReview(): [LoadableRequest<unknown>, (r: ReviewRequest) => AxiosPromise<unknown>] {
   const [request, rawPost] = useManualFetch<unknown, ReviewRequest>({
     url: 'api/reviews_post.php',

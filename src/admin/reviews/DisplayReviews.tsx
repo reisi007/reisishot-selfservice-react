@@ -8,13 +8,10 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { useFontSize } from '../../charts/textWidth';
-import { FiveStarRating } from '../../form/FiveStarRating';
-import { Badge } from '../../components/Badge';
-import { Card } from '../../components/Card';
 import { StyledButton } from '../../components/StyledButton';
 import { useModal } from '../../components/Modal';
 import { StyledTextArea } from '../../form/StyledFields';
-import { DaysAgo } from '../../utils/Age';
+import { Review } from '../../review/Review';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -119,54 +116,16 @@ function PieChartChart({
 function DisplayReviewData({ data }: { data: Array<LoadedReview> }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {data.map((d) => <DisplaySingleReview key={`${d.creation_date} ${d.name}`} data={d} />)}
+      {data.map((d) => <DisplaySingleReview {...d} key={`${d.creation_date} ${d.name}`} />)}
     </div>
   );
 }
 
-function DisplaySingleReview({ data }: { data: LoadedReview }) {
-  const {
-    name,
-    email,
-    creation_date: creationDate,
-    review_private: privateReview = '',
-    review_public: publicReview = '',
-    rating,
-  } = data;
+function DisplaySingleReview(data: LoadedReview) {
   const { t } = useTranslation();
   const [copyModal, openCopyModal] = useModal(t('admin.reviews.copy.title'), () => <CopyReview data={data} />);
   return (
-    <Card>
-      <h2 className="mb-2">
-        {name}
-        {' '}
-        (
-        {email}
-        )
-      </h2>
-      <div className="flex justify-center">
-        <Badge><DaysAgo dateString={creationDate} /></Badge>
-      </div>
-      {!!rating && (
-      <FiveStarRating
-        className="mt-2 -mb-2 text-center"
-        starSize="rs-lg"
-        value={rating}
-      />
-      )}
-      {!!privateReview && (
-        <>
-          <h3 className="my-2 font-medium">{t('reviews.titles.private')}</h3>
-          <p className="text-center whitespace-pre-line">{privateReview}</p>
-        </>
-      )}
-      {!!publicReview && (
-        <>
-          <h3 className="my-2 font-medium">{t('reviews.titles.public')}</h3>
-          <p className="text-center whitespace-pre-line">{publicReview}</p>
-        </>
-      )}
-      <div className="grow" />
+    <Review {...data}>
       <StyledButton
         onClick={() => openCopyModal(true)}
         className="mt-2"
@@ -174,7 +133,7 @@ function DisplaySingleReview({ data }: { data: LoadedReview }) {
         {t('admin.reviews.copy.action')}
       </StyledButton>
       {copyModal}
-    </Card>
+    </Review>
   );
 }
 

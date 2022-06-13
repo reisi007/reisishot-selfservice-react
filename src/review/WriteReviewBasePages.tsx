@@ -12,11 +12,13 @@ import { ReviewRequest } from './review.api';
 export type ReviewPages = {
   person: Pick<ReviewRequest, 'name' | 'email'>,
   rating: Pick<ReviewRequest, 'rating'>,
+  text: Pick<ReviewRequest, 'review_public' | 'review_private'>,
+  check: undefined
 };
 
-export type WriteReviewPageProps = { context: PageableContextStateType<ReviewPages>, request: LoadableRequest<unknown>, onSubmit: () => void, value: MutableRefObject<ReviewPages> };
+export type WriteReviewPageProps = { context: PageableContextStateType<ReviewPages>, request: LoadableRequest<unknown>, value: MutableRefObject<ReviewPages> };
 
-type AdditionalBasePageProps = { children: ReactNode, buttons?: ReactNode, canNext: boolean, canSubmit: boolean, saveState: () => void };
+type AdditionalBasePageProps = { children: ReactNode, buttons?: ReactNode, canNext: boolean, saveState: () => void };
 
 export function WriteReviewBasePage({
   children,
