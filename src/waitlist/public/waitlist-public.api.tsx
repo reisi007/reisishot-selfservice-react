@@ -7,20 +7,36 @@ import { usePost } from '../../utils/http.authed';
 import { useFetch, useManualFetch } from '../../http';
 
 export function useWaitlistLogin() {
-  const [request, rawPut] = useManualFetch<unknown, LoginRequest>({
+  const [{
+    loading,
+    error,
+    response,
+  }, rawPut] = useManualFetch<unknown, LoginRequest>({
     url: '/api/waitlist-login_post.php',
   });
   const put = usePost(rawPut);
-  return [request, put] as const;
+  return [{
+    data: response,
+    loading,
+    error,
+  }, put] as const;
 }
 
 export function useWaitlistRegister() {
-  const [request, rawPut] = useManualFetch<unknown, RegisterRequest>({
-    url: '/api/waitlist-login_post.php',
+  const [{
+    loading,
+    error,
+    response,
+  }, rawPut] = useManualFetch<unknown, RegisterRequest>({
+    url: '/api/waitlist-register_post.php',
     options: { manual: true },
   });
   const put = usePost(rawPut);
-  return [request, put] as const;
+  return [{
+    data: response,
+    loading,
+    error,
+  }, put] as const;
 }
 
 export function usePublicWaitlistItems(): [LoadableRequest<Array<PublicWaitlistItem>>] {
@@ -62,6 +78,7 @@ export type PublicWaitlistItem = Omit<WaitlistItem, 'registered' | 'max_waiting'
 
 export type LoginRequest = Referrable & {
   email: string
+  reset: boolean
 };
 
 export type RegisterRequest = Omit<WaitlistPerson, 'points'> & Referrable;
