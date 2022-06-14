@@ -165,7 +165,6 @@
   },
   "waitlist": {
     "titles": {
-      "login": "Login",
       "register": "Register",
       "public": "Shooting waitlist",
       "private": "Register yourself for a shooting",
@@ -191,6 +190,10 @@
           }
         }
       }
+    },
+    "login": {
+      "title": "Login",
+      "reset": "Log off from other devices"
     },
     "publicActionButton": "Login or register to the waitlist to register for a shooting",
     "availability": "Availability",

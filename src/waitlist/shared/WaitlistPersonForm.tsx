@@ -2,10 +2,12 @@ import { AxiosPromise } from 'axios';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
+import { object as validateObject } from 'yup';
 import { LoadableRequest } from '../../components/Loadable';
 import { RegisterRequest } from '../public/waitlist-public.api';
 import { FormInput, FormTextArea } from '../../form/FormikFields';
 import { SubmitButton } from '../../components/SubmitButton';
+import { requiredString, validateDateString } from '../../yupHelper';
 
 type Props = {
   initialValues: RegisterRequest,
@@ -27,6 +29,18 @@ export function WaitlistPersonForm(
   return (
     <Formik<RegisterRequest>
       initialValues={initialValues}
+      validationSchema={validateObject(
+        {
+          firstName: requiredString(),
+          lastName: requiredString(),
+          email: requiredString()
+            .email(t('form.errors.email')),
+          birthday: validateDateString()
+            .max(new Date()),
+          phone_number: requiredString(),
+          availability: requiredString(),
+        },
+      )}
       onSubmit={(value, { setSubmitting }) => {
         put(value)
           .then(() => {

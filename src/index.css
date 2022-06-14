@@ -66,4 +66,8 @@
         color: #aaa;
         content: attr(data-date-placeholder) ':\00a0';
     }
+
+    input[type="checkbox"] {
+        @apply scale-125 my-2 mx-1 accent-reisishot-light
+    }
 }
