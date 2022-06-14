@@ -156,12 +156,16 @@ function FormikFormInput({
 
 function FormikCheckbox({
   label,
-  field,
+  field: rawField,
   form,
   required = false,
   ...restProps
-}: CheckfieldProps & FieldProps) {
-  const { name } = field;
+}: CheckfieldProps & FieldProps<boolean>) {
+  const {
+    name,
+    value,
+    ...field
+  } = rawField;
   const error = getError(form, name);
   const {
     className = '',
@@ -170,7 +174,15 @@ function FormikCheckbox({
   const classes = classNames('inline-block', className);
   return (
     <span className={classes}>
-      <StyledInputField {...field} {...props} error={error} type="checkbox" required={required} />
+      <StyledInputField
+        {...field}
+        {...props}
+        error={error}
+        type="checkbox"
+        name={name}
+        checked={value}
+        required={required}
+      />
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <FormError error={error} />
     </span>
