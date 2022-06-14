@@ -111,7 +111,7 @@ function StatisticModalContent({
         <>
           <div className="flex flex-wrap justify-around items-center my-2 space-x-4">
             <FormCheckbox label={t('admin.statistics.settings.18+')} name="is18" />
-            <FormCheckbox label={t('admin.statistics.settings.groups')} name="groups" />
+            <FormCheckbox label={t('admin.statistics.settings.groups')} name="isGroup" />
           </div>
           <SubmitButton formik={formik} data={data} loading={loading} error={error} allowInitialSubmit />
         </>
