@@ -161,6 +161,10 @@
         "textarea": "Review, which won't be publicized",
         "before": "If there is anything left you want to tell me, feel free to use the following:"
       }
+    },
+    "success": {
+      "title": "Review submitted successfully",
+      "text": "Thank you for taking time to write a review!"
     }
   },
   "waitlist": {
