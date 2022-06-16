@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { Formik } from 'formik';
 import { number as validateNumber, object as validateObject, string as validateString } from 'yup';
 import dayjs from 'dayjs';
@@ -13,6 +13,8 @@ import { requiredString } from '../yupHelper';
 import { Review } from './Review';
 import { TEMPLATE_STRING_AS_DATE } from '../utils/Age';
 import { RequestActionButton } from '../admin/waitlist/ActionButton';
+import { LoadableRequest } from '../components/Loadable';
+import { useModal } from '../components/Modal';
 
 function useInitialReview(): [keyof ReviewPages, ReviewPages] {
   const {
@@ -285,7 +287,7 @@ function ReviewReview(props: WriteReviewPageProps & { onSubmit: () => void }) {
     text,
     person,
   } = value.current;
-  const buttons = useMemo(() => <RequestActionButton className="text-white bg-reisishot" {...request} onClick={onSubmit}>{t('form.submit')}</RequestActionButton>, [onSubmit, request, t]);
+  const buttons = <SubmitReview {...request} onSubmit={onSubmit} />;
   return (
     <WriteReviewBasePage
       {...props}
@@ -307,5 +309,21 @@ function ReviewReview(props: WriteReviewPageProps & { onSubmit: () => void }) {
           .format(TEMPLATE_STRING_AS_DATE)}
       />
     </WriteReviewBasePage>
+  );
+}
+
+function SubmitReview({
+  onSubmit,
+  ...request
+}: LoadableRequest<unknown> & { onSubmit: () => void }) {
+  const { t } = useTranslation();
+  const content = useCallback(() => <p>{t('reviews.success.text')}</p>, [t]);
+  const [modal] = useModal(t('reviews.success.title'), content, true);
+  return (
+    <>
+      {request.data === undefined
+        ? <RequestActionButton className="text-white bg-reisishot" {...request} onClick={onSubmit}>{t('form.submit')}</RequestActionButton>
+        : modal}
+    </>
   );
 }
