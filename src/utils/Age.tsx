@@ -64,7 +64,6 @@ export function CalculatedBirthday(props: RelativeToDateFormattingProps) {
   return (
     <>
       {calculateAge(props)}
-      {' '}
     </>
   );
 }
