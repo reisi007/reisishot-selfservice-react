@@ -66,9 +66,8 @@ function WaitlistLinkSupport({
                   {firstName}
                   {' '}
                   {lastName}
-                  {' '}
+                  <br />
                   {email}
-                  {' '}
                 </>
                 <FormattedDate dateString={birthday} />
               </StyledLinkButton>
