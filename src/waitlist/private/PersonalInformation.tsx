@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import { MouseEventHandler, useCallback } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistPerson } from '../public/waitlist-public.api';
 import { useWaitlistPerson } from './waitlist-private.api';
@@ -32,9 +32,9 @@ function PointInformation({
   const { t } = useTranslation();
   const isPositive = points >= 0;
   const referralLink = `${origin}/waitlist/${loginData.user}`;
-  const copyReferralLinkOnClick = useCallback(() => {
+  const copyReferralLinkOnClick: MouseEventHandler<HTMLAnchorElement> = useCallback((event) => {
     navigator.clipboard.writeText(referralLink);
-    return false;
+    event.preventDefault();
   }, [referralLink]);
   return (
     <>

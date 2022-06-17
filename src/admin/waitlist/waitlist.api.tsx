@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { RefetchOptions, ResponseValues } from 'axios-hooks';
+import { RefetchOptions, ResponseValues, UseAxiosResult } from 'axios-hooks';
 import { LoginData } from '../../utils/LoginData';
 import { createHeader, usePostWithAuthentication } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
@@ -170,3 +170,18 @@ export type PendingSignaturInformation = {
 };
 
 export type IgnoredPerson = Person & { ignoredUnit: string };
+
+export function useAdminWaitlistLinks(loginData: LoginData): UseAxiosResult<Array<SupportPerson>, unknown, unknown> {
+  return useFetch<PdoEmulatedPrepared<Array<SupportPerson>>>({
+    url: 'api/waitlist-admin-accesslinks_get.php',
+    headers: createHeader(loginData),
+  });
+}
+
+type SupportPerson = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  birthday: string,
+  url: string
+};

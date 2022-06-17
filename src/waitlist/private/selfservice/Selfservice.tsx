@@ -7,7 +7,6 @@ import {
   useAllContracts, UserContract, useUpdateWaitlistPerson, useWaitlistPerson,
 } from '../waitlist-private.api';
 import { useModal } from '../../../components/Modal';
-import { useTabGroup } from '../../../components/TabGroup';
 import { StyledButton } from '../../../components/StyledButton';
 import { ActionButton } from '../../../admin/waitlist/ActionButton';
 import { Loadable } from '../../../components/Loadable';
@@ -15,22 +14,16 @@ import { LoadingIndicator } from '../../../LoadingIndicator';
 import { FormattedDateTime } from '../../../utils/Age';
 import { Badge } from '../../../components/Badge';
 import { WaitlistPersonForm } from '../../shared/WaitlistPersonForm';
+import { useDefaultTabGroup } from '../../../components/TabGroup.default';
 
 export function Selfservice({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
   const [{ data }] = useAllContracts(loginData);
   const tabs = useSelfServiceTabs();
-  const [tabGroup, setTabActive] = useTabGroup(
-    {
-      containerClassName: 'border border-t-0 border-gray-200 rounded-lg',
-      headerContainerClassName: 'py-2 bg-reisishot/80 justify-center items-center rounded-t-lg',
-      tabHeaderClassName: 'mx-2 py-1 text-white border-white',
-      activeTabHeaderClassName: 'font-medium text-white border-black underline underline-offset-4',
-      tabContainerClassName: 'mb-2 p-2 min-h-[30vh]',
-      data: loginData,
-      tabs,
-    },
-  );
+  const [tabGroup, setTabActive] = useDefaultTabGroup({
+    loginData,
+    tabs,
+  });
 
   const [selfserviceModal, openSelfservice] = useModal(t('waitlist.titles.selfservice.title'), () => tabGroup);
   return (

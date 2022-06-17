@@ -68,7 +68,16 @@
       },
       "selectYear": "Select year",
       "positive": "Good experience",
-      "negative": "Bad experience"
+      "negative": "Bad experience",
+      "support": {
+        "open": "Open support area",
+        "tabs": {
+          "title": "Waitlist support",
+          "waitlist-links": {
+            "title": "Copy Waitlist link"
+          }
+        }
+      }
     },
     "reviews": {
       "titles": {
