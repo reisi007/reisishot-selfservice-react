@@ -7,6 +7,7 @@ import { ShootingOverview } from './ShootingOverview';
 import { PendingContractsOverview } from './PendingContractsOverview';
 import { Leaderboard } from './Leaderboard';
 import { IgnoredPersons } from './IgnoredPersons';
+import { WaitlistSupport } from './support/WaitlistSupport';
 
 export function Waitlist({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export function Waitlist({ loginData }: LoginDataProps) {
       >
         {(d) => (
           <>
+            <WaitlistSupport loginData={loginData} />
             <PendingContractsOverview data={d.pendingContracts} loginData={loginData} />
             <ShootingOverview data={d.registrations} loginData={loginData} />
             <IgnoredPersons data={d.blocked} />

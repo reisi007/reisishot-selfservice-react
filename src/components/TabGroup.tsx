@@ -8,7 +8,7 @@ export type TabProps<AdditionalParam> = { title: string, activateByTitle: Dispat
 type Tab<AdditionalParam> = (props: TabProps<AdditionalParam>) => JSX.Element;
 
 type Props<AdditionalParam> = UseProps<AdditionalParam> & { activeTitle: string, activateByTitle: Dispatch<SetStateAction<string>> };
-type UseProps<AdditionalParam> = ContainerStyleProps & CurrentTabStyleProps & { tabs: { [title: string]: Tab<AdditionalParam> }, data: AdditionalParam };
+export type UseProps<AdditionalParam> = ContainerStyleProps & CurrentTabStyleProps & { tabs: { [title: string]: Tab<AdditionalParam> }, data: AdditionalParam };
 
 type ContainerStyleProps = { headerContainerClassName?: string, tabContainerClassName?: string, containerClassName?: string };
 type CurrentTabStyleProps = { tabHeaderClassName?: string, activeTabHeaderClassName?: string };
