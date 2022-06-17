@@ -49,8 +49,8 @@ function ShootingType({
     setRegistrations(rawRegistrations);
   }, [rawRegistrations]);
 
-  const removeRegistration = useCallback(({ item_id: searchItemId }: AdminWaitlistRecord) => {
-    setRegistrations((oldData) => oldData.filter(({ item_id: curItemId }) => !(searchItemId === curItemId)));
+  const removeRegistration = useCallback(({ person_id: searchPersonId }: AdminWaitlistRecord) => {
+    setRegistrations((oldData) => oldData.filter(({ person_id: curPersonId }) => searchPersonId !== curPersonId));
   }, [setRegistrations]);
 
   return (
