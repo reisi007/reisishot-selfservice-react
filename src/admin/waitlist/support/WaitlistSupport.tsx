@@ -8,7 +8,7 @@ import { Loadable } from '../../../components/Loadable';
 import { LoadingIndicator } from '../../../LoadingIndicator';
 import { useModal } from '../../../components/Modal';
 import { StyledButton, StyledLinkButton } from '../../../components/StyledButton';
-import { FormattedDate } from '../../../utils/Age';
+import { CalculatedBirthday, FormattedDate } from '../../../utils/Age';
 
 export function WaitlistSupport({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -62,14 +62,18 @@ function WaitlistLinkSupport({
                   event.preventDefault();
                 }}
               >
-                <>
+                <p>
                   {firstName}
                   {' '}
                   {lastName}
                   <br />
                   {email}
-                </>
+                </p>
                 <FormattedDate dateString={birthday} />
+
+                {' ('}
+                <CalculatedBirthday dateString={birthday} />
+                )
               </StyledLinkButton>
             ))}
           </div>
