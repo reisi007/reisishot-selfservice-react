@@ -10,7 +10,7 @@ export function LoadingIndicator({
   return (
     <div className={`text-center m-2 ${className}`}>
       <svg
-        className="inline mr-2 text-gray-200 dark:text-gray-600 animate-spin fill-reisishot"
+        className="inline mr-2 text-gray-200 dark:text-gray-600 motion-safe:animate-spin fill-reisishot"
         fill="none"
         role="status"
         style={{ height }}

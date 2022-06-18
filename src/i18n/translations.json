@@ -62,19 +62,18 @@
         "read": "Mark as read",
         "unread": "Mark as unread"
       },
-      "pendingSignatures": {
-        "title": "Contracts, which are currently not signed",
-        "text": "Contract can be signed until {{dueDate}}"
-      },
       "selectYear": "Select year",
       "positive": "Good experience",
       "negative": "Bad experience",
       "support": {
-        "open": "Open support area",
+        "title": "Support",
         "tabs": {
           "title": "Waitlist support",
           "waitlist-links": {
-            "title": "Copy Waitlist link"
+            "title": "Copy Waitlist links"
+          },
+          "pendingSignatures": {
+            "title": "Contracts, which are currently not signed"
           }
         }
       }

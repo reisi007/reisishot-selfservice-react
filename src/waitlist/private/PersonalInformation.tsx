@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { MouseEventHandler, useCallback } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistPerson } from '../public/waitlist-public.api';
 import { useWaitlistPerson } from './waitlist-private.api';
@@ -8,7 +7,8 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { Badge } from '../../components/Badge';
 import { useShowPointsDetailModal } from './ShowPointsDetailModal';
-import { StyledButton, StyledLinkButton } from '../../components/StyledButton';
+import { StyledButton } from '../../components/StyledButton';
+import { StyledCopyLinkButton } from '../../components/StyledCopyLinkButton';
 
 export function PersonalInformation({ loginData }: { loginData: LoginData }) {
   const [{
@@ -32,10 +32,6 @@ function PointInformation({
   const { t } = useTranslation();
   const isPositive = points >= 0;
   const referralLink = `${origin}/waitlist/${loginData.user}`;
-  const copyReferralLinkOnClick: MouseEventHandler<HTMLAnchorElement> = useCallback((event) => {
-    navigator.clipboard.writeText(referralLink);
-    event.preventDefault();
-  }, [referralLink]);
   return (
     <>
       <div className="flex  justify-center items-center">
@@ -51,7 +47,7 @@ function PointInformation({
       </div>
       <div className="grid gap-2 mt-2 md:grid-cols-2">
         <StyledButton className="py-0" onClick={() => showPointsModal(true)}>{t('waitlist.pointHistory.openText')}</StyledButton>
-        <StyledLinkButton href={referralLink} className="py-0" onClick={copyReferralLinkOnClick}>{t('waitlist.copyReferralLink')}</StyledLinkButton>
+        <StyledCopyLinkButton href={referralLink} className="py-0">{t('waitlist.copyReferralLink')}</StyledCopyLinkButton>
       </div>
       {pointsModal}
     </>

@@ -65,7 +65,7 @@ function EditProfileTab({
   return (
     <div className={classNames(className)}>
       <h2>{t('waitlist.titles.selfservice.tabs.profile.title.long')}</h2>
-      <Loadable className="relative" data={personData} loading={personLoading} error={personError} loadingElement={<LoadingIndicator height="10rem" />}>
+      <Loadable className="relative" data={personData} loading={personLoading} error={personError} loadingElement={<LoadingIndicator />}>
         {(request) => (
           <WaitlistPersonForm initialValues={request} put={put} data={updateData} loading={updateLoading} error={updateError}>
             <>
@@ -93,7 +93,7 @@ function ContractTab({
   return (
     <div className={classNames(className)}>
       <h2>{t('waitlist.titles.selfservice.tabs.contracts.title.long')}</h2>
-      <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator height="10rem" />}>
+      <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
         {(response) => (
           <div className="grid gap-2 m-2 md:grid-cols-2">
             {response.map(({
