@@ -81,7 +81,7 @@ function PieChartChart({
     <PieChart
       className="mb-4"
       width={size}
-      height={size / 2}
+      height={size / 2 + 5}
     >
       <Pie
         cy={size / 2}
@@ -97,12 +97,13 @@ function PieChartChart({
           value: 100 - avg,
         }]}
       >
-        <Cell fill={fill} />
-        <Cell fill="white" />
+        <Cell fill={fill} stroke={fill} z="2" />
+        <Cell fill="white" stroke={fill} strokeDasharray="4" z="1" />
+
       </Pie>
       <text
         x={size / 2}
-        y={(size / 2) - fontSize}
+        y={size / 2 - fontSize}
         style={{ fontSize: `${fontSize}px` }}
         textAnchor="middle"
         dominantBaseline="middle"

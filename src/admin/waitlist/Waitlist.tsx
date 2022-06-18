@@ -4,10 +4,8 @@ import { useWaitlistAdminData } from './waitlist.api';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { ShootingOverview } from './ShootingOverview';
-import { PendingContractsOverview } from './PendingContractsOverview';
 import { Leaderboard } from './Leaderboard';
 import { IgnoredPersons } from './IgnoredPersons';
-import { WaitlistSupport } from './support/WaitlistSupport';
 
 export function Waitlist({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
@@ -24,14 +22,10 @@ export function Waitlist({ loginData }: LoginDataProps) {
         data={data}
         loading={loading}
         error={error}
-        loadingElement={(
-          <LoadingIndicator />
-        )}
+        loadingElement={(<LoadingIndicator />)}
       >
         {(d) => (
           <>
-            <WaitlistSupport loginData={loginData} />
-            <PendingContractsOverview data={d.pendingContracts} loginData={loginData} />
             <ShootingOverview data={d.registrations} loginData={loginData} />
             <IgnoredPersons data={d.blocked} />
             <Leaderboard data={d.leaderboard} loginData={loginData} />
