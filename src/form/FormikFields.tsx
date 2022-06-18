@@ -144,7 +144,7 @@ function FormikFormInput({
     ...props
   } = restProps;
 
-  const classes = classNames(className, 'flex flex-col');
+  const classes = classNames(className, 'flex flex-col w-full');
   return (
     <span className={classes}>
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}

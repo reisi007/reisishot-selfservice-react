@@ -7,12 +7,9 @@ import { ActionButton, RequestActionButton } from './ActionButton';
 import { AssessPerson } from './AssessPerson';
 import { LoginData } from '../../utils/LoginData';
 import { useNavigation } from '../../hooks/useNavigation';
+import { normalizePhoneNumber } from './normalizePhoneNumber';
 
 type Props = { registration: AdminWaitlistRecord, loginData: LoginData, removeRegistration: (registration: AdminWaitlistRecord) => void };
-
-export function normalizePhoneNumber(phone: string) {
-  return phone; // Test this very well
-}
 
 export function Registration({
   registration,
