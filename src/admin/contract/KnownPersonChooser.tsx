@@ -33,7 +33,7 @@ export function KnownPersonChooser({ onPersonSelected }: Props) {
                 {!!search && (
                   <StyledButton
                     onClick={() => formik.resetForm()}
-                    className="relative top-8 right-9 py-1 px-2.5 m-0 bg-gray-300 rounded-full border-0 opacity-30 hover:opacity-50"
+                    className="relative top-7 right-9 py-1 px-2.5 m-0 h-8 bg-gray-300 rounded-full border-0 opacity-30 hover:opacity-50"
                   >
                     {' '}
                     X

@@ -73,7 +73,8 @@
             "title": "Copy Waitlist links"
           },
           "pendingSignatures": {
-            "title": "Contracts, which are currently not signed"
+            "title": "Contracts, which are currently not signed",
+            "done": "No pending signatures"
           }
         }
       }
