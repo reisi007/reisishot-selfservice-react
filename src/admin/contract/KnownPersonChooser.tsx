@@ -6,9 +6,9 @@ import { useAdminLogin } from '../AdminLoginContextProvider';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { Loadable } from '../../components/Loadable';
 import { FormattedDate } from '../../utils/Age';
-import { FormInput } from '../../form/FormikFields';
 import { LoginDataProps } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
+import { FormikResetButton } from '../../form/FormikResetButton';
 
 type Props = { onPersonSelected: (p: SearchablePerson) => void };
 type SearchProps = Props & { search: string };
@@ -27,23 +27,9 @@ export function KnownPersonChooser({ onPersonSelected }: Props) {
         const { search } = formik.values;
         return (
           <div className="px-2 mx-2 rounded-xl border">
-            <div className="block mx-auto w-11/12 sm:w-1/2">
-              <span className="flex justify-center">
-                <FormInput name="search" label={t('admin.contract.filterPerson')} />
-                {!!search && (
-                  <StyledButton
-                    onClick={() => formik.resetForm()}
-                    className="relative top-7 right-9 py-1 px-2.5 m-0 h-8 bg-gray-300 rounded-full border-0 opacity-30 hover:opacity-50"
-                  >
-                    {' '}
-                    X
-                    {' '}
-                  </StyledButton>
-                )}
-              </span>
-            </div>
+            <FormikResetButton value={search} label={t('admin.contract.filterPerson')} resetOnClick={() => formik.resetForm()} />
             {loginData !== undefined
-             && <KnownPersonDisplayChooser search={search} onPersonSelected={onPersonSelected} loginData={loginData} />}
+             && <KnownPersonDisplayChooser search={search.toLowerCase()} onPersonSelected={onPersonSelected} loginData={loginData} />}
           </div>
         );
       }}
