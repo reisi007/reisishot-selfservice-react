@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
-import { RefetchOptions, ResponseValues, UseAxiosResult } from 'axios-hooks';
+import { RefetchOptions, ResponseValues } from 'axios-hooks';
 import { LoginData } from '../../utils/LoginData';
 import { createHeader, usePostWithAuthentication } from '../../utils/http.authed';
 import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { Person } from '../../types/Person';
 import { WaitlistItem, WaitlistPerson, WaitlistRequest } from '../../waitlist/public/waitlist-public.api';
 import { useFetch, useManualFetch } from '../../http';
+import { LoadableRequest } from '../../components/Loadable';
 
 export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<WaitlistAdminData, unknown, unknown>] {
   const [{
@@ -171,17 +172,33 @@ export type PendingSignaturInformation = {
 
 export type IgnoredPerson = Person & { ignoredUnit: string };
 
-export function useAdminWaitlistLinks(loginData: LoginData): UseAxiosResult<Array<SupportPerson>, unknown, unknown> {
-  return useFetch<PdoEmulatedPrepared<Array<SupportPerson>>>({
+export function useAdminWaitlistLinks(loginData: LoginData): [LoadableRequest<Array<SearchableSupportPerson>>] {
+  const [{
+    data: rawData,
+    error,
+    loading,
+  }] = useFetch<PdoEmulatedPrepared<Array<SupportPerson>>>({
     url: 'api/waitlist-admin-accesslinks_get.php',
     headers: createHeader(loginData),
   });
+  const data = useMemo((): Array<SearchableSupportPerson> | undefined => rawData?.map((e) => ({
+    ...e,
+    search: e.firstName.toLowerCase() + e.lastName.toLowerCase() + e.url.toLowerCase() + e.email.toLowerCase() + e.birthday.toLowerCase(),
+  })), [rawData]);
+
+  return [{
+    data,
+    loading,
+    error,
+  }];
 }
 
-type SupportPerson = {
+export type SupportPerson = {
   firstName: string,
   lastName: string,
   email: string,
   birthday: string,
   url: string
 };
+
+export type SearchableSupportPerson = SupportPerson & { search: string };
