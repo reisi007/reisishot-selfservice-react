@@ -12,7 +12,7 @@ export function IgnoredPersons({ data }: { data: Array<IgnoredPerson> }) {
           firstName,
           lastName,
           email,
-          ignoredUnit,
+          ignoredUntil,
         }) => {
           const key = firstName + lastName + email;
           return (
@@ -22,7 +22,7 @@ export function IgnoredPersons({ data }: { data: Array<IgnoredPerson> }) {
                 {' '}
                 {lastName}
               </h3>
-              <p>{formatDate(ignoredUnit)}</p>
+              <p>{formatDate(ignoredUntil)}</p>
             </li>
           );
         })}
