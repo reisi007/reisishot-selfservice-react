@@ -170,7 +170,7 @@ export type PendingSignaturInformation = {
   due_date: string
 };
 
-export type IgnoredPerson = Person & { ignoredUnit: string };
+export type IgnoredPerson = Person & { ignoredUntil: string };
 
 export function useAdminWaitlistLinks(loginData: LoginData): [LoadableRequest<Array<SearchableSupportPerson>>] {
   const [{
