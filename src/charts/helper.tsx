@@ -23,9 +23,13 @@ export const CHART_SETTINGS: { [name: string]: { color: string, expectedPercenta
     color: '#6bb6ff',
     expectedPercentage: 5,
   },
+  'Event Fotografie ': {
+    color: '#6897e2',
+    expectedPercentage: 2,
+  },
   'Boudoir Shooting': {
     color: '#daa520',
-    expectedPercentage: 25,
+    expectedPercentage: 23,
   },
   'Pärchen Shooting': {
     color: '#ff69b4',
