@@ -110,8 +110,13 @@ const RAW_EMOJI_DATA: { [key: string]: string | Array<string> } = {
   '🏞️': 'Outdoor',
   '👙': 'Boudoir',
   '👧': ['Portrait', 'Porträt'],
+  '👩‍❤️‍👨': ['Paar', 'Pärchen'],
   '🐶': 'Hund',
   '🏘': 'Stadt',
+  '💃': 'Tanz',
+  '🤸‍♀️': ['Sport', 'Fitness'],
+  '👥': ['Gruppe'],
+  '🧘‍♀️': 'Yoga',
   '❓❓': '??',
 };
 
