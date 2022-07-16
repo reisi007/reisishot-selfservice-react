@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
+import React, { SetStateAction, useCallback, useState } from 'react';
 import { AdminWaitlistRecord, useDeleteWaitlistItem, useSetDateAssigned } from './waitlist.api';
 import { calculateAge } from '../../utils/Age';
 import { ActionButton, RequestActionButton } from './ActionButton';
@@ -17,10 +17,11 @@ export function Registration({
   removeRegistration,
 }: Props) {
   const { t } = useTranslation();
+  const [isDateAssigned, setDateAssigned] = useState(registration.date_assigned);
   const classes = classNames(
     {
-      'border-reisishot border-2': !registration.date_assigned,
-      'border-gray-300': registration.date_assigned,
+      'border-reisishot border-2': !isDateAssigned,
+      'border-gray-300': isDateAssigned,
       'border-red-500': registration.ignored,
     },
   );
@@ -42,7 +43,12 @@ export function Registration({
         {`${registration.firstName} ${registration.lastName} ${calculateAge({ dateString: registration.birthday })}`}
       </div>
       <div>
-        <MarkAsReadButton registration={registration} loginData={loginData} />
+        <MarkAsReadButton
+          isDateAssigned={isDateAssigned}
+          setDateAssigned={setDateAssigned}
+          registration={registration}
+          loginData={loginData}
+        />
       </div>
       <div className="flex justify-between mx-auto mb-4 w-full md:w-1/2">
         <a aria-label="Whatsapp" href={`https://wa.me/${normalizePhoneNumber(registration.phone_number)}`} rel="noopener noreferrer" target="_blank"><i className="icon rs-whatsapp rs-2xl" /></a>
@@ -130,14 +136,14 @@ function FloatingDot({ registration }: { registration: AdminWaitlistRecord }) {
 
 function MarkAsReadButton({
   registration,
+  isDateAssigned,
+  setDateAssigned,
   loginData,
-}: { registration: AdminWaitlistRecord, loginData: LoginData }) {
+}: { registration: AdminWaitlistRecord, isDateAssigned: boolean, setDateAssigned: React.Dispatch<SetStateAction<boolean>>, loginData: LoginData }) {
   const {
     person_id: personId,
     item_id: itemId,
-    date_assigned: dateAssigned,
   } = registration;
-  const [isDateAssigned, setStateAssigned] = useState(dateAssigned);
   const { t } = useTranslation();
   const [{
     data,
@@ -152,8 +158,8 @@ function MarkAsReadButton({
       personId,
       value: !isDateAssigned,
     }, loginData)
-      .then(() => setStateAssigned((b) => !b));
-  }, [isDateAssigned, itemId, loginData, personId, post]);
+      .then(() => setDateAssigned((b) => !b));
+  }, [isDateAssigned, itemId, loginData, personId, post, setDateAssigned]);
   return (
     <RequestActionButton
       data={data}

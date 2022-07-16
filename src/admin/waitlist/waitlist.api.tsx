@@ -183,7 +183,8 @@ export function useAdminWaitlistLinks(loginData: LoginData): [LoadableRequest<Ar
   });
   const data = useMemo((): Array<SearchableSupportPerson> | undefined => rawData?.map((e) => ({
     ...e,
-    search: e.firstName.toLowerCase() + e.lastName.toLowerCase() + e.url.toLowerCase() + e.email.toLowerCase() + e.birthday.toLowerCase(),
+    search: e.firstName.toLowerCase() + e.lastName.toLowerCase() + e.email.toLowerCase() + e.birthday.toLowerCase(),
+    url: window.location.origin + e.url,
   })), [rawData]);
 
   return [{
