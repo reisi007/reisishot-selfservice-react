@@ -132,9 +132,9 @@ function ContractActionButton({
   const { t } = useTranslation();
   return (
     <>
-      {hasPendingContracts && (
+      {!hasPendingContracts && (
         <ActionButton
-          className="text-white bg-reisishot motion-safe:animate-bounce"
+          className="motion-safe:my-6 text-white bg-reisishot motion-safe:animate-bounce"
           onClick={() => {
             setVisibleTab(t('waitlist.titles.selfservice.tabs.contracts.title.short'));
             setVisible(true);
