@@ -1,6 +1,7 @@
 import React, { HTMLProps, useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { CalendarWeekAvailability } from './CalendarWeekAvailability';
 import { ShootingDateEntry, ShootingSlotState } from './calendar.api';
 
@@ -89,7 +90,16 @@ function CalendarRow({ data }: { data: CalendarWeekAvailability }) {
             <li
               key={calendarWeek.kw()
                 .toString(10) + text}
-              className={`${getCellColor(state)}  text-center flex items-center justify-center p-2`}
+              className={classNames(
+                'text-center flex items-center justify-center p-2',
+                {
+                  'text-white bg-gray-500': state === ShootingSlotState.BLOCKED,
+                  'text-black bg-yellow-300': state === ShootingSlotState.BUSY,
+                  'text-white bg-reisishot': state === ShootingSlotState.FREE,
+                  'text-white bg-red-500': state === ShootingSlotState.TAKEN,
+                  'text-gray-700 bg-gray-300': state === ShootingSlotState.NOT_YET_OPENED,
+                },
+              )}
             >
               <Emoji
                 text={_text}
@@ -117,6 +127,7 @@ const RAW_EMOJI_DATA: { [key: string]: string | Array<string> } = {
   '🤸‍♀️': ['Sport', 'Fitness'],
   '👥': ['Gruppe'],
   '🧘‍♀️': 'Yoga',
+  '🎥': 'Video',
   '❓❓': '??',
 };
 
@@ -151,25 +162,4 @@ export function Emoji({ text: _text }: { text: string }) {
       )}
     </>
   );
-}
-
-function getCellColor(state: ShootingSlotState): string {
-  switch (state) {
-    case ShootingSlotState.BLOCKED:
-      return 'text-white bg-gray-500';
-    case ShootingSlotState.BUSY:
-      return 'text-black bg-yellow-300';
-    case ShootingSlotState.FREE:
-      return 'text-white bg-reisishot';
-    case ShootingSlotState.TAKEN:
-      return 'text-white bg-red-500';
-    case ShootingSlotState.NOT_YET_OPENED:
-      return 'text-gray-700 bg-gray-300';
-    default:
-      return neverException(state);
-  }
-}
-
-function neverException(e: never): never {
-  throw Error(`This should never happen: ${e}`);
 }
