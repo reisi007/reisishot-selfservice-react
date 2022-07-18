@@ -132,7 +132,7 @@ function ContractActionButton({
   const { t } = useTranslation();
   return (
     <>
-      {!hasPendingContracts && (
+      {hasPendingContracts && (
         <ActionButton
           className="motion-safe:my-6 text-white bg-reisishot motion-safe:animate-bounce"
           onClick={() => {
