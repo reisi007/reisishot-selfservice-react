@@ -18,6 +18,7 @@ import { LoginDataProps } from '../../utils/LoginData';
 import { StyledButton } from '../../components/StyledButton';
 import Markdown from '../../utils/markdown/Markdown';
 import { Card } from '../../components/Card';
+import { formatJson } from '../../utils/json';
 
 export function CreateContractForm({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
@@ -78,7 +79,12 @@ export function CreateContractForm({ loginData }: LoginDataProps) {
             .min(2),
         })}
       >
-        {(props) => <CreateContractFormContent {...props} data={data} loading={loading} error={error} />}
+        {(props) => (
+          <>
+            <CreateContractFormContent {...props} data={data} loading={loading} error={error} />
+            {!!props.errors && <pre>{formatJson(props.errors)}</pre>}
+          </>
+        )}
       </Formik>
     </div>
   );
