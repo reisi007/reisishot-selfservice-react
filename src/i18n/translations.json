@@ -89,6 +89,10 @@
         "action": "Open admin review",
         "title": "Copy review"
       }
+    },
+    "choose_images": {
+      "title": "Choose images",
+      "add_person": "Add person"
     }
   },
   "contracts": {

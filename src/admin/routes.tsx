@@ -13,6 +13,7 @@ export function useAdminRoutes() {
   const Contracts = lazy((m) => m.ContractsPage);
   const Review = lazy((m) => m.ReviewPage);
   const Support = lazy((m) => m.SupportPage);
+  const ChooseImage = lazy((m) => m.ChooseImagePage);
 
   const adminArea = withLoginData(loginData, (data) => (
     <>
@@ -21,6 +22,7 @@ export function useAdminRoutes() {
       <Route path="waitlist" element={<Waitlist loginData={data} />} />
       <Route path="reviews" element={<Review loginData={data} />} />
       <Route path="support" element={<Support loginData={data} />} />
+      <Route path="choose" element={<ChooseImage loginData={data} />} />
     </>
   ));
 

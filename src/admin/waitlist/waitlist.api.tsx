@@ -22,7 +22,7 @@ export function useWaitlistAdminData(loginData: LoginData): [ResponseValues<Wait
     if (rawData === undefined) {
       return undefined;
     }
-    const registrations: Array<WaitlistItemWithRegistrations> = rawData.registrations.map((r) => {
+    const registrations: Array<WaitlistItemWithRegistrations> = rawData.registrations?.map((r) => {
       const maxWaiting = typeof r.max_waiting === 'string' ? parseInt(r.max_waiting, 10) : null;
       const id = parseInt(r.id, 10);
       const registered = r.registered === '1';

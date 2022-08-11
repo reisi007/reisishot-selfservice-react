@@ -47,12 +47,12 @@ export function useRegisterForWaitlist() {
 export type DeleteWaitlistRequest = Omit<WaitlistRequest, 'text'>;
 
 export function useDeleteRegistrationForWaitlist() {
-  const [request, rawPut] = useManualFetch<unknown, DeleteWaitlistRequest>({
+  const [request, rawPost] = useManualFetch<unknown, DeleteWaitlistRequest>({
     url: 'api/waitlist-entry-remove_post.php',
   });
-  const put = usePostWithAuthentication(rawPut);
+  const post = usePostWithAuthentication(rawPost);
 
-  return [request, put] as const;
+  return [request, post] as const;
 }
 
 export function useWaitlistPerson(loginData: LoginData): [LoadableRequest<WaitlistPerson>] {
@@ -88,7 +88,7 @@ export function useAllContracts(loginData: LoginData): [LoadableRequest<Array<Us
     loading,
     error,
   }] = useFetch<PdoEmulatedPrepared<Array<UserContract>>>({
-    url: 'api/waitlistlist_contracts_get.php',
+    url: 'api/waitlist_list_contracts_get.php',
     headers: createHeader(loginData),
   });
 

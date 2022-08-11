@@ -42,6 +42,9 @@ function PrivateMenu(loginData: LoginData) {
       title: t('admin.contract.title'),
       url: 'contracts',
     }, {
+      title: t('admin.choose_images.title'),
+      url: 'choose',
+    }, {
       title: t('admin.waitlist.support.title'),
       url: 'support',
       showPing: isShowSupportPing,
