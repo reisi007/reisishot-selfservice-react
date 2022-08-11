@@ -43,7 +43,7 @@ function AddPerson({
   folder,
   excludedMails,
   onClick,
-}: { loginData: LoginData, folder: string, excludedMails: Array<String>, onClick: (p: PersonWithId) => void }) {
+}: { loginData: LoginData, folder: string, excludedMails: Array<string>, onClick: (p: PersonWithId) => void }) {
   const { t } = useTranslation();
   const [{
     data: rawData,
