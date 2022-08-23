@@ -91,7 +91,6 @@
       }
     },
     "choose_images": {
-      "title": "Choose images",
       "add_person": "Add person"
     }
   },
@@ -204,6 +203,10 @@
             "signed": "Signed",
             "canSign": "Possible to sign",
             "tooLate": "Contract can no longer be signed and is void"
+          },
+          "choose_image": {
+            "title": "Choose images",
+            "start_review": "Start choosing image..."
           }
         }
       }

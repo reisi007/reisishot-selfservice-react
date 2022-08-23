@@ -9,8 +9,14 @@ export function useWaitlistRoutes() {
   const EmailPage = lazy((m) => m.EmailLandingPage);
   const BookPage = lazy((m) => m.PrivateWaitlistPage);
   const PublicPage = lazy((m) => m.PublicWaitlistPage);
+  const ReviewImagePage = lazy((m) => m.ReviewImagePage);
 
-  const privateArea = withLoginData(waitlistLogin, (data) => <Route path="book" element={<BookPage loginData={data} />} />);
+  const privateArea = withLoginData(waitlistLogin, (data) => (
+    <>
+      <Route path="book" element={<BookPage loginData={data} />} />
+      <Route path="review/:folder" element={<ReviewImagePage loginData={data} />} />
+    </>
+  ));
 
   return (
     <Route path="/waitlist">
