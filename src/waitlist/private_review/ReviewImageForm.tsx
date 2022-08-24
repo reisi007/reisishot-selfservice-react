@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
 import { Formik } from 'formik';
-import { object as validateObject } from 'yup';
+import { object as validateObject, string as validateString } from 'yup';
 import { FormikHelpers } from 'formik/dist/types';
 import { LoginData } from '../../utils/LoginData';
 import { FormTextArea } from '../../form/FormikFields';
-import { requiredString } from '../../yupHelper';
 import { SubmitButton } from '../../components/SubmitButton';
 import { useSubmitComment, useSubmitRating } from './reviewimage.api';
 import { DefaultErrorElement } from '../../components/Loadable';
@@ -42,7 +41,8 @@ function Stars({
   const { t } = useTranslation();
   const errorText = t('admin.choose_images.errors.submit_rating');
 
-  const onChange = useCallback((stars: number) => {
+  const onChange = useCallback((points: number) => {
+    const stars = points / 20.0;
     submitRating(stars)
       .then(() => {
         setLastValidValue(stars);
@@ -51,7 +51,7 @@ function Stars({
 
   return (
     <div className="flex flex-wrap justify-center w-full">
-      <FiveStarRating className="flex flex-wrap justify-center" starSize="rs-3xl" value={lastValidValue} onChange={onChange} />
+      <FiveStarRating className="flex flex-wrap justify-center" starSize="rs-3xl" value={20 * lastValidValue} onChange={onChange} />
       {submitRatingError && <DefaultErrorElement error={errorText} />}
     </div>
   );
@@ -61,6 +61,7 @@ function Comment({
   loginData,
   folder,
   image,
+  initialValue: value,
 }: Props<string>) {
   const [submitCommentRequest, submitComment] = useSubmitComment(loginData, folder, image);
   const { t } = useTranslation();
@@ -68,20 +69,21 @@ function Comment({
     submitComment(comment)
       .then(() => setSubmitting(false));
   }, [submitComment]);
+
   return (
     <Formik<FormValueOnly<string>>
-      initialValues={{ value: '' }}
+      initialValues={{ value }}
       onSubmit={onSubmit}
       validationSchema={validateObject({
-        value: requiredString()
-          .min(3, t('form.errors.required')),
+        value: validateString()
+          .min(3, t('form.errors.string.min', { min: 3 })),
       })}
     >
       {(formik) => (
         <>
           <h3>{t('waitlist.titles.selfservice.tabs.choose_image.comment.title')}</h3>
           <FormTextArea className="my-2" name="value" cols={5} />
-          <SubmitButton {...submitCommentRequest} formik={formik} loading={false} error={null}>{t('waitlist.titles.selfservice.tabs.choose_image.comment.submit')}</SubmitButton>
+          <SubmitButton {...submitCommentRequest} formik={formik}>{t('waitlist.titles.selfservice.tabs.choose_image.comment.submit')}</SubmitButton>
         </>
       )}
     </Formik>

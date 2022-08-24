@@ -9,6 +9,7 @@ import { ChooseImageMetadata } from '../../admin/choose-image/choose-image.api';
 import { Card } from '../../components/Card';
 import { HOST } from '../../env';
 import { ReviewImageForm } from './ReviewImageForm';
+import { StoredReviewData, useStoredReviewData } from './reviewimage.api';
 
 export function ReviewImages({ loginData }: { loginData: LoginData }) {
   const { folder } = useParams<'folder'>();
@@ -24,18 +25,35 @@ function ReviewPageContent({
   folder,
 }: { loginData: LoginData, folder: string }) {
   const {
-    data,
-    loading,
+    data: previewData,
+    loading: previewLoading,
     error,
   } = useChooseImagePreviewMetadata(loginData, folder);
+  const {
+    data: existingData,
+    loading: existingLoading,
+  } = useStoredReviewData(loginData, folder);
+  const loading = previewLoading || existingLoading;
   const { t } = useTranslation();
   return (
     <>
       <h1>{t('waitlist.titles.selfservice.tabs.choose_image.title')}</h1>
-      <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      <Loadable data={previewData} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
         {(response) => (
           <div className="grid lg:grid-cols-2 xxl:grid-cols-3">
-            {response.map((e, idx) => <ReviewPageImage loginData={loginData} metadata={e} idx={idx} key={e.filename} folder={folder} />)}
+            {response.map((e, idx) => (
+              <ReviewPageImage
+                loginData={loginData}
+                metadata={e}
+                existingData={existingData ?? ({
+                  ratings: {},
+                  comments: {},
+                })}
+                idx={idx}
+                key={e.filename}
+                folder={folder}
+              />
+            ))}
           </div>
         )}
       </Loadable>
@@ -45,10 +63,11 @@ function ReviewPageContent({
 
 function ReviewPageImage({
   metadata,
+  existingData,
   loginData,
   folder,
   idx: number,
-}: { metadata: ChooseImageMetadata, loginData: LoginData, folder: string, idx: number }) {
+}: { metadata: ChooseImageMetadata, existingData: StoredReviewData, loginData: LoginData, folder: string, idx: number }) {
   const {
     filename,
     width,
@@ -60,6 +79,7 @@ function ReviewPageImage({
     auth,
   } = loginData;
   const filenameWithoutExtension = useMemo(() => filename.substring(0, filename.lastIndexOf('.')), [filename]);
+  const lowercaseFilename = filename.toLowerCase();
   return (
     <Card className="m-2">
       <h2 className="mb-2">
@@ -71,6 +91,7 @@ function ReviewPageImage({
       <div className="grow m-2 max-h-max">
         <img
           className="inline-block object-scale-down h-full align-middle"
+          loading="lazy"
           width={width}
           height={height}
           key={filenameWithoutExtension}
@@ -83,8 +104,8 @@ function ReviewPageImage({
         folder={folder}
         image={filename}
         initialValues={{
-          stars: 0,
-          comment: '',
+          stars: existingData.ratings[lowercaseFilename],
+          comment: existingData.comments[lowercaseFilename],
         }}
       />
     </Card>

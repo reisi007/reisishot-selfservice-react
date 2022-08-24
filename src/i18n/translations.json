@@ -123,6 +123,9 @@
       "number": {
         "notInRange": "Not in allowed range {{min}} - {{max}}"
       },
+      "string": {
+        "min": "Please use at least {{min}} characters"
+      },
       "email": "Email is invalid"
     }
   },
@@ -208,7 +211,7 @@
           },
           "choose_image": {
             "title": "Choose images",
-            "start_review": "Start choosing image...",
+            "start_review": "Start reviewing images...",
             "image_title": "Image: {{filename}} ({{number}})",
             "comment": {
               "title": "Your comment",

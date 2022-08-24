@@ -31,6 +31,7 @@ export function ChooseImageThumbnails({
             }) => (
               <img
                 className="object-scale-down m-2"
+                loading="lazy"
                 width={width}
                 height={height}
                 key={filename}
