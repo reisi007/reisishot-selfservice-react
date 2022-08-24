@@ -41,7 +41,7 @@ export function SubmitButton<FormType>({
       disabled={isDisabled}
     >
       <>
-        {children ?? t('form.submit')}
+        {children ?? t('actions.submit')}
         <Loadable
           className="inline-flex mt-2"
           loadingElement={<LoadingIndicator height="2rem" />}

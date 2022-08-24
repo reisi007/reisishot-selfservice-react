@@ -111,7 +111,6 @@
     "weekFrom": "Week from"
   },
   "form": {
-    "submit": "Submit",
     "errors": {
       "required": "* Required",
       "date": {
@@ -206,7 +205,12 @@
           },
           "choose_image": {
             "title": "Choose images",
-            "start_review": "Start choosing image..."
+            "start_review": "Start choosing image...",
+            "image_title": "Image: {{filename}} ({{number}})",
+            "comment": {
+              "title": "Your comment",
+              "submit": "Submit comment"
+            }
           }
         }
       }
@@ -262,6 +266,7 @@
     "save": "Save",
     "next": "Next",
     "prev": "Previous",
-    "send": "Send"
+    "send": "Send",
+    "submit": "Submit"
   }
 }
