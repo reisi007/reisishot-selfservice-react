@@ -7,58 +7,11 @@ import { PdoEmulatedPrepared } from '../../types/PdoEmulatedPrepared';
 import { LoadableRequest } from '../../components/Loadable';
 import { PersonWithId } from '../../types/Person';
 
-type InternalChooseImageMetadata = Array<{
-  Orientation: Orientation,
-  ImageWidth: number,
-  ImageHeight: number,
-  FileName: string
-}>;
-
 export type ChooseImageMetadata = {
   filename: string,
   width: number,
   height: number
 };
-
-function isOrientationCorrect(orientation: Orientation): boolean {
-  return orientation === Orientation.RO;
-}
-
-export enum Orientation {
-  RO = 'Horizontal (normal)',
-  R270 = 'Rotate 270 CW',
-}
-
-function useChooseImageMetadata(loginData: LoginData, folder: string, file: string): ResponseValues<Array<ChooseImageMetadata>, unknown, unknown> {
-  const [{
-    data: rawData,
-    loading,
-    error,
-  }] = useFetch<InternalChooseImageMetadata>({
-    url: `api/choose_pictures_file_get.php?folder=${folder}&file=${file}`,
-    headers: createHeader(loginData),
-  });
-
-  const data = useMemo(() => rawData?.map((o): ChooseImageMetadata => ({
-    filename: o.FileName,
-    width: isOrientationCorrect(o.Orientation) ? o.ImageWidth : o.ImageHeight,
-    height: isOrientationCorrect(o.Orientation) ? o.ImageHeight : o.ImageWidth,
-  })), [rawData]);
-
-  return {
-    data,
-    loading,
-    error,
-  };
-}
-
-export function useChooseImageThumbnailMetadata(loginData: LoginData, folder: string) {
-  return useChooseImageMetadata(loginData, folder, 'thumbnails/meta.json');
-}
-
-export function useChooseImagePreviewMetadata(loginData: LoginData, folder: string) {
-  return useChooseImageMetadata(loginData, folder, 'meta.json');
-}
 
 export type ChooserPerson = { id: number, email: string, firstName: string, lastName: string, birthday: string };
 export type FolderInformation = { name: string, cnt: number, access: Array<ChooserPerson> };

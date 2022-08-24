@@ -91,8 +91,10 @@
       }
     },
     "choose_images": {
-      "title": "Choose images",
-      "add_person": "Add person"
+      "add_person": "Add person",
+      "errors": {
+        "submit_rating": "Rating could not be submitted, please try again later..."
+      }
     }
   },
   "contracts": {
@@ -112,7 +114,6 @@
     "weekFrom": "Week from"
   },
   "form": {
-    "submit": "Submit",
     "errors": {
       "required": "* Required",
       "date": {
@@ -121,6 +122,9 @@
       },
       "number": {
         "notInRange": "Not in allowed range {{min}} - {{max}}"
+      },
+      "string": {
+        "min": "Please use at least {{min}} characters"
       },
       "email": "Email is invalid"
     }
@@ -204,6 +208,15 @@
             "signed": "Signed",
             "canSign": "Possible to sign",
             "tooLate": "Contract can no longer be signed and is void"
+          },
+          "choose_image": {
+            "title": "Choose images",
+            "start_review": "Start reviewing images...",
+            "image_title": "Image: {{filename}} ({{number}})",
+            "comment": {
+              "title": "Your comment",
+              "submit": "Submit comment"
+            }
           }
         }
       }
@@ -259,6 +272,7 @@
     "save": "Save",
     "next": "Next",
     "prev": "Previous",
-    "send": "Send"
+    "send": "Send",
+    "submit": "Submit"
   }
 }

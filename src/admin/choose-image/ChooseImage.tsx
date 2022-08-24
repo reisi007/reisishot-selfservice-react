@@ -14,7 +14,7 @@ export function ChooseImage({ loginData }: LoginDataProps) {
   } = useFolderNames(loginData);
   return (
     <div className="container flex flex-col p-4">
-      <h1 className="pt-2 pb-4 text-4xl">{t('admin.choose_images.title')}</h1>
+      <h1 className="pt-2 pb-4 text-4xl">{t('waitlist.titles.selfservice.tabs.choose_image.title')}</h1>
       <Loadable<Array<FolderInformation>, unknown, unknown> loading={loading} data={data} error={error} loadingElement={<LoadingIndicator />}>
         {(response) => <ChooseImageAdmin data={response} loginData={loginData} />}
       </Loadable>

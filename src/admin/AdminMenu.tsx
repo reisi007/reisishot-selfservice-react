@@ -42,7 +42,7 @@ function PrivateMenu(loginData: LoginData) {
       title: t('admin.contract.title'),
       url: 'contracts',
     }, {
-      title: t('admin.choose_images.title'),
+      title: t('waitlist.titles.selfservice.tabs.choose_image.title'),
       url: 'choose',
     }, {
       title: t('admin.waitlist.support.title'),

@@ -322,7 +322,7 @@ function SubmitReview({
   return (
     <>
       {request.data === undefined
-        ? <RequestActionButton className="text-white bg-reisishot" {...request} onClick={onSubmit}>{t('form.submit')}</RequestActionButton>
+        ? <RequestActionButton className="text-white bg-reisishot" {...request} onClick={onSubmit}>{t('actions.submit')}</RequestActionButton>
         : modal}
     </>
   );
