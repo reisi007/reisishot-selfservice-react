@@ -15,14 +15,18 @@ export function DefaultErrorElement({
   error,
   className = '',
 }: {
-  error: AxiosError<unknown, unknown>
+  error: AxiosError<unknown, unknown> | string
   className?: string
 }) {
   return (
     <span
       className={`text-red-500 opacity-80 ${className}`}
     >
-      {`${error.code} ${error.message}`}
+      {
+        typeof error === 'string'
+          ? error
+          : `${error.code} ${error.message}`
+      }
     </span>
   );
 }

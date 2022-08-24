@@ -91,7 +91,10 @@
       }
     },
     "choose_images": {
-      "add_person": "Add person"
+      "add_person": "Add person",
+      "errors": {
+        "submit_rating": "Rating could not be submitted, please try again later..."
+      }
     }
   },
   "contracts": {

@@ -1,8 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { object as validateObject } from 'yup';
+import { useMemo } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { useChooseImagePreviewMetadata } from '../private/selfservice/choose-image/ChooseImage.api';
 import { Loadable } from '../../components/Loadable';
@@ -10,9 +8,7 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { ChooseImageMetadata } from '../../admin/choose-image/choose-image.api';
 import { Card } from '../../components/Card';
 import { HOST } from '../../env';
-import { Form5StarRating, FormTextArea } from '../../form/FormikFields';
-import { SubmitButton } from '../../components/SubmitButton';
-import { requiredString } from '../../yupHelper';
+import { ReviewImageForm } from './ReviewImageForm';
 
 export function ReviewImages({ loginData }: { loginData: LoginData }) {
   const { folder } = useParams<'folder'>();
@@ -82,55 +78,15 @@ function ReviewPageImage({
           alt={filenameWithoutExtension}
         />
       </div>
-      <div>
-        <Stars loginData={loginData} folder={folder} />
-        <Comment loginData={loginData} folder={folder} />
-      </div>
+      <ReviewImageForm
+        loginData={loginData}
+        folder={folder}
+        image={filename}
+        initialValues={{
+          stars: 0,
+          comment: '',
+        }}
+      />
     </Card>
-  );
-}
-
-function Stars({
-  loginData,
-  folder,
-}: { loginData: LoginData, folder: string }) {
-  const unusedOnSubmit = useCallback(() => {
-  }, []);
-  console.log('Unused:', loginData, folder);
-  return (
-    <Formik
-      initialValues={{ value: undefined }}
-      onSubmit={unusedOnSubmit}
-    >
-      {(_) => <Form5StarRating starSize="rs-3xl" name="value" />}
-    </Formik>
-  );
-}
-
-function Comment({
-  loginData,
-  folder,
-}: { loginData: LoginData, folder: string }) {
-  const unusedOnSubmit = useCallback(() => {
-  }, []);
-  console.log('Unused:', loginData, folder);
-  const { t } = useTranslation();
-  return (
-    <Formik
-      initialValues={{ value: undefined }}
-      onSubmit={unusedOnSubmit}
-      validationSchema={validateObject({
-        value: requiredString()
-          .min(3, t('form.errors.required')),
-      })}
-    >
-      {(formik) => (
-        <>
-          <h3>{t('waitlist.titles.selfservice.tabs.choose_image.comment.title')}</h3>
-          <FormTextArea className="my-2" name="value" cols={5} />
-          <SubmitButton formik={formik} loading={false} error={null}>{t('waitlist.titles.selfservice.tabs.choose_image.comment.submit')}</SubmitButton>
-        </>
-      )}
-    </Formik>
   );
 }
