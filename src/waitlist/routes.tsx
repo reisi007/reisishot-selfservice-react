@@ -16,7 +16,7 @@ export function useWaitlistRoutes() {
   const privateArea = withLoginData(waitlistLogin, (data) => (
     <>
       <Route path="book" element={<BookPage loginData={data} />} />
-      <Route path="review/:folder" element={<ReviewImagePage loginData={data} />} />
+      <Route path="choose/:folder" element={<ReviewImagePage loginData={data} />} />
     </>
   ));
 
