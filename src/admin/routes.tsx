@@ -1,4 +1,5 @@
 import { Navigate, Outlet, Route } from 'react-router-dom';
+import { Suspense } from 'react';
 import { lazyInternal, ReactFunctionComponent } from '../lazy';
 import { useAdminLogin } from './AdminLoginContextProvider';
 import { withLoginData } from '../utils/LoginData';
@@ -32,7 +33,9 @@ export function useAdminRoutes() {
       element={(
         <>
           <AdminMenu />
-          <Outlet />
+          <Suspense fallback={<div />}>
+            <Outlet />
+          </Suspense>
         </>
       )}
     >

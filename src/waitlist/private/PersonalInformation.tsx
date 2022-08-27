@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistPerson } from '../public/waitlist-public.api';
 import { useWaitlistPerson } from './waitlist-private.api';
@@ -9,6 +9,7 @@ import { Badge } from '../../components/Badge';
 import { useShowPointsDetailModal } from './ShowPointsDetailModal';
 import { StyledButton } from '../../components/StyledButton';
 import { StyledCopyLinkButton } from '../../components/StyledCopyLinkButton';
+import { useNavigateToReview } from '../../review/LinkToReview';
 
 export function PersonalInformation({ loginData }: { loginData: LoginData }) {
   const [{
@@ -75,13 +76,13 @@ function DisplayPersonalInformation({
 
 function Review({ person }: { person: WaitlistPerson }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigateToWaitlist = useNavigateToReview();
 
+  const onClick = useCallback(() => {
+    navigateToWaitlist(person);
+  }, [navigateToWaitlist, person]);
   return (
-    <StyledButton onClick={() => {
-      navigate('/reviews/write', { state: person });
-    }}
-    >
+    <StyledButton onClick={onClick}>
       {t('waitlist.review')}
     </StyledButton>
   );
