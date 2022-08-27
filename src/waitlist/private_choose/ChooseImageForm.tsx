@@ -6,11 +6,11 @@ import { FormikHelpers } from 'formik/dist/types';
 import { LoginData } from '../../utils/LoginData';
 import { FormTextArea } from '../../form/FormikFields';
 import { SubmitButton } from '../../components/SubmitButton';
-import { useSubmitComment, useSubmitRating } from './reviewimage.api';
+import { useSubmitComment, useSubmitRating } from './choose-images.api';
 import { DefaultErrorElement } from '../../components/Loadable';
 import { FiveStarRating } from '../../form/FiveStarRating';
 
-export function ReviewImageForm({
+export function ChooseImageForm({
   initialValues,
   ...props
 }: { loginData: LoginData, folder: string, image: string, initialValues: { stars?: number, comment?: string } }) {

@@ -8,10 +8,10 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { ChooseImageMetadata } from '../../admin/choose-image/choose-image.api';
 import { Card } from '../../components/Card';
 import { HOST } from '../../env';
-import { ReviewImageForm } from './ReviewImageForm';
-import { StoredReviewData, useStoredReviewData } from './reviewimage.api';
+import { ChooseImageForm } from './ChooseImageForm';
+import { StoredReviewData, useStoredReviewData } from './choose-images.api';
 
-export function ReviewImages({ loginData }: { loginData: LoginData }) {
+export function ChooseImages({ loginData }: { loginData: LoginData }) {
   const { folder } = useParams<'folder'>();
 
   if (folder === undefined) {
@@ -99,7 +99,7 @@ function ReviewPageImage({
           alt={filenameWithoutExtension}
         />
       </div>
-      <ReviewImageForm
+      <ChooseImageForm
         loginData={loginData}
         folder={folder}
         image={filename}
