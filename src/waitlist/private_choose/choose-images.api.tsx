@@ -53,15 +53,13 @@ export function useStoredReviewData(loginData: LoginData, folder: string): Loada
       comments: Object.fromEntries(rawData.comments.map(({
         filename,
         comment,
-      }) => ([filename.toLowerCase(), comment]))),
-      ratings: Object.fromEntries(rawData.ratings.map((e) => ({
-        ...e,
-        rating: parseFloat(e.rating),
-      }))
-        .map(({
-          filename,
-          rating,
-        }) => ([filename.toLowerCase(), rating]))),
+      }) => ([filename, comment]))),
+      ratings: Object.fromEntries(rawData.ratings.map(({
+        filename,
+        rating,
+      }) => (
+        [filename, parseFloat(rating)]
+      ))),
     };
   }, [rawData]);
   return {
