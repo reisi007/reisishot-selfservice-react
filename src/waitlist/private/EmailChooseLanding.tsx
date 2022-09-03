@@ -15,5 +15,5 @@ export function EmaiChooselLanding() {
     user: email,
     auth: hash,
   });
-  return <Navigate to={`waitlist/choose/${chooseId}`} />;
+  return <Navigate to={`/waitlist/choose/${chooseId}`} />;
 }

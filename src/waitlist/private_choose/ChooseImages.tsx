@@ -20,6 +20,11 @@ export function ChooseImages({ loginData }: { loginData: LoginData }) {
   return <ReviewPageContent loginData={loginData} folder={folder} />;
 }
 
+const NO_IMAGE_FORM_DATA = {
+  ratings: {},
+  comments: {},
+};
+
 function ReviewPageContent({
   loginData,
   folder,
@@ -45,10 +50,7 @@ function ReviewPageContent({
               <ReviewPageImage
                 loginData={loginData}
                 metadata={e}
-                existingData={existingData ?? ({
-                  ratings: {},
-                  comments: {},
-                })}
+                existingData={existingData ?? NO_IMAGE_FORM_DATA}
                 idx={idx}
                 key={e.filename}
                 folder={folder}
@@ -79,7 +81,6 @@ function ReviewPageImage({
     auth,
   } = loginData;
   const filenameWithoutExtension = useMemo(() => filename.substring(0, filename.lastIndexOf('.')), [filename]);
-  const lowercaseFilename = filename.toLowerCase();
   return (
     <Card className="m-2">
       <h2 className="mb-2">
@@ -104,8 +105,8 @@ function ReviewPageImage({
         folder={folder}
         image={filename}
         initialValues={{
-          stars: existingData.ratings[lowercaseFilename],
-          comment: existingData.comments[lowercaseFilename],
+          stars: existingData.ratings[filename],
+          comment: existingData.comments[filename],
         }}
       />
     </Card>
