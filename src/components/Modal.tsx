@@ -13,22 +13,23 @@ function Modal({
   title,
 }: ModalProps) {
   const { t } = useTranslation();
+
   return (
     <div
       role="dialog"
       onClick={() => setVisible(false)}
       className="fixed top-0 left-0 z-40 w-full h-full bg-black/50"
     >
-      <dialog
+      <div
         onClick={(e) => e.stopPropagation()}
-        className="block top-[10%] left-1/2 z-50 w-full rounded-lg shadow-lg -translate-x-1/2 sm:w-3/4 md:w-1/2"
+        className="block left-1/2 z-50 p-4 w-full bg-white rounded-lg shadow-lg translate-y-10 sm:w-3/4 sm:translate-x-1/2 sm:translate-y-40 md:w-1/2"
       >
         <h2 className="mb-2">{title}</h2>
         <div className="overflow-x-hidden overflow-y-auto max-h-[66.67vh]">
           {children(setVisible)}
         </div>
         <ActionButton className="mt-4 w-full text-white bg-reisishot" onClick={() => setVisible(false)}>{t('actions.close')}</ActionButton>
-      </dialog>
+      </div>
     </div>
   );
 }
