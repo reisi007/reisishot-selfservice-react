@@ -22,7 +22,7 @@ type InternalProps = { width: number, alt: string, host?: string, imageId: strin
 function ImageInternal({
   width,
   alt,
-  host = 'reisishot.pictures',
+  host = 'reisinger.pictures',
   imageId,
 }: InternalProps) {
   const identifier = useMemo(() => {

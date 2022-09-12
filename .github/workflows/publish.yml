@@ -23,4 +23,4 @@ jobs:
           password: ${{ secrets.ftp_password }}
           protocol: ftps
           local-dir: ./build/
-          server-dir: /service.reisishot.pictures/
+          server-dir: /service.reisinger.pictures/
