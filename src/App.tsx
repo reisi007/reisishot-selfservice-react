@@ -10,6 +10,7 @@ import { useAdminRoutes } from './admin/routes';
 import { useWaitlistRoutes } from './waitlist/routes';
 import { useContractRoutes } from './contract/routes';
 import { useReviewRoutes } from './review/routes';
+import { TrackPageView } from './Matomo';
 
 // Configure useAxiosCache
 configure({
@@ -29,6 +30,7 @@ function App() {
     <div className="container p-4">
       <Router>
         <Suspense fallback={<div />}>
+          <TrackPageView />
           <Routes>
             <Route index element={<Root />} />
             {waitlistRoutes}
