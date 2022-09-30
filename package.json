@@ -104,6 +104,7 @@
       "array-bracket-spacing": "warn",
       "@typescript-eslint/space-before-blocks": "warn",
       "prefer-template": "warn",
+      "no-whitespace-before-property": "warn",
       "max-len": [
         "error",
         {
