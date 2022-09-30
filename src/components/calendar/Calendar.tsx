@@ -41,7 +41,8 @@ export function Calendar({
 }
 
 const prepareDate = (values: Array<ShootingDateEntry>, displayedWeeks: number): Array<CalendarWeekAvailability> => {
-  const calculationOffset = 1;
+  const calculationOffset = 2;
+  const openWeeks = 6;
   const startWeek = dayjs()
     .add(-calculationOffset, 'weeks');
   const weeks = displayedWeeks + 2 * calculationOffset;
@@ -50,7 +51,7 @@ const prepareDate = (values: Array<ShootingDateEntry>, displayedWeeks: number): 
   const computedValues = new Array<CalendarWeekAvailability>();
   for (let i = 0; i < weeks; i += 1) {
     computedValues.push(
-      new CalendarWeekAvailability(startWeek.add(i, 'weeks')),
+      new CalendarWeekAvailability(startWeek.add(i, 'weeks'), calculationOffset + openWeeks),
     );
   }
 

@@ -9,9 +9,11 @@ export class CalendarWeekAvailability {
 
   private internalText?: string;
 
-  constructor(calendarWeek: CalendarWeek, state: ShootingSlotState, text?: string);
-  constructor(date: dayjs.Dayjs);
-  constructor(first: CalendarWeek | dayjs.Dayjs, state?: ShootingSlotState, text?: string) {
+  private openWeeks: number;
+
+  constructor(calendarWeek: CalendarWeek, openWeeks: number, state: ShootingSlotState, text?: string);
+  constructor(date: dayjs.Dayjs, openWeeks: number);
+  constructor(first: CalendarWeek | dayjs.Dayjs, openWeeks: number, state?: ShootingSlotState, text?: string) {
     if (!first) {
       throw Error('First param must be a dayjs.Date or a CalendarWeek');
     }
@@ -26,6 +28,7 @@ export class CalendarWeekAvailability {
     } else {
       this.calendarWeek = new CalendarWeek(first);
     }
+    this.openWeeks = openWeeks;
   }
 
   get text(): string | undefined {
@@ -74,7 +77,7 @@ export class CalendarWeekAvailability {
   }
 
   withText(text: string | undefined = this.internalText): CalendarWeekAvailability {
-    return new CalendarWeekAvailability(this.calendarWeek, this.internalState, text);
+    return new CalendarWeekAvailability(this.calendarWeek, this.openWeeks, this.internalState, text);
   }
 
   private processInternal(event: ShootingDateEntry) {
@@ -87,8 +90,8 @@ export class CalendarWeekAvailability {
   }
 
   private finalize(event: Array<CalendarWeekAvailability>, idx: number) {
-    this.markFreeWeeksAsNotAvailable(event, idx, 6);
     this.markFreeWeeksBetweenShootingsAsBusy(event, idx);
+    this.markFreeWeeksAsNotAvailable(event, idx, this.openWeeks);
   }
 
   private markFreeWeeksBetweenShootingsAsBusy(computedAvailabilities: Array<CalendarWeekAvailability>, idx: number) {
@@ -96,10 +99,16 @@ export class CalendarWeekAvailability {
       return;
     }
 
-    const next = this.calendarWeek.next();
-    const prev = this.calendarWeek.prev();
+    const weeksToMark = [
+      this.calendarWeek.next(),
+      this.calendarWeek.next()
+        .next(),
+      this.calendarWeek.prev(),
+      this.calendarWeek.prev()
+        .prev(),
+    ];
 
-    const prevAndNextWeek = computedAvailabilities.filter((e) => e.calendarWeek.equals(next) || e.calendarWeek.equals(prev));
+    const prevAndNextWeek = computedAvailabilities.filter((e) => weeksToMark.some((w) => e.calendarWeek.equals(w)));
     const markAsBlocked = prevAndNextWeek.every((e) => e.internalState === ShootingSlotState.TAKEN);
 
     if (markAsBlocked) {
@@ -119,7 +128,7 @@ export class CalendarWeekAvailability {
     }
     for (let i = firstIndex; i < event.length; i += 1) {
       const availability = event[i];
-      if (availability.isFree()) {
+      if (availability.isFree() || availability.isBusy()) {
         availability.internalState = ShootingSlotState.NOT_YET_OPENED;
       }
     }
