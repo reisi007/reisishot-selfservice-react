@@ -38,12 +38,12 @@ export function useAnalytics(): { trackEvent: (p: TrackEventParams) => void, tra
   return useMemo(() => {
     const trackEvent = (params: TrackEventParams) => {
       params.action = `${params.category}_${params.action}`;
-      console.log('Track action', params);
+      // console.log('Track action', params);
       return baseTrackEvent(params);
     };
 
     const trackPageView = (params?: TrackPageViewParams) => {
-      console.log('Track pageview', params);
+      // console.log('Track pageview', params);
       baseTrackPageView(params);
     };
     return ({
