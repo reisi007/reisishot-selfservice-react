@@ -10,6 +10,7 @@ import { DefaultErrorElement, Loadable } from './Loadable';
 type Props<FormType> = {
   formik: FormikProps<FormType>
   allowInitialSubmit?: boolean,
+  isDisabled?: boolean,
   className?: string,
   children?: ReactNode
 } & ResponseValues<unknown, unknown, unknown>;
@@ -22,6 +23,7 @@ export function SubmitButton<FormType>({
   error = null,
   className = '',
   allowInitialSubmit = false,
+  isDisabled: isDisabledByCode = false,
 }: Props<FormType>) {
   const {
     isValid,
@@ -31,7 +33,7 @@ export function SubmitButton<FormType>({
   } = formik;
   const { t } = useTranslation();
 
-  const isDisabled = isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
+  const isDisabled = isDisabledByCode || isSubmitting || loading || !isValid || (!allowInitialSubmit && !isDirty);
 
   return (
     <StyledButton

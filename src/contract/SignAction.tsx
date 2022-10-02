@@ -8,7 +8,7 @@ import { Loadable } from '../components/Loadable';
 import { LoadingIndicator } from '../LoadingIndicator';
 import { SignStatus, useSignStatus } from '../admin/contract/contract.api';
 import { useGetLogEntries, usePutLogEntry } from './contract-private.api';
-import { RequestActionButton } from '../admin/waitlist/ActionButton';
+import { ActionButton } from '../admin/waitlist/ActionButton';
 import { computeContractLink } from '../utils/baseUrl';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
@@ -80,31 +80,34 @@ function SignActionArea({
   }, [refetchLogEntries, setLogDetailVisible]);
   return (
     <div className="grid gap-2 ">
-      <RequestActionButton
-        className="text-white bg-reisishot"
-        data={data}
-        loading={loading}
-        error={error}
-        onClick={signAction}
-        disabled={isSigned}
-      >
-        {isSigned ? t('contracts.display.signDisabled') : t('contracts.display.sign')}
-      </RequestActionButton>
-      <Formik
+      <Formik<{ dsgvo: boolean }>
         initialValues={{ dsgvo: !needsDsgvoCheckmark }}
         validationSchema={validateObject({
           dsgvo: validateBoolean()
             .required(dsgvoCheckmarkMessage),
         })}
-        onSubmit={dialogOpen}
+        onSubmit={signAction}
       >
         {(formik) => (
-          <SubmitButton loading={loading} error={error} formik={formik}>
-            {t('contracts.display.log.details')}
-          </SubmitButton>
+          <>
+            <SubmitButton
+              allowInitialSubmit
+              isDisabled={isSigned}
+              formik={formik}
+              className="text-white bg-reisishot"
+              data={data}
+              loading={loading}
+              error={error}
+            >
+              {isSigned ? t('contracts.display.signDisabled') : t('contracts.display.sign')}
+            </SubmitButton>
+            <ActionButton onClick={dialogOpen}>
+              {t('contracts.display.log.details')}
+            </ActionButton>
+            {logDetail}
+          </>
         )}
       </Formik>
-      {logDetail}
     </div>
   );
 }
