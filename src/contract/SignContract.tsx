@@ -3,6 +3,9 @@ import { useMemo } from 'react';
 import { LoginData } from '../utils/LoginData';
 import { DisplayContract } from './DisplayContract';
 import { SignAction } from './SignAction';
+import { useGetContractData } from './contract-private.api';
+import { LoadingIndicator } from '../LoadingIndicator';
+import { Loadable } from '../components/Loadable';
 
 export function SignContract() {
   const {
@@ -27,11 +30,26 @@ export function SignContract() {
   return (
     <>
       {loginData !== undefined && (
-      <>
-        <DisplayContract loginData={loginData} />
-        <SignAction loginData={loginData} />
-      </>
+        <LoadContractData loginData={loginData} />
       )}
     </>
+  );
+}
+
+function LoadContractData({ loginData }: { loginData: LoginData }) {
+  const [{
+    data,
+    loading,
+    error,
+  }] = useGetContractData(loginData);
+  return (
+    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
+      {(response) => (
+        <>
+          <DisplayContract loginData={loginData} contractData={response} />
+          <SignAction loginData={loginData} needsDsgvoCheckmark={!!response.dsgvo_markdown} />
+        </>
+      )}
+    </Loadable>
   );
 }

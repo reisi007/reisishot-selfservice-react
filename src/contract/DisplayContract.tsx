@@ -1,53 +1,51 @@
 import { useTranslation } from 'react-i18next';
 import { LoginData } from '../utils/LoginData';
-import { Loadable } from '../components/Loadable';
-import { useGetContractData } from './contract-private.api';
-import { LoadingIndicator } from '../LoadingIndicator';
+import { ContractData } from './contract-private.api';
 import { Card } from '../components/Card';
 import Markdown from '../utils/markdown/Markdown';
 import { formatDateTime } from '../utils/Age';
 
-export function DisplayContract({ loginData }: { loginData: LoginData }) {
+export function DisplayContract({
+  loginData,
+  contractData,
+}: { loginData: LoginData, contractData: ContractData }) {
   const { user } = loginData;
   const { t } = useTranslation();
-  const [{
-    data,
-    loading,
-    error,
-  }] = useGetContractData(loginData);
+
+  const {
+    markdown,
+    dsgvo_markdown: dsgvoMarkdown,
+    hash_value: hash,
+    hash_algo: algo,
+    due_date: dueDateTime,
+  } = contractData;
+  const formattedDateTime = formatDateTime(dueDateTime);
   return (
-    <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
-      {(response) => {
-        const {
-          markdown,
-          hash_value: hash,
-          hash_algo: algo,
-          due_date: dueDateTime,
-        } = response;
-        const formattedDateTime = formatDateTime(dueDateTime);
-        return (
+    <>
+      <h1>
+        {t('contracts.display.title', {
+          name: user,
+          dateTime: formattedDateTime,
+        })}
+      </h1>
+      <Card className="my-2 border-black">
+        <Markdown className="text-center" content={markdown} />
+        {dsgvoMarkdown !== undefined && (
           <>
-            <h1>
-              {t('contracts.display.title', {
-                name: user,
-                dateTime: formattedDateTime,
-              })}
-            </h1>
-            <Card className="my-2 border-black">
-              <Markdown className="text-center" content={markdown} />
-            </Card>
-            <small className="font-mono text-sm break-all">
-              Hash:
-              {' '}
-              {hash}
-              {' '}
-              (
-              {algo}
-              )
-            </small>
+            <br />
+            <Markdown className="text-center" content={dsgvoMarkdown} />
           </>
-        );
-      }}
-    </Loadable>
+        )}
+      </Card>
+      <small className="font-mono text-sm break-all">
+        Hash:
+        {' '}
+        {hash}
+        {' '}
+        (
+        {algo}
+        )
+      </small>
+    </>
   );
 }

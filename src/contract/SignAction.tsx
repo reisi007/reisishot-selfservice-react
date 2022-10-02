@@ -1,18 +1,25 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Formik } from 'formik';
+import { boolean as validateBoolean, object as validateObject } from 'yup';
+import i18n from 'i18next';
 import { LoginData } from '../utils/LoginData';
 import { Loadable } from '../components/Loadable';
 import { LoadingIndicator } from '../LoadingIndicator';
 import { SignStatus, useSignStatus } from '../admin/contract/contract.api';
 import { useGetLogEntries, usePutLogEntry } from './contract-private.api';
-import { ActionButton, RequestActionButton } from '../admin/waitlist/ActionButton';
+import { RequestActionButton } from '../admin/waitlist/ActionButton';
 import { computeContractLink } from '../utils/baseUrl';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { useModal } from '../components/Modal';
 import { FormattedDateTime } from '../utils/Age';
+import { SubmitButton } from '../components/SubmitButton';
 
-export function SignAction({ loginData }: { loginData: LoginData }) {
+export function SignAction({
+  loginData,
+  needsDsgvoCheckmark,
+}: { loginData: LoginData, needsDsgvoCheckmark: boolean }) {
   const [{
     data,
     loading,
@@ -21,7 +28,7 @@ export function SignAction({ loginData }: { loginData: LoginData }) {
 
   return (
     <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
-      {(response) => <SignActionArea cur={response} refetchSignStatus={get} loginData={loginData} />}
+      {(response) => <SignActionArea needsDsgvoCheckmark={needsDsgvoCheckmark} cur={response} refetchSignStatus={get} loginData={loginData} />}
     </Loadable>
   );
 }
@@ -30,7 +37,8 @@ function SignActionArea({
   loginData,
   refetchSignStatus,
   cur,
-}: { loginData: LoginData, cur: Array<SignStatus>, refetchSignStatus: () => Promise<Array<SignStatus>> }) {
+  needsDsgvoCheckmark,
+}: { loginData: LoginData, cur: Array<SignStatus>, needsDsgvoCheckmark: boolean, refetchSignStatus: () => Promise<Array<SignStatus>> }) {
   const { t } = useTranslation();
   const isSigned = useMemo(() => cur.findIndex(({
     signed,
@@ -64,6 +72,7 @@ function SignActionArea({
   const content = useCallback(() => <ViewLogModalContent loginData={loginData} />, [loginData]);
   const [logDetail, setLogDetailVisible] = useModal(t('contracts.display.log.title'), content);
   const [, refetchLogEntries] = useGetLogEntries(loginData);
+  const dsgvoCheckmarkMessage = i18n.t('form.errors.required');
 
   const dialogOpen = useCallback(() => {
     setLogDetailVisible(true);
@@ -81,9 +90,20 @@ function SignActionArea({
       >
         {isSigned ? t('contracts.display.signDisabled') : t('contracts.display.sign')}
       </RequestActionButton>
-      <ActionButton onClick={dialogOpen}>
-        {t('contracts.display.log.details')}
-      </ActionButton>
+      <Formik
+        initialValues={{ dsgvo: !needsDsgvoCheckmark }}
+        validationSchema={validateObject({
+          dsgvo: validateBoolean()
+            .required(dsgvoCheckmarkMessage),
+        })}
+        onSubmit={dialogOpen}
+      >
+        {(formik) => (
+          <SubmitButton loading={loading} error={error} formik={formik}>
+            {t('contracts.display.log.details')}
+          </SubmitButton>
+        )}
+      </Formik>
       {logDetail}
     </div>
   );
