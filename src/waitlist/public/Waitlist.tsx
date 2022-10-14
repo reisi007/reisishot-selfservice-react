@@ -11,6 +11,7 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { StyledButton } from '../../components/StyledButton';
 import { useWaitlistLogin } from '../WaitlistContextProvider';
 import { ContactMe } from '../shared/ContactMe';
+import { PreviewContract } from '../shared/PreviewContract';
 
 export function Waitlist() {
   const { referrer } = useParams<'referrer'>();
@@ -38,6 +39,7 @@ export function Waitlist() {
         <RegisterForm />
       </div>
       <ContactMe />
+      <PreviewContract />
       <PublicCalendar weeks={4} />
       <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>
         {(items) => (

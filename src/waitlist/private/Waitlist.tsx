@@ -9,6 +9,7 @@ import { PublicCalendar } from '../../components/calendar/PublicCalendar';
 import { ContactMe } from '../shared/ContactMe';
 import { PersonalInformation } from './PersonalInformation';
 import { Selfservice } from './selfservice/Selfservice';
+import { PreviewContract } from '../shared/PreviewContract';
 
 export function Waitlist({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ export function Waitlist({ loginData }: { loginData: LoginData }) {
       </h1>
       <PersonalInformation loginData={loginData} />
       <ContactMe />
+      <PreviewContract />
       <Selfservice loginData={loginData} />
       <PublicCalendar weeks={8} />
       <Loadable data={data} loading={loading} error={error} loadingElement={<LoadingIndicator />}>

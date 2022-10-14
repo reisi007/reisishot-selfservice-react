@@ -1,5 +1,5 @@
 import { Field, FieldProps, getIn } from 'formik';
-import { HTMLInputTypeAttribute, HTMLProps, ReactElement } from 'react';
+import React, { HTMLInputTypeAttribute, HTMLProps, ReactElement } from 'react';
 import { FormikProps } from 'formik/dist/types';
 import classNames from 'classnames';
 import {
@@ -18,7 +18,7 @@ type SelectFieldProps =
   & Partial<HTMLProps<HTMLSelectElement>>;
 type TextAreaProps = FormFieldProps & Partial<HTMLProps<HTMLTextAreaElement>>;
 
-type CheckfieldProps = Omit<TextFieldProps, 'type'>;
+type CheckfieldProps = Omit<TextFieldProps, 'type'> | (Omit<TextFieldProps, 'type' | 'label'> & { label: JSX.Element });
 
 type FiveStarRatingFormProps = FormFieldProps & Omit<FiveStarRatingProps, 'value' | 'onChange'>;
 
@@ -173,11 +173,12 @@ function FormikCheckbox({
   } = restProps;
   const classes = classNames('inline-block', className);
   return (
-    <span className={classes}>
+    <>
       <StyledInputField
         {...field}
         {...props}
         error={error}
+        className={classes}
         type="checkbox"
         name={name}
         checked={value}
@@ -185,7 +186,7 @@ function FormikCheckbox({
       />
       {label !== undefined && <FormLabel name={name} label={label} required={required} />}
       <FormError error={error} />
-    </span>
+    </>
   );
 }
 
@@ -256,7 +257,7 @@ function FormikSelectInput({
   );
 }
 
-type FormLabelProps = { name: string, label: string, required: boolean, children?: ReactElement };
+type FormLabelProps = { name: string, label: string | JSX.Element, required: boolean, children?: ReactElement };
 
 export function FormLabel({
   name,
@@ -265,11 +266,9 @@ export function FormLabel({
   children,
 }: FormLabelProps) {
   return (
-    <label className="text-gray-600" htmlFor={name}>
+    <label htmlFor={name}>
       {children}
-      {' '}
       {label}
-      {' '}
       {required && <span className="text-red-500">*</span>}
     </label>
   );

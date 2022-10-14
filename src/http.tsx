@@ -1,9 +1,9 @@
-import { AxiosRequestHeaders } from 'axios';
+import { RawAxiosRequestHeaders } from 'axios';
 import useAxios, { Options } from 'axios-hooks';
 import { useMemo } from 'react';
 import { HOST } from './env';
 
-type Params = { url: string, headers?: AxiosRequestHeaders, urlParams?: { [key: string]: string }, options?: Options };
+type Params = { url: string, headers?: RawAxiosRequestHeaders, urlParams?: { [key: string]: string }, options?: Options };
 
 export function useFetch<Response, Request = unknown, Error = unknown>({
   url,

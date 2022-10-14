@@ -47,7 +47,7 @@ function LoadContractData({ loginData }: { loginData: LoginData }) {
       {(response) => (
         <>
           <DisplayContract loginData={loginData} contractData={response} />
-          <SignAction loginData={loginData} needsDsgvoCheckmark={!!response.dsgvo_markdown} />
+          <SignAction loginData={loginData} dsgvo={response.dsgvo_markdown} />
         </>
       )}
     </Loadable>
