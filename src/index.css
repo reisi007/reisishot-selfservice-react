@@ -51,6 +51,17 @@
         @apply text-black
     }
 
+    hr {
+        @apply my-8 h-px bg-gray-400
+    }
+
+    blockquote {
+        @apply p-4 my-4 bg-gray-50 border-l-4 border-gray-300 leading-relaxed italic
+    }
+
+    p {
+        @apply my-4
+    }
 }
 
 @layer components {

@@ -248,6 +248,10 @@
       "title": "Contact the photographer",
       "body": "If you want to talk to a real person, you can contact me at any time. I will try to answer your questions!"
     },
+    "previewContract": {
+      "button": "Preview contract",
+      "title": "Preview of the shooting contract"
+    },
     "review": "Submit a review"
   },
   "referable": {

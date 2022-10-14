@@ -1,24 +1,23 @@
 import {
-  AxiosPromise, AxiosRequestConfig, AxiosRequestHeaders, Method,
+  AxiosPromise, AxiosRequestConfig, Method, RawAxiosRequestHeaders,
 } from 'axios';
-import { RefetchOptions } from 'axios-hooks';
+import { RefetchFunction, RefetchOptions } from 'axios-hooks';
 import { useCallback } from 'react';
 import { LoginData } from './LoginData';
 
-export function createHeader(loginData?: LoginData, moreHeaders?: AxiosRequestHeaders): AxiosRequestHeaders {
+export function createHeader(loginData?: LoginData): RawAxiosRequestHeaders {
   if (loginData !== undefined) {
     return {
       Email: loginData.user,
       Accesskey: loginData.auth,
-      ...moreHeaders,
     };
   }
 
-  return moreHeaders ?? {};
+  return {};
 }
 
 export function usePostWithAuthentication<Request, Response>(
-  raw: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
+  raw: RefetchFunction<Request, Response>,
   config?: AxiosRequestConfig<Request>,
   options?: RefetchOptions,
 ) {
@@ -26,7 +25,7 @@ export function usePostWithAuthentication<Request, Response>(
 }
 
 export function usePutWithAuthentication<Request, Response>(
-  raw: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
+  raw: RefetchFunction<Request, Response>,
   config?: AxiosRequestConfig<Request>,
   options?: RefetchOptions,
 ) {
@@ -54,7 +53,7 @@ function useMethodWithAuthentication<Request, Response>(
 }
 
 export function usePut<Request, Response>(
-  raw: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
+  raw: RefetchFunction<Request, Response>,
   config?: AxiosRequestConfig<Request>,
   options?: RefetchOptions,
 ) {
@@ -62,7 +61,7 @@ export function usePut<Request, Response>(
 }
 
 export function usePost<Request, Response>(
-  raw: (config?: AxiosRequestConfig<Request>, options?: RefetchOptions) => AxiosPromise<Response>,
+  raw: RefetchFunction<Request, Response>,
   config?: AxiosRequestConfig<Request>,
   options?: RefetchOptions,
 ) {

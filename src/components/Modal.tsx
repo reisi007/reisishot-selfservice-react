@@ -16,15 +16,15 @@ function Modal({
   const { t } = useTranslation();
 
   const classes = classNames(
-    'block left-1/2 z-50 p-4 w-full bg-white rounded-lg shadow-lg translate-y-10',
-    'sm:w-2/3 sm:translate-x-[25%] sm:translate-y-40',
-    'md:w-1/2 md:translate-x-1/2 md:translate-y-80',
+    'relative origin-center z-50 p-4 w-full bg-white rounded-lg shadow-lg top-1/2 -translate-y-1/2',
+    'md:w-3/4 md:translate-x-[16.667%]',
+    'xl:w-1/2 xl:translate-x-1/2',
   );
   return (
     <div
       role="dialog"
       onClick={() => setVisible(false)}
-      className="fixed top-0 left-0 z-40 w-full h-full bg-black/50"
+      className="fixed top-0 left-0 z-40 w-full h-full bg-black/50 sm:p-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
