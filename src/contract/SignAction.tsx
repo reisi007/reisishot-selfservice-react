@@ -21,7 +21,7 @@ import { FormCheckbox } from '../form/FormikFields';
 export function SignAction({
   loginData,
   dsgvo,
-}: { loginData: LoginData, dsgvo?: string }) {
+}: { loginData: LoginData, dsgvo: string | null }) {
   const [{
     data,
     loading,
@@ -40,7 +40,7 @@ function SignActionArea({
   refetchSignStatus,
   cur,
   dsgvo,
-}: { loginData: LoginData, cur: Array<SignStatus>, dsgvo?: string, refetchSignStatus: () => Promise<Array<SignStatus>> }) {
+}: { loginData: LoginData, cur: Array<SignStatus>, dsgvo: string | null, refetchSignStatus: () => Promise<Array<SignStatus>> }) {
   const { t } = useTranslation();
   const isSigned = useMemo(() => cur.findIndex(({
     signed,
@@ -83,7 +83,7 @@ function SignActionArea({
   return (
     <div className="grid gap-2">
       <Formik<{ dsgvo: boolean }>
-        initialValues={{ dsgvo: dsgvo === undefined || dsgvo.length === 0 || isSigned }}
+        initialValues={{ dsgvo: dsgvo === undefined || dsgvo === null || dsgvo.length === 0 || isSigned }}
         validationSchema={validateObject({
           dsgvo: validateBoolean()
             .required(dsgvoCheckmarkMessage),
@@ -92,7 +92,7 @@ function SignActionArea({
       >
         {(formik) => (
           <>
-            {dsgvo !== undefined && <div className="inline-flex"><FormCheckbox disabled={isSigned} name="dsgvo" label={<Markdown className="my-4 ml-2" content={dsgvo} />} /></div>}
+            {dsgvo !== undefined && dsgvo !== null && <div className="inline-flex"><FormCheckbox disabled={isSigned} name="dsgvo" label={<Markdown className="my-4 ml-2" content={dsgvo} />} /></div>}
             <SubmitButton
               allowInitialSubmit
               isDisabled={isSigned}
