@@ -30,7 +30,7 @@ export function DisplayContract({
       </h1>
       <Card className="my-2 border-black">
         <Markdown className="text-center" content={markdown} />
-        {dsgvoMarkdown !== undefined && (
+        {dsgvoMarkdown !== undefined && dsgvoMarkdown !== null && (
           <>
             <br />
             <Markdown className="text-center" content={dsgvoMarkdown} />

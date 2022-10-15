@@ -57,7 +57,7 @@ export type ContractData = {
   lastname: string,
   birthday: string,
   markdown: string,
-  dsgvo_markdown?: string,
+  dsgvo_markdown: string | null,
   hash_algo: string,
   hash_value: string,
   due_date: string
