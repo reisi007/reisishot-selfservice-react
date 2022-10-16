@@ -14,7 +14,7 @@ function useSpecialRedirects() {
     if (isAdminLoggedIn) {
       navigate({ newUrl: '/dashboard' });
     } else if (isWaitlistLoggedIn) {
-      navigate({ newUrl: '/waitlist/book' });
+      navigate({ newUrl: '/waitlist' });
     }
   }, [isAdminLoggedIn, isWaitlistLoggedIn, navigate]);
 }

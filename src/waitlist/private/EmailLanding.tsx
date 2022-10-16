@@ -14,5 +14,5 @@ export function EmailLanding() {
     user: email,
     auth: hash,
   });
-  return <Navigate to="/waitlist/book" />;
+  return <Navigate to="/waitlist" />;
 }

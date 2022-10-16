@@ -106,6 +106,9 @@
       "prefer-template": "warn",
       "no-whitespace-before-property": "warn",
       "react/jsx-wrap-multilines": "warn",
+      "nonblock-statement-body-position": "warn",
+      "padded-blocks": "warn",
+      "curly": "warn",
       "max-len": [
         "error",
         {
