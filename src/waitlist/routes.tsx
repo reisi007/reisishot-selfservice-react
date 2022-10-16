@@ -15,7 +15,7 @@ export function useWaitlistRoutes() {
 
   const privateArea = withLoginData(waitlistLogin, (data) => (
     <>
-      <Route path="book" element={<BookPage loginData={data} />} />
+      <Route index element={<BookPage loginData={data} />} />
       <Route path="choose/:folder" element={<ReviewImagePage loginData={data} />} />
     </>
   ));
@@ -23,7 +23,7 @@ export function useWaitlistRoutes() {
   return (
     <Route path="/waitlist">
       {privateArea}
-      <Route index element={<PublicPage />} />
+      {waitlistLogin === undefined && <Route index element={<PublicPage />} />}
       <Route path=":referrer" element={<PublicPage />} />
       <Route path=":email/:hash" element={<EmailPage />} />
       <Route path=":email/:hash/:choose_id" element={<EmailChoosePage />} />

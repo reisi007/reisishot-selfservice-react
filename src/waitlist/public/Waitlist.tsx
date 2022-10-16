@@ -1,6 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { PublicCalendar } from '../../components/calendar/PublicCalendar';
@@ -9,7 +8,6 @@ import { DisplayWaitlistItems } from '../shared/DisplayWaitlistItems';
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { StyledButton } from '../../components/StyledButton';
-import { useWaitlistLogin } from '../WaitlistContextProvider';
 import { ContactMe } from '../shared/ContactMe';
 import { PreviewContract } from '../shared/PreviewContract';
 
@@ -21,12 +19,6 @@ export function Waitlist() {
     loading,
     error,
   }] = usePublicWaitlistItems();
-  const navigate = useNavigate();
-  const [loginData] = useWaitlistLogin();
-
-  useEffect(() => {
-    if (!referrer && loginData) navigate('./book');
-  }, [loginData, navigate, referrer]);
 
   return (
     <>
