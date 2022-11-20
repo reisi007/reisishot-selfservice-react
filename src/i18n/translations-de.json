@@ -30,7 +30,10 @@
   },
   "waitlist": {
     "shooting": {
-      "additionalInfo": "Zusätzliche Informationen - Details, die du mir sagen möchtest oder wann (in welcher Kalenderwoche) du am besten Zeit für das Shooting hast"
+      "additionalInfo": {
+        "title": "Was erwartest du von dem Shooting?",
+        "placeholder": "Zusätzliche Informationen - Details, die du mir sagen möchtest oder wann (in welcher Kalenderwoche) du am besten Zeit für das Shooting hast"
+      }
     },
     "xHello": "Hallo {{name}}!",
     "previewContract": {

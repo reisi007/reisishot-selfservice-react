@@ -36,7 +36,7 @@ function Item({
     <Card>
       <h3>{folder}</h3>
       <ChooseImageThumbnails folder={folder} loginData={loginData} limit={2} />
-      <StyledLinkButton href={`./choose/${folder}`}>
+      <StyledLinkButton href={`/waitlist/choose/${folder}`}>
         {t('waitlist.titles.selfservice.tabs.choose_image.start_review')}
       </StyledLinkButton>
     </Card>

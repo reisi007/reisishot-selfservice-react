@@ -101,11 +101,7 @@ export class CalendarWeekAvailability {
 
     const weeksToMark = [
       this.calendarWeek.next(),
-      this.calendarWeek.next()
-        .next(),
       this.calendarWeek.prev(),
-      this.calendarWeek.prev()
-        .prev(),
     ];
 
     const prevAndNextWeek = computedAvailabilities.filter((e) => weeksToMark.some((w) => e.calendarWeek.equals(w)));

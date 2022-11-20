@@ -235,7 +235,10 @@
     "unregisterNow": "Give up your place",
     "xHello": "Hello {{name}}!",
     "shooting": {
-      "additionalInfo": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most"
+      "additionalInfo": {
+        "placeholder": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most",
+        "title": "What do you expect from the shooting?"
+      }
     },
     "copyReferralLink": "Click here to copy your referral link",
     "pointHistory": {

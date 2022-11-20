@@ -41,7 +41,7 @@ export function Calendar({
 }
 
 const prepareDate = (values: Array<ShootingDateEntry>, displayedWeeks: number): Array<CalendarWeekAvailability> => {
-  const calculationOffset = 2;
+  const calculationOffset = 1;
   const openWeeks = 6;
   const startWeek = dayjs()
     .add(-calculationOffset, 'weeks');

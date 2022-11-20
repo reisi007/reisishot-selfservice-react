@@ -4,11 +4,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { FormikHelpers } from 'formik/dist/types';
 import { Formik } from 'formik';
+import { object as validateObject } from 'yup';
 import { DeleteWaitlistRequest, useDeleteRegistrationForWaitlist, useRegisterForWaitlist } from './waitlist-private.api';
 import { LoginData } from '../../utils/LoginData';
 import { WaitlistItem, WaitlistRequest } from '../public/waitlist-public.api';
 import { FormTextArea } from '../../form/FormikFields';
 import { SubmitButton } from '../../components/SubmitButton';
+import { requiredString } from '../../yupHelper';
 
 type PublicProps = { item: WaitlistItem, loginData: LoginData };
 
@@ -50,14 +52,23 @@ function Register({
         item_id: itemId,
         text: '',
       }}
+      validationSchema={validateObject({
+        text: requiredString(),
+      })}
       onSubmit={onSubmit}
     >
       {(formik) => (
         <>
-          <FormTextArea rows={5} placeholder={t('waitlist.shooting.additionalInfo')} name="text" />
+          <FormTextArea
+            className="my-2"
+            label={t('waitlist.shooting.additionalInfo.title')}
+            rows={5}
+            placeholder={t('waitlist.shooting.additionalInfo.placeholder')}
+            required
+            name="text"
+          />
           <SubmitButton
             className="font-semibold"
-            allowInitialSubmit
             formik={formik}
             data={data}
             loading={loading}
