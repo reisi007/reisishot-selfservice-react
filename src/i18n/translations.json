@@ -234,6 +234,7 @@
     "registerNow": "Register now",
     "unregisterNow": "Give up your place",
     "xHello": "Hello {{name}}!",
+    "accessImages": "Access your images",
     "shooting": {
       "additionalInfo": {
         "placeholder": "Additional information - details you would like to tell me or when (in which calendar week) the shooting would suit you most",
