@@ -7,7 +7,7 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { Badge } from '../../components/Badge';
 import { useShowPointsDetailModal } from './ShowPointsDetailModal';
-import { StyledButton } from '../../components/StyledButton';
+import { StyledButton, StyledLinkButton } from '../../components/StyledButton';
 import { StyledCopyLinkButton } from '../../components/StyledCopyLinkButton';
 import { useNavigateToReview } from '../../review/LinkToReview';
 
@@ -70,8 +70,18 @@ function DisplayPersonalInformation({
       <h2 className="mb-2 text-2xl">{t('waitlist.xHello', { name: firstName })}</h2>
       <PointInformation loginData={loginData} points={points} />
       <div className="flex justify-center items-center my-2 mt-4"><Review person={person} /></div>
+      <div className="flex justify-center items-center my-2 mt-4"><AccessPictures url={person.url} /></div>
     </>
   );
+}
+
+function AccessPictures({ url }: { url?: string }) {
+  const { t } = useTranslation();
+  if (url) {
+    return <StyledLinkButton target="_blank" href={`${url}#p=1`}>{t('waitlist.accessImages')}</StyledLinkButton>;
+  }
+
+  return <>{false}</>;
 }
 
 function Review({ person }: { person: WaitlistPerson }) {

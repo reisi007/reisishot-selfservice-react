@@ -85,6 +85,7 @@ export type RegisterRequest = Omit<WaitlistPerson, 'points'> & Referrable;
 
 export type WaitlistPerson = Person &
 {
+  url?: string,
   availability: string,
   phone_number: string,
   website?: string,
