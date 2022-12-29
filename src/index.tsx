@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import i18next from './i18n';
 import { AdminLoginContextProvider } from './admin/AdminLoginContextProvider';
-import { WaitlistLoginContextProvider } from './waitlist/WaitlistContextProvider';
 import { Analytics } from './Matomo';
 
 const root = ReactDOM.createRoot(
@@ -17,9 +16,7 @@ root.render(
     <Analytics>
       <I18nextProvider i18n={i18next}>
         <AdminLoginContextProvider>
-          <WaitlistLoginContextProvider>
-            <App />
-          </WaitlistLoginContextProvider>
+          <App />
         </AdminLoginContextProvider>
       </I18nextProvider>
     </Analytics>

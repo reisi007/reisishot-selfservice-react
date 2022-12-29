@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 function extensions() {
     return ['hover', 'focus', 'disabled', 'visited']
 }
