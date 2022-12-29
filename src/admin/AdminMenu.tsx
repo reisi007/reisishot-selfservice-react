@@ -2,13 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAdminLogin } from './AdminLoginContextProvider';
-import { useWaitlistAdminData } from './waitlist/waitlist.api';
 import { LoginData } from '../utils/LoginData';
 
 export function AdminMenu() {
   const [loginData] = useAdminLogin();
   if (loginData !== undefined) {
-    return <PrivateMenu {...loginData} />;
+    return <PrivateMenu loginData={loginData} />;
   }
   return <PublicMenu />;
 }
@@ -18,40 +17,27 @@ function PublicMenu() {
   return <RenderMenu routes={publicMenu} />;
 }
 
-function PrivateMenu(loginData: LoginData) {
+function PrivateMenu({ loginData }: { loginData?: LoginData }) {
   const publicMenu = usePublicMenuItems();
   const { t } = useTranslation();
 
-  const [{ data }] = useWaitlistAdminData(loginData);
-  const isShowSupportPing = !!data?.pendingContracts?.length;
   const routes: Array<AdminMenuEntry> = useMemo(() => [
     ...publicMenu,
-    {
-      title: t('admin.waitlist.titles.main'),
-      url: 'waitlist',
-    },
     {
       title: t('admin.reviews.titles.main'),
       url: 'reviews',
     },
     {
-      title: t('admin.statistics.title'),
-      url: 'statistics',
-    },
-    {
       title: t('admin.contract.title'),
       url: 'contracts',
-    }, {
-      title: t('waitlist.titles.selfservice.tabs.choose_image.title'),
-      url: 'choose',
-    }, {
-      title: t('admin.waitlist.support.title'),
-      url: 'support',
-      showPing: isShowSupportPing,
     },
-  ], [publicMenu, isShowSupportPing, t]);
+  ], [publicMenu, t]);
 
-  return <RenderMenu routes={routes} />;
+  return (
+    <>
+      {loginData !== undefined && <RenderMenu routes={routes} />}
+    </>
+  );
 }
 
 function RenderMenu({ routes }: { routes: Array<AdminMenuEntry> }) {
