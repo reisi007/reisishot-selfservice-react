@@ -7,8 +7,8 @@ import { LoadingIndicator } from '../../LoadingIndicator';
 import { Loadable } from '../../components/Loadable';
 import { FormattedDate } from '../../utils/Age';
 import { LoginDataProps } from '../../utils/LoginData';
-import { StyledButton } from '../../components/StyledButton';
 import { FormikResetButton } from '../../form/FormikResetButton';
+import { StyledButton } from '../../components/StyledButton';
 
 type Props = { onPersonSelected: (p: SearchablePerson) => void };
 type SearchProps = Props & { search: string };

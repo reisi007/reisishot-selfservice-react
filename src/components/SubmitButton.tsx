@@ -3,9 +3,9 @@ import { ResponseValues } from 'axios-hooks';
 import { ReactNode } from 'react';
 import { FormikProps } from 'formik/dist/types';
 import { AxiosError } from 'axios';
-import { StyledButton } from './StyledButton';
 import { LoadingIndicator } from '../LoadingIndicator';
 import { DefaultErrorElement, Loadable } from './Loadable';
+import { StyledButton } from './StyledButton';
 
 type Props<FormType> = {
   formik: FormikProps<FormType>

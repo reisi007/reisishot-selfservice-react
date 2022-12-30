@@ -8,10 +8,10 @@ import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { useFontSize } from '../../charts/textWidth';
-import { StyledButton } from '../../components/StyledButton';
-import { useModal } from '../../components/Modal';
 import { StyledTextArea } from '../../form/StyledFields';
 import { Review } from '../../review/Review';
+import { useModal } from '../../components/Modal';
+import { StyledButton } from '../../components/StyledButton';
 
 export function DisplayReviews({ loginData }: { loginData: LoginData }) {
   const { t } = useTranslation();

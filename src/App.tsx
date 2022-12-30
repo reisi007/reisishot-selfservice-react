@@ -6,7 +6,6 @@ import {
 import { configure } from 'axios-hooks';
 import LRU from 'lru-cache';
 import { useAdminRoutes } from './admin/routes';
-import { useContractRoutes } from './contract/routes';
 import { TrackPageView } from './Matomo';
 
 // Configure useAxiosCache
@@ -19,7 +18,6 @@ configure({
 
 function App() {
   const adminRoutes = useAdminRoutes();
-  const contractRoutes = useContractRoutes();
 
   return (
     <div className="container p-4">
@@ -29,7 +27,6 @@ function App() {
           <Routes>
             <Route />
             {adminRoutes}
-            {contractRoutes}
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </Suspense>
