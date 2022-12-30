@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
-import React, { CSSProperties } from 'react';
-
-type Props = { height?: CSSProperties['height'], className?: React.HTMLProps<HTMLDivElement>['className'] };
+import React from 'react';
 
 export function LoadingIndicator({
   height = '10rem',
