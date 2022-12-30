@@ -15,10 +15,10 @@ import { CreateContract, useContractFilenames, useCreateContract } from './contr
 import { Loadable } from '../../components/Loadable';
 import { LoadingIndicator } from '../../LoadingIndicator';
 import { LoginDataProps } from '../../utils/LoginData';
-import { StyledButton } from '../../components/StyledButton';
 import Markdown from '../../utils/markdown/Markdown';
 import { Card } from '../../components/Card';
 import { formatJson } from '../../utils/json';
+import { StyledButton } from '../../components/StyledButton';
 
 export function CreateContractForm({ loginData }: LoginDataProps) {
   const { t } = useTranslation();
