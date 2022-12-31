@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldArray, Formik } from 'formik';
 import { FormikHelpers, FormikProps } from 'formik/dist/types';
@@ -100,6 +100,7 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
     loading,
     error,
     values,
+    setFieldValue,
   } = formik;
 
   const {
@@ -112,6 +113,9 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
     loading: contractLoading,
     error: contractError,
   }] = useContractFilenames();
+
+  const [eur, setEur] = useState(25);
+
   return (
     <div className="px-4">
       <FieldArray name="persons">
@@ -177,9 +181,19 @@ function CreateContractFormContent(formik: CreateContractFormikProps) {
         type="datetime-local"
       />
 
+      <div className="flex my-2">
+        <FormInput step="0.01" value={eur} onChange={(e) => setEur(Number(e.currentTarget.value))} name="eur" label="Mindestwert" type="number" />
+        <StyledButton onClick={() => {
+          setFieldValue('text', `## Kosten\nAls Entgelt wird "Pay what you want" mit einem Mindestbeitrag von ${eur.toLocaleString('de')}€ vereinbart.\n${values.text}`);
+        }}
+        >
+          Einfügen
+        </StyledButton>
+      </div>
+
       <FormTextArea name="text" required label={t('admin.contract.additionalText')} />
       {!!text && (
-        <Card className="my-2">
+        <Card className="my-4">
           <Markdown className="text-center" content={text} />
         </Card>
       )}
