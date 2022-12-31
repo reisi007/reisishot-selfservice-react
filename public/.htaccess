@@ -1,5 +1,6 @@
 RewriteEngine On
 RewriteRule ^contracts/(.+?)/(.+) https://reisinger.pictures/contract?email=$1&accessKey=$2 [L,R=301]
+RewriteRule ^contract?email=(.+?)&accessKey=(.+) https://reisinger.pictures/contract?email=$1&accessKey=$2 [L,R=301]
 
 
 RewriteRule ^index\.html$ - [L]
